@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Email Blueprint — Dave Miz</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0B0B0B;
+    --dark: #111113;
+    --elevated: #131316;
+    --card: #161619;
+    --border: #2A2A2F;
+    --muted: #B0B0B0;
+    --body: #D8D8D8;
+    --light: #E8E8E8;
+    --white: #F5F5F3;
+    --accent: #4ADE80;
+    --accent-bright: #6EE7A0;
+    --neon-border: rgba(74,222,128,0.35);
+    --red: #F87171;
+    --red-bright: #FCA5A5;
+    --red-border: rgba(248,113,113,0.40);
+    --amber: #FBBF24;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--body); font-family: 'Outfit', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; line-height: 1.7; overflow-x: hidden; }
+  body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.18; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"); }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* ===== BANNER ===== */
+  .banner { background: rgba(74,222,128,0.12); border-bottom: 1px solid rgba(74,222,128,0.2); color: var(--accent); text-align: center; padding: 10px 20px; font-family: 'Saira', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
+
+  /* ===== HERO ===== */
+  .hero { padding: 60px 0 50px; position: relative; text-align: center; }
+  .hero::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 900px; height: 800px; background: radial-gradient(ellipse, rgba(74,222,128,0.14) 0%, rgba(74,222,128,0.04) 35%, transparent 65%); pointer-events: none; }
+  .hero-label { font-family: 'Saira', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; display: inline-block; padding: 6px 16px; background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.25); border-radius: 100px; }
+  .hero h1 { font-family: 'Saira', sans-serif; font-size: clamp(48px, 9vw, 80px); font-weight: 800; color: var(--white); line-height: 0.95; letter-spacing: -2px; margin-bottom: 36px; position: relative; }
+  .hero h1 .dim { color: rgba(245,245,243,0.15); }
+  .hero h1 .green { color: var(--accent); text-shadow: 0 0 40px rgba(74,222,128,0.35); }
+  .hero-copy { max-width: 600px; margin: 0 auto; text-align: left; }
+  .hero-copy p { font-size: 19px; line-height: 1.65; color: rgba(216,216,216,0.65); margin-bottom: 14px; font-weight: 300; }
+  .hero-copy p strong { color: var(--white); font-weight: 600; }
+  .hero-copy p:last-child { margin-bottom: 0; }
+
+  /* ===== SECTIONS ===== */
+  .section { padding: 44px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .section.elevated-bg { background: var(--elevated); margin: 0 -40px; padding: 44px 40px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .prose { max-width: 720px; }
+  .kicker { font-family: 'Saira', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; display: inline-block; padding: 6px 16px; background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.25); border-radius: 100px; }
+  .kicker-red { color: var(--red); background: rgba(248,113,113,0.10); border-color: rgba(248,113,113,0.25); }
+  h2 { font-family: 'Saira', sans-serif; font-size: clamp(36px, 6vw, 52px); font-weight: 800; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 28px; color: var(--white); max-width: 700px; }
+  .copy p { font-size: 18px; color: var(--body); max-width: 620px; margin-bottom: 20px; line-height: 1.75; }
+  .copy p:last-child { margin-bottom: 0; }
+  .copy p strong { color: var(--white); font-weight: 600; }
+  .copy .big { font-size: clamp(19px, 2.2vw, 22px); color: var(--light); line-height: 1.65; font-weight: 400; }
+  .copy .big em { font-style: italic; color: var(--accent); }
+
+  /* ===== CALLOUT ===== */
+  .callout { padding: 22px 0; margin: 20px 0; border-top: 1px solid rgba(74,222,128,0.15); border-bottom: 1px solid rgba(74,222,128,0.15); text-align: center; }
+  .callout p { font-family: 'Saira', sans-serif; font-size: clamp(22px, 3.5vw, 36px); font-weight: 700; line-height: 1.2; color: var(--white); max-width: 100%; margin: 0; }
+  .callout p em { color: var(--accent); font-style: italic; font-family: 'Outfit', sans-serif; font-weight: 400; font-size: 0.9em; text-shadow: 0 0 24px rgba(74,222,128,0.3); }
+  .callout-red { border-color: rgba(248,113,113,0.15); }
+  .callout-red p { color: var(--red-bright); }
+
+  /* ===== MATH GRID ===== */
+  .math-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 32px 0; }
+  .math-card { background: rgba(74,222,128,0.14); border: 1px solid rgba(74,222,128,0.32); border-radius: 10px; padding: 28px 20px; text-align: center; }
+  .math-card .num { font-family: 'Saira', sans-serif; font-size: 44px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 8px; text-shadow: 0 0 30px rgba(74,222,128,0.4); }
+  .math-card .label { font-size: 14px; font-weight: 500; color: var(--light); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ===== PROBLEM GRID ===== */
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+  .problem-card { background: rgba(248,113,113,0.20); border: 1px solid rgba(248,113,113,0.45); padding: 28px 24px; border-radius: 10px; }
+  .problem-card h4 { font-size: 18px; font-weight: 700; color: var(--red-bright); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .problem-card h4::before { content: '\2715'; font-family: 'Saira', sans-serif; font-size: 12px; font-weight: 800; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: rgba(248,113,113,0.25); border: 1px solid rgba(248,113,113,0.4); border-radius: 50%; flex-shrink: 0; color: var(--red); }
+  .problem-card p { font-size: 16px; color: var(--body); line-height: 1.65; margin: 0; }
+
+  /* ===== IMPACT CARDS ===== */
+  .impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 32px 0; }
+  .impact-card { padding: 28px 24px; background: rgba(74,222,128,0.14); border: 1px solid rgba(74,222,128,0.32); border-radius: 10px; }
+  .impact-card .impact-label { font-family: 'Saira', sans-serif; font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 10px; line-height: 1.3; }
+  .impact-card .impact-label .arrow { color: var(--accent); font-size: 15px; margin-right: 6px; }
+  .impact-card .impact-desc { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+  /* ===== SOLUTION SECTION ===== */
+  .solution-section { position: relative; background: var(--elevated); margin: 0 -40px; padding: 44px 40px; overflow: hidden; }
+  .solution-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 600px; background: radial-gradient(circle, rgba(74,222,128,0.12) 0%, rgba(74,222,128,0.03) 40%, transparent 65%); pointer-events: none; }
+  .solution-section h2 { font-size: clamp(44px, 8vw, 72px); position: relative; max-width: 100%; }
+  .solution-section .copy p { color: rgba(216,216,216,0.75); position: relative; font-size: 20px; }
+
+  /* ===== INSIDE GRID ===== */
+  .inside-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 36px 0; }
+  .inside-card { display: grid; grid-template-columns: 80px 1fr; gap: 20px; align-items: start; padding: 32px 28px; background: rgba(74,222,128,0.16); border: 1px solid rgba(74,222,128,0.38); border-radius: 10px; }
+  .ic-num { font-family: 'Saira', sans-serif; font-size: 48px; font-weight: 800; color: rgba(74,222,128,0.30); line-height: 1; display: block; text-shadow: 0 0 24px rgba(74,222,128,0.1); }
+  .ic-title { font-family: 'Saira', sans-serif; font-weight: 700; font-size: 18px; color: var(--white); margin-bottom: 8px; }
+  .ic-body { font-size: 15px; color: var(--body); line-height: 1.65; }
+
+  /* ===== PROCESS STEPS ===== */
+  .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+  .step-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 44px 24px 36px; text-align: center; border-radius: 10px; display: flex; flex-direction: column; }
+  .step-num { font-family: 'Saira', sans-serif; font-size: 48px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 16px; text-shadow: 0 0 30px rgba(74,222,128,0.5); }
+  .step-title { font-family: 'Saira', sans-serif; font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+  .step-desc { font-size: 15px; color: var(--body); line-height: 1.65; flex: 1; }
+  .step-time { font-family: 'Saira', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+
+  /* ===== EVOLUTION TIMELINE ===== */
+  .evo-timeline { display: grid; grid-template-columns: 1fr; gap: 0; margin: 32px 0; position: relative; padding-left: 48px; }
+  .evo-timeline::before { content: ''; position: absolute; top: 0; bottom: 0; left: 19px; width: 2px; background: linear-gradient(180deg, rgba(74,222,128,0.12) 0%, rgba(74,222,128,0.60) 100%); }
+  .evo-step { position: relative; padding: 20px 28px; margin-bottom: 8px; border-radius: 10px; }
+  .evo-step:last-child { margin-bottom: 0; }
+  .evo-step:nth-child(1) { background: rgba(74,222,128,0.04); border: 1px solid rgba(74,222,128,0.10); }
+  .evo-step:nth-child(2) { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.18); }
+  .evo-step:nth-child(3) { background: rgba(74,222,128,0.14); border: 1px solid rgba(74,222,128,0.28); }
+  .evo-step:nth-child(4) { background: rgba(74,222,128,0.22); border: 1px solid rgba(74,222,128,0.40); box-shadow: 0 0 24px rgba(74,222,128,0.10); }
+  .evo-dot { position: absolute; left: -37px; top: 24px; border-radius: 50%; z-index: 1; }
+  .evo-step:nth-child(1) .evo-dot { width: 10px; height: 10px; background: rgba(74,222,128,0.25); border: 2px solid rgba(74,222,128,0.35); }
+  .evo-step:nth-child(2) .evo-dot { width: 12px; height: 12px; left: -38px; background: rgba(74,222,128,0.40); border: 2px solid rgba(74,222,128,0.50); }
+  .evo-step:nth-child(3) .evo-dot { width: 14px; height: 14px; left: -39px; background: rgba(74,222,128,0.60); border: 2px solid rgba(74,222,128,0.65); }
+  .evo-step:nth-child(4) .evo-dot { width: 18px; height: 18px; left: -41px; background: var(--accent); border: 2px solid var(--accent); box-shadow: 0 0 14px rgba(74,222,128,0.6); }
+  .evo-month { font-family: 'Saira', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .evo-text { font-size: 16px; line-height: 1.55; }
+  .evo-step:nth-child(1) .evo-text { color: var(--muted); }
+  .evo-step:nth-child(2) .evo-text { color: var(--body); }
+  .evo-step:nth-child(3) .evo-text { color: var(--light); }
+  .evo-step:nth-child(4) .evo-text { color: var(--white); font-weight: 600; }
+  .evo-step:nth-child(4) .evo-month { font-size: 13px; }
+
+  /* ===== PRICING ===== */
+  .pricing-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; align-items: stretch; }
+  .price-box { padding: 48px 36px; border-radius: 10px; overflow: hidden; position: relative; }
+  .price-box.old { background: rgba(248,113,113,0.20); border: 1px solid rgba(248,113,113,0.50); padding-top: 80px; }
+  .price-box.new { background: rgba(74,222,128,0.20); border: 1px solid var(--neon-border); box-shadow: 0 0 28px rgba(74,222,128,0.20); }
+  .price-badge { position: absolute; top: 16px; left: 32px; font-family: 'Saira', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #0B0B0B; background: var(--accent); padding: 5px 14px; border-radius: 6px; box-shadow: 0 0 16px rgba(74,222,128,0.4); }
+  .price-label { font-family: 'Saira', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; }
+  .price-box.old .price-label { color: var(--red-bright); }
+  .price-box.new .price-label { color: var(--accent); }
+  .price-amount { font-family: 'Saira', sans-serif; font-size: 46px; font-weight: 800; color: var(--white); letter-spacing: -1.5px; line-height: 1; margin-bottom: 20px; }
+  .price-box.old .price-amount { color: #666; text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 3px; }
+  .price-detail { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 4px; }
+  .price-box.new .price-detail { color: var(--body); }
+  .price-list { list-style: none; margin-top: 20px; }
+  .price-list li { font-size: 15px; color: var(--light); padding: 8px 0; display: flex; align-items: center; gap: 12px; }
+  .price-list li::before { content: '\2713'; font-weight: 800; color: #0B0B0B; font-size: 12px; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; background: var(--accent); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 10px rgba(74,222,128,0.3); }
+  .price-list-red li { color: var(--muted); }
+  .price-list-red li::before { content: '\2715'; background: rgba(248,113,113,0.20); border: 1px solid rgba(248,113,113,0.35); color: var(--red); box-shadow: none; }
+
+  /* ===== BIO ===== */
+  .bio-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .stat { background: var(--dark); border: 1px solid var(--border); border-radius: 10px; padding: 28px 18px; text-align: center; }
+  .stat-n { font-family: 'Saira', sans-serif; font-size: 36px; font-weight: 800; color: var(--white); line-height: 1; margin-bottom: 8px; display: block; }
+  .stat-l { font-family: 'Saira', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); line-height: 1.45; }
+  .names-row { font-family: 'Saira', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; color: var(--muted); line-height: 1.9; padding: 24px; background: var(--dark); border: 1px solid var(--border); border-radius: 10px; margin-top: 14px; text-align: center; }
+  .names-row strong { color: var(--light); font-weight: 600; }
+
+  /* ===== CTA ===== */
+  .cta-section { padding: 50px 0 60px; text-align: center; position: relative; background: var(--elevated); margin: 0 -40px; padding-left: 40px; padding-right: 40px; }
+  .cta-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; height: 500px; background: radial-gradient(circle, rgba(74,222,128,0.18) 0%, rgba(74,222,128,0.04) 50%, transparent 70%); pointer-events: none; }
+  .cta-section h2 { font-size: clamp(34px, 6vw, 56px); max-width: 100%; margin-left: auto; margin-right: auto; position: relative; line-height: 1.05; }
+  .cta-section h2 span { color: var(--accent); text-shadow: 0 0 30px rgba(74,222,128,0.35); }
+  .cta-section p { max-width: 520px; margin: 0 auto 40px; text-align: center; font-size: 19px; position: relative; color: var(--light); }
+  .cta-bottom { font-family: 'Saira', sans-serif; font-size: 19px; font-weight: 700; color: var(--white); position: relative; line-height: 1.5; max-width: 600px; margin: 0 auto; }
+  .cta-bottom span { color: var(--accent); }
+
+  /* ===== CTA BUTTON ===== */
+  .cta-btn { display: inline-block; font-family: 'Saira', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #0B0B0B; background: var(--accent); padding: 22px 52px; border-radius: 10px; text-decoration: none; box-shadow: 0 0 30px rgba(74,222,128,0.35), 0 4px 20px rgba(0,0,0,0.3); transition: all 0.2s ease; }
+  .cta-btn:hover { background: var(--accent-bright); box-shadow: 0 0 50px rgba(74,222,128,0.5), 0 4px 24px rgba(0,0,0,0.4); transform: translateY(-1px); }
+  .mid-cta { text-align: center; padding: 32px 0; margin: 8px 0; }
+  .mid-cta .cta-btn { font-size: 16px; padding: 18px 40px; }
+  .mid-cta .cta-note { font-size: 13px; color: var(--muted); margin-top: 12px; }
+
+  /* ===== VALUE TAGS ===== */
+  .ic-value { font-family: 'Saira', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-top: 10px; opacity: 0.65; }
+
+  /* ===== VALUE STACK ===== */
+  .value-stack { background: rgba(74,222,128,0.06); border: 2px solid rgba(74,222,128,0.25); border-radius: 12px; padding: 36px 32px; margin: 36px 0; text-align: center; }
+  .value-stack .vs-label { font-size: 15px; color: var(--body); margin-bottom: 8px; }
+  .value-stack .vs-total { font-family: 'Saira', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: var(--muted); margin-bottom: 4px; text-decoration: line-through; opacity: 0.5; }
+  .value-stack .vs-price { font-family: 'Saira', sans-serif; font-size: clamp(40px, 7vw, 64px); font-weight: 800; color: var(--accent); text-shadow: 0 0 40px rgba(74,222,128,0.4); line-height: 1.1; }
+  .value-stack .vs-sub { font-size: 16px; color: var(--light); margin-top: 12px; }
+
+  /* ===== GUARANTEE ===== */
+  .guarantee-box { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); border-radius: 12px; padding: 36px 32px; position: relative; margin-top: 8px; }
+  .guarantee-icon { position: absolute; top: -16px; left: 28px; width: 36px; height: 36px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #0B0B0B; box-shadow: 0 0 18px rgba(74,222,128,0.4); }
+  .guarantee-box h3 { font-family: 'Saira', sans-serif; font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 12px; }
+  .guarantee-box p { font-size: 17px; color: var(--body); line-height: 1.7; margin-bottom: 12px; }
+  .guarantee-box p:last-child { margin-bottom: 0; }
+
+  /* ===== URGENCY BOX ===== */
+  .urgency-box { background: rgba(248,113,113,0.22); border: 2px solid rgba(248,113,113,0.55); border-radius: 12px; padding: 28px 32px; margin: 28px auto 0; max-width: 560px; text-align: center; position: relative; box-shadow: 0 0 32px rgba(248,113,113,0.18), inset 0 0 60px rgba(248,113,113,0.06); }
+  .urgency-icon { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: rgba(248,113,113,0.30); border: 2px solid rgba(248,113,113,0.55); border-radius: 50%; margin-bottom: 14px; font-size: 26px; color: var(--red); box-shadow: 0 0 20px rgba(248,113,113,0.30); }
+  .urgency-box .urgency-label { font-family: 'Saira', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--red-bright); margin-bottom: 10px; }
+  .urgency-box p { font-size: 16px; color: var(--light); font-weight: 400; margin: 0; line-height: 1.7; }
+  .urgency-box strong { color: var(--white); font-weight: 700; }
+
+  /* ===== PULL QUOTE ===== */
+  .pull-quote { padding: 24px 0; margin: 16px 0; text-align: center; }
+  .pull-quote p { font-family: 'Saira', sans-serif; font-size: clamp(20px, 3vw, 28px); font-weight: 700; color: var(--white); line-height: 1.3; max-width: 600px; margin: 0 auto; }
+  .pull-quote .accent { color: var(--accent); }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  .hero > * { opacity: 0; animation: up 0.65s ease forwards; }
+  .hero > *:nth-child(1) { animation-delay: 0.05s; }
+  .hero > *:nth-child(2) { animation-delay: 0.15s; }
+  .hero > *:nth-child(3) { animation-delay: 0.25s; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 700px) {
+    .page { padding: 0 20px; }
+    .hero { padding: 40px 0 30px; }
+    .hero h1 { font-size: 48px; }
+    .section { padding: 32px 0; }
+    .section.elevated-bg, .solution-section, .cta-section { margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
+    h2 { font-size: 30px; }
+    .math-grid { grid-template-columns: 1fr; }
+    .problem-grid, .pricing-compare, .impact-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr; }
+    .bio-stats { grid-template-columns: repeat(2, 1fr); }
+    .inside-grid { grid-template-columns: 1fr; }
+    .evo-timeline { padding-left: 40px; }
+    .cta-section h2 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">Email Trust Architecture &nbsp;&middot;&nbsp; Dave Miz</div>
+
+<div class="page">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- HERO -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-label">Email Trust Architecture</div>
+  <h1>YOUR LIST HAS<br/><span class="green">7 TRUST LEVELS.</span><br/><span class="dim">YOU'RE SENDING THEM</span><br/>THE <span class="green">SAME EMAIL.</span></h1>
+  <div class="hero-copy">
+    <p>You've rewritten subject lines. Tested send times. Tried AI tools. Hired copywriters. <strong style="color:var(--white);">Nothing moved the needle.</strong></p>
+    <p>Here's what nobody told you: <strong style="color:var(--white);">the problem was never your words.</strong> It's that a brand new subscriber and a 3x repeat buyer get the exact same email from you. <strong style="color:var(--accent);">One needs trust. The other needs an upsell. Send the wrong one — you lose both.</strong></p>
+    <p>I spent 20 years and $200M in campaigns building the system that fixes this. <strong style="color:var(--accent);">First client: 3x cash collected.</strong></p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- AGITATION - WHAT'S HAPPENING IN YOUR LIST -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="prose">
+    <div class="kicker">Right now, inside your list</div>
+    <h2>SEVEN DIFFERENT PEOPLE.<br/><span style="color:var(--accent);">ALL GETTING THE WRONG EMAIL.</span></h2>
+    <div class="copy">
+      <p>Someone signed up 20 minutes ago. They gave you their email because your lead magnet looked good. They don't know you yet. They don't trust you yet. <strong style="color:var(--white);">Your next email is a promo. They unsubscribe.</strong></p>
+      <p>Someone else has opened your last 12 emails. Read every one. Clicked twice. Never bought. They're THIS close — they just need one more reason to pull out their credit card. <strong style="color:var(--white);">Your next email is a generic newsletter. They go cold.</strong></p>
+      <p>Someone bought from you twice in the last 60 days. They love your product. They'd buy more right now if you asked the right way. <strong style="color:var(--white);">Your next email is the same broadcast you sent everyone else. They tune out.</strong></p>
+      <p>And then there's the 30-40% of your list that stopped opening months ago. Not because they hate you. Because every email you sent felt like it wasn't meant for them. <strong style="color:var(--white);">They're not dead. They're just bored.</strong></p>
+      <p><strong style="color:var(--accent);">Every one of these people needed a different email. They all got the same one.</strong> That's not a copy problem. That's not a deliverability problem. <strong style="color:var(--white);">That's a trust stage problem — and nothing you've tried so far even attempts to fix it.</strong></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- MECHANISM REVEAL -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="solution-section">
+  <div class="prose">
+    <div class="kicker">What the top 1% do differently</div>
+    <h2>THEY DON'T SEND<br/>BETTER EMAILS.<br/><span style="color:var(--accent); text-shadow:0 0 40px rgba(74,222,128,0.35);">THEY MAP TRUST FIRST.</span></h2>
+
+    <div class="copy">
+      <p class="big">The brands crushing it with email — doing 40-50% of revenue from their list — aren't writing better subject lines than you. <strong style="color:var(--white);">They're mapping every subscriber to a trust stage and sending the one email that person is ready to receive.</strong></p>
+      <p>New subscriber gets trust-building content. Not a sale. Engaged reader who hasn't bought gets a targeted offer with social proof. Repeat buyer gets an upsell timed to their purchase cycle. Dormant contact gets a re-engagement sequence that actually pulls them back.</p>
+      <p><strong style="color:var(--white);">That's trust architecture.</strong> And until now, it took a $15K/mo agency with a dedicated strategist to pull it off. I spent 20 years building those playbooks across 100+ brands and $200M in campaigns — then trained an AI to execute them automatically.</p>
+      <p style="font-size:21px;"><strong style="color:var(--accent);">Email Trust Architecture gives you what the biggest brands have — without the team, the cost, or the complexity.</strong></p>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:center; gap:6px; margin:24px 0 8px 0; padding:18px 0; flex-wrap:wrap;">
+      <div style="background:rgba(74,222,128,0.05); border:1px solid rgba(74,222,128,0.12); border-radius:8px; padding:10px 14px; text-align:center;">
+        <div style="font-family:'Saira',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase;">Unaware</div>
+      </div>
+      <div style="color:var(--accent); font-size:13px; opacity:0.3;">→</div>
+      <div style="background:rgba(74,222,128,0.08); border:1px solid rgba(74,222,128,0.16); border-radius:8px; padding:10px 14px; text-align:center;">
+        <div style="font-family:'Saira',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase;">Interested</div>
+      </div>
+      <div style="color:var(--accent); font-size:13px; opacity:0.4;">→</div>
+      <div style="background:rgba(74,222,128,0.12); border:1px solid rgba(74,222,128,0.22); border-radius:8px; padding:10px 14px; text-align:center;">
+        <div style="font-family:'Saira',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--body); text-transform:uppercase;">Engaged</div>
+      </div>
+      <div style="color:var(--accent); font-size:13px; opacity:0.5;">→</div>
+      <div style="background:rgba(74,222,128,0.18); border:1px solid rgba(74,222,128,0.30); border-radius:8px; padding:10px 14px; text-align:center;">
+        <div style="font-family:'Saira',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--light); text-transform:uppercase;">Buyer</div>
+      </div>
+      <div style="color:var(--accent); font-size:13px; opacity:0.6;">→</div>
+      <div style="background:rgba(74,222,128,0.25); border:1px solid rgba(74,222,128,0.40); border-radius:8px; padding:10px 14px; text-align:center;">
+        <div style="font-family:'Saira',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--white); text-transform:uppercase;">Repeat</div>
+      </div>
+      <div style="color:var(--accent); font-size:13px; opacity:0.7;">→</div>
+      <div style="background:rgba(74,222,128,0.35); border:1px solid rgba(74,222,128,0.50); border-radius:8px; padding:10px 14px; text-align:center; box-shadow:0 0 12px rgba(74,222,128,0.08);">
+        <div style="font-family:'Saira',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--accent); text-transform:uppercase;">Advocate</div>
+      </div>
+    </div>
+    <p style="font-size:14px; color:var(--muted); text-align:center; margin:0 0 28px 0; font-style:italic;">Every subscriber sits at a different stage. Each stage needs a different email.</p>
+
+    <div class="impact-grid">
+      <div class="problem-card">
+        <h4>Every other email service</h4>
+        <p>Same blast to everyone. Same subject line. Same CTA. Hope someone clicks. Burn trust with the rest. Watch your list go cold.</p>
+      </div>
+      <div class="impact-card">
+        <div class="impact-label"><span class="arrow">→</span> Email Trust Architecture</div>
+        <div class="impact-desc">Maps where every subscriber sits in their trust journey. Only sends the email they're ready for. Builds trust with every send. Revenue grows every month.</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:28px 0;">
+      <p>First client on this system: JVZoo. <em>3x cash collected.</em></p>
+    </div>
+
+    <div class="copy">
+      <p>Built on 20 years of real campaigns. <strong>Russell Brunson. Hormozi. ClickFunnels. Jocko Fuel. Snow. Obvi.</strong> 100+ brands. <strong style="color:var(--white);">$200M+ in tracked email revenue.</strong> Every pattern that converts — trained into one AI system that knows when to sell, when to nurture, and when to shut up and build trust.</p>
+    </div>
+
+    <div class="math-grid" style="margin:32px 0;">
+      <div class="math-card">
+        <div class="num">14</div>
+        <div class="label">Business Models Mapped</div>
+      </div>
+      <div class="math-card">
+        <div class="num">18</div>
+        <div class="label">Deliverability Playbooks</div>
+      </div>
+      <div class="math-card">
+        <div class="num">$200M+</div>
+        <div class="label">In Training Data</div>
+      </div>
+    </div>
+
+    <div class="copy">
+      <p style="font-size:21px;"><strong style="color:var(--white);">You don't learn anything. You don't manage anything.</strong></p>
+      <p style="font-size:21px;"><strong style="color:var(--accent);">I deploy it into your business — and it goes to work.</strong></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PROOF CHAIN -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="prose">
+    <div class="kicker">The proof chain</div>
+    <h2>EACH RESULT<br/>LED TO THE NEXT.</h2>
+
+    <div style="display:grid; grid-template-columns:1fr; gap:0; margin-top:28px;">
+
+      <div style="padding:28px 28px; border:1px solid rgba(74,222,128,0.15); border-radius:12px 12px 0 0; background:rgba(74,222,128,0.03);">
+        <p style="font-size:26px; font-style:italic; color:var(--white); line-height:1.3; margin:0 0 12px 0; font-family:'Saira',sans-serif; font-weight:700;">"The emails crushed."</p>
+        <p style="color:var(--accent); font-weight:700; font-size:14px; letter-spacing:0.08em; margin:0 0 6px 0;">RUSSELL BRUNSON &middot; CLICKFUNNELS</p>
+        <p style="color:var(--muted); font-size:15px; margin:0; line-height:1.5;">I wrote Brunson's emails personally. Results were so good he introduced me to Hormozi.</p>
+      </div>
+
+      <div style="text-align:center; padding:6px 0; color:var(--accent); font-size:18px; opacity:0.5;">↓</div>
+
+      <div style="padding:28px 28px; border:1px solid rgba(74,222,128,0.22); background:rgba(74,222,128,0.06);">
+        <p style="font-size:26px; font-style:italic; color:var(--white); line-height:1.3; margin:0 0 12px 0; font-family:'Saira',sans-serif; font-weight:700;">"$3.6M added in the first year."</p>
+        <p style="color:var(--accent); font-weight:700; font-size:14px; letter-spacing:0.08em; margin:0 0 6px 0;">HORMOZI TEAM &middot; ACQUISITION.COM</p>
+        <p style="color:var(--muted); font-size:15px; margin:0; line-height:1.5;">His list was dead. I used the playbooks I'd spent 15 years building. Revived it. Then I built those playbooks into AI.</p>
+      </div>
+
+      <div style="text-align:center; padding:6px 0; color:var(--accent); font-size:18px; opacity:0.5;">↓</div>
+
+      <div style="padding:28px 28px; border:1px solid rgba(74,222,128,0.35); border-radius:0 0 12px 12px; background:rgba(74,222,128,0.12); box-shadow:0 0 20px rgba(74,222,128,0.08);">
+        <p style="font-size:26px; font-style:italic; color:var(--white); line-height:1.3; margin:0 0 12px 0; font-family:'Saira',sans-serif; font-weight:700;">"3x cash collected."</p>
+        <p style="color:var(--accent); font-weight:700; font-size:14px; letter-spacing:0.08em; margin:0 0 6px 0;">JVZOO &middot; FIRST EMAIL TRUST ARCHITECTURE CLIENT</p>
+        <p style="color:var(--muted); font-size:15px; margin:0; line-height:1.5;">First business I deployed the AI system on. Same playbooks. Now automated. 3x the money.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- WHAT YOU GET -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section elevated-bg">
+  <div class="prose">
+    <div class="kicker">Every single month</div>
+    <h2>WHAT CHANGES<br/>IN YOUR BUSINESS.</h2>
+
+    <div class="inside-grid">
+      <div class="inside-card">
+        <span class="ic-num">01</span>
+        <div>
+          <div class="ic-title">New subscribers start buying faster.</div>
+          <div class="ic-body">Instead of blasting promos at people who don't trust you yet, the system builds that trust first. By the time the offer hits — they're ready. Conversions go up. Unsubscribes go down.</div>
+        </div>
+      </div>
+      <div class="inside-card">
+        <span class="ic-num">02</span>
+        <div>
+          <div class="ic-title">Repeat buyers spend more per order.</div>
+          <div class="ic-body">Your best customers stop getting the same email as everyone else. They get upgrade offers, exclusives, and loyalty plays — timed to when they're most likely to buy again.</div>
+        </div>
+      </div>
+      <div class="inside-card">
+        <span class="ic-num">03</span>
+        <div>
+          <div class="ic-title">Dead subscribers come back to life.</div>
+          <div class="ic-body">That 30-40% of your list that stopped opening? They didn't leave because they hate you. They left because you bored them with the wrong emails. Trust architecture sends the one that pulls them back.</div>
+        </div>
+      </div>
+      <div class="inside-card">
+        <span class="ic-num">04</span>
+        <div>
+          <div class="ic-title">Every month, the results compound.</div>
+          <div class="ic-body">The AI reads your opens, clicks, and purchases. Learns what YOUR audience responds to. Adjusts the entire system. Month 3 is better than month 1. Month 6 is an unfair advantage nobody can copy.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- IT GETS SMARTER -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="prose">
+    <div class="kicker">The unfair advantage</div>
+    <h2>IT GETS SMARTER.<br/><span style="color:var(--accent);">YOU GET RICHER.</span></h2>
+    <div class="copy">
+      <p>Every month, you feed it your data. Opens. Clicks. Purchases. Ignored emails. <strong style="color:var(--white);">It reads all of it — and rewires itself.</strong></p>
+    </div>
+
+    <div class="evo-timeline">
+      <div class="evo-step">
+        <div class="evo-dot"></div>
+        <div class="evo-month">Month 1</div>
+        <div class="evo-text">Full system goes live. Strategy, flows, campaigns — deployed and sending. Results start immediately.</div>
+      </div>
+      <div class="evo-step">
+        <div class="evo-dot"></div>
+        <div class="evo-month">Month 2</div>
+        <div class="evo-text">AI reads your engagement data. Adjusts subject lines, send times, CTAs, offer sequencing — automatically.</div>
+      </div>
+      <div class="evo-step">
+        <div class="evo-dot"></div>
+        <div class="evo-month">Month 3</div>
+        <div class="evo-text">Knows your audience better than a copywriter who's worked with you for years. Revenue per send climbs.</div>
+      </div>
+      <div class="evo-step">
+        <div class="evo-dot"></div>
+        <div class="evo-month">Month 6</div>
+        <div class="evo-text">Thousands of data points specific to YOUR buyers. Every email precision-tuned. An unfair advantage nobody can copy.</div>
+      </div>
+    </div>
+
+    <div class="copy" style="margin-top:24px;">
+      <p style="font-size:20px;"><strong style="color:var(--white);">A world-class email copywriter. A top 1% strategist. A deliverability specialist. An optimization expert.</strong> All trained on 20 years and the best brands online. <em style="color:var(--accent);">All in one system.</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="pull-quote">
+  <p>Same list. Same products. Same traffic. <span class="accent">The only thing that changed was which email went to which person.</span> Revenue tripled.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- HOW IT WORKS -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="prose">
+    <div class="kicker">How it works</div>
+    <h2>THREE STEPS.<br/>TEN MINUTES FROM YOU.</h2>
+    <div class="process-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">Onboard</div>
+        <div class="step-desc">Brand voice. Writing samples. Business context. I build your custom AI profile.</div>
+        <div class="step-time">30 minutes, one time</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Update</div>
+        <div class="step-desc">Quick monthly questionnaire. Promos. Launches. What's coming up. That's it.</div>
+        <div class="step-time">10 minutes / month</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">Profit</div>
+        <div class="step-desc">I deliver your complete email package. Strategy. Calendar. Every email. Paste. Send. Collect.</div>
+        <div class="step-time">Delivered in 7 days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- BIO -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="prose">
+    <div class="kicker">Who built this</div>
+    <h2>DAVE MIZ.</h2>
+    <div class="copy">
+      <p class="big">Started writing emails in 2005 with $2K in the bank. Made <strong style="color:var(--white);">$3.1M from one product.</strong> Just emails.</p>
+      <p><strong style="color:var(--white);">Frank Kern</strong> brought me in for Mass Control. I learned direct response from one of the best alive. Built an agency — 63 people, $185K/month, <strong style="color:var(--white);">$200M+ in tracked email revenue</strong> across 100+ brands.</p>
+      <p>Sold the agency in 2025. Took every pattern, every playbook, every conversion trigger from 20 years — and <strong style="color:var(--accent);">built it all into one AI system.</strong></p>
+      <p><strong style="color:var(--white); font-size:21px;">That system is Email Trust Architecture.</strong></p>
+    </div>
+    <div class="bio-stats">
+      <div class="stat"><span class="stat-n">$200M+</span><div class="stat-l">Email Revenue</div></div>
+      <div class="stat"><span class="stat-n">$3.6M</span><div class="stat-l">Added for Hormozi</div></div>
+      <div class="stat"><span class="stat-n">100+</span><div class="stat-l">Brands Served</div></div>
+      <div class="stat"><span class="stat-n">$185K</span><div class="stat-l">Monthly Revenue</div></div>
+    </div>
+    <div class="names-row">
+      <strong>Frank Kern &middot; Russell Brunson &middot; ClickFunnels &middot; Alex Hormozi &middot; Jocko Fuel &middot; Snow Teeth Whitening &middot; Obvi</strong>
+      &nbsp;and 100+ more.
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- FUTURE PACING -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="prose">
+    <div class="kicker">Six months from now</div>
+    <h2>YOUR INBOX.<br/><span style="color:var(--accent);">TUESDAY MORNING.</span></h2>
+    <div class="copy">
+      <p class="big">You open your email dashboard. Last night's automated email generated <strong style="color:var(--accent);">$3,800 in revenue.</strong> You didn't write it. You didn't schedule it. You didn't think about it.</p>
+      <p>Your welcome sequence is converting new subscribers into first-time buyers at <strong style="color:var(--white);">3x your old rate.</strong> Dormant subscribers you'd written off are clicking, engaging, buying again. Your repeat customers are spending more per order because they're getting the right offer at the right moment — not another generic blast.</p>
+      <p><strong style="color:var(--white);">Your list isn't going cold. It's compounding.</strong> Every month the AI learns more about YOUR audience. Every month the emails get sharper. Every month the revenue climbs.</p>
+      <p>You spend 10 minutes filling out a questionnaire. The system handles everything else. <em style="color:var(--accent);">That's not a pitch. That's what trust architecture looks like after 6 months of your data.</em></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- OBJECTION HANDLING -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section elevated-bg">
+  <div class="prose">
+    <div class="kicker">You're probably thinking</div>
+    <h2>YEAH, BUT...</h2>
+
+    <div style="display:grid; grid-template-columns:1fr; gap:10px; margin-top:24px;">
+      <div style="padding:22px 28px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
+        <p style="font-family:'Saira',sans-serif; font-size:17px; font-weight:700; color:var(--white); margin:0 0 8px 0;">"Will it actually sound like me?"</p>
+        <p style="font-size:16px; color:var(--body); margin:0; line-height:1.6;">Onboarding captures your voice, tone, and brand. Your subscribers won't know the difference — except you're more consistent and more profitable.</p>
+      </div>
+      <div style="padding:22px 28px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
+        <p style="font-family:'Saira',sans-serif; font-size:17px; font-weight:700; color:var(--white); margin:0 0 8px 0;">"Is this just ChatGPT with a wrapper?"</p>
+        <p style="font-size:16px; color:var(--body); margin:0; line-height:1.6;">ChatGPT doesn't know your segments, your buyer psychology, or what a trust-mapped email architecture looks like. This was built on 20 years and $200M+ in real results. Different animal.</p>
+      </div>
+      <div style="padding:22px 28px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
+        <p style="font-family:'Saira',sans-serif; font-size:17px; font-weight:700; color:var(--white); margin:0 0 8px 0;">"What if it doesn't work for my business?"</p>
+        <p style="font-size:16px; color:var(--body); margin:0; line-height:1.6;">14 business models mapped. E-com, SaaS, coaching, info products, agencies, high-ticket. If you have a list and something to sell — there's a proven architecture. 30 days no results? Full refund.</p>
+      </div>
+      <div style="padding:22px 28px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
+        <p style="font-family:'Saira',sans-serif; font-size:17px; font-weight:700; color:var(--white); margin:0 0 8px 0;">"I've been burned by agencies before."</p>
+        <p style="font-size:16px; color:var(--body); margin:0; line-height:1.6;">Same — I ran one. No calls. No team to manage. No contracts. Results in your inbox every month. Don't like it? Cancel. Done.</p>
+      </div>
+      <div style="padding:22px 28px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
+        <p style="font-family:'Saira',sans-serif; font-size:17px; font-weight:700; color:var(--white); margin:0 0 8px 0;">"What do I actually have to do?"</p>
+        <p style="font-size:16px; color:var(--body); margin:0; line-height:1.6;">30 minutes to onboard. 10 minutes a month. I handle everything else. You paste. You send. That's it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- WHY THIS BEATS EVERYTHING -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section elevated-bg">
+  <div class="prose" style="max-width:900px;">
+    <div class="kicker kicker-red">Your other options</div>
+    <h2>NONE OF THEM<br/>MAP TRUST STAGES.<br/><span style="color:var(--red);">THAT'S WHY THEY DON'T WORK.</span></h2>
+    <p style="font-size:16px; color:var(--body); line-height:1.6; margin-top:12px; margin-bottom:24px;">You already know the problem — your list has 7 trust levels and every tool treats them the same. Here's what each option actually does about it:</p>
+
+    <div class="process-grid" style="margin-top:0;">
+
+      <div style="padding:28px 24px; background:rgba(248,113,113,0.12); border:1px solid rgba(248,113,113,0.30); border-radius:10px; text-align:left;">
+        <p style="font-family:'Saira',sans-serif; font-size:14px; font-weight:700; color:var(--red-bright); letter-spacing:1px; margin:0 0 4px 0;">YOU + CHATGPT</p>
+        <p style="font-family:'Saira',sans-serif; font-size:28px; font-weight:800; color:rgba(255,255,255,0.25); margin:0 0 16px 0;">$20/mo</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">ChatGPT doesn't know subscriber #4,291 just bought yesterday and subscriber #782 hasn't opened in 3 months.</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">It can't segment by trust stage. Can't adjust the ask based on where someone sits in the journey.</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">It writes one email. You send it to everyone. Same problem you already have.</p>
+        <p style="font-size:14px; color:var(--muted); line-height:1.6; margin:0; font-style:italic;">Generic AI is a typewriter. This is a strategist.</p>
+      </div>
+
+      <div style="padding:28px 24px; background:rgba(248,113,113,0.12); border:1px solid rgba(248,113,113,0.30); border-radius:10px; text-align:left;">
+        <p style="font-family:'Saira',sans-serif; font-size:14px; font-weight:700; color:var(--red-bright); letter-spacing:1px; margin:0 0 4px 0;">A COPYWRITER</p>
+        <p style="font-family:'Saira',sans-serif; font-size:28px; font-weight:800; color:rgba(255,255,255,0.25); margin:0 0 16px 0;">$3-5K/mo</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">A copywriter writes one version of each email. Trust architecture writes different versions for different trust stages — automatically.</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">They can't build flows that adapt based on behavior. Can't optimize send times per segment. Can't learn from $200M in campaign data.</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">One human. One perspective. Zero behavioral data.</p>
+        <p style="font-size:14px; color:var(--muted); line-height:1.6; margin:0; font-style:italic;">Good copy ≠ right copy for the right person at the right time.</p>
+      </div>
+
+      <div style="padding:28px 24px; background:rgba(248,113,113,0.12); border:1px solid rgba(248,113,113,0.30); border-radius:10px; text-align:left;">
+        <p style="font-family:'Saira',sans-serif; font-size:14px; font-weight:700; color:var(--red-bright); letter-spacing:1px; margin:0 0 4px 0;">AN AGENCY</p>
+        <p style="font-family:'Saira',sans-serif; font-size:28px; font-weight:800; color:rgba(255,255,255,0.25); margin:0 0 16px 0;">$5-15K/mo</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">Agencies assign a junior writer to your account. That writer sends the same broadcast to your entire list — new subscribers and repeat buyers get identical emails.</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">No trust stage mapping. No behavioral segmentation. No self-optimizing system that gets smarter every month.</p>
+        <p style="font-size:15px; color:var(--body); line-height:1.6; margin:0 0 6px 0;">You pay 5–15x more for the exact approach that's already underperforming.</p>
+        <p style="font-size:14px; color:var(--muted); line-height:1.6; margin:0; font-style:italic;">I ran that agency. $7M. 100+ brands. I built this to replace it.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PRICING -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section" id="pricing">
+  <div class="prose" style="max-width:900px;">
+    <div class="kicker">The investment</div>
+    <h2>TRUST ARCHITECTURE<br/>CONVERTS AT 3X.<br/><span style="color:var(--accent);">DO THE MATH.</span></h2>
+    <div class="copy">
+      <p class="big">Agencies charge $5K–$15K/mo for junior copywriters who blast your whole list with the same email. <em>That's why their results are average.</em></p>
+      <p>Trust architecture sends the right email to the right person at the right trust stage. Same list. Same offers. <strong style="color:var(--accent);">3x the revenue.</strong></p>
+    </div>
+
+    <div class="price-box new" style="border-radius:12px; padding-top:52px;">
+      <div class="price-badge">No-Brainer</div>
+      <div class="price-label">Email Trust Architecture</div>
+      <div class="price-amount" style="font-size:56px;">$1,000/mo</div>
+      <div class="price-detail">Everything. Done. Every month.</div>
+      <ul class="price-list">
+        <li>Full strategy + every email written</li>
+        <li>Complete automation flows built</li>
+        <li>AI trained on $200M in real results</li>
+        <li>Self-optimizing — gets smarter monthly</li>
+        <li>No calls — just a quick questionnaire</li>
+        <li>No contracts — cancel anytime</li>
+        <li>First month delivered in 7 days</li>
+      </ul>
+    </div>
+
+    <div class="callout" style="margin-top:28px;">
+      <p>One extra sale per week pays for this <em>multiple times over.</em></p>
+    </div>
+
+    <div class="guarantee-box" style="margin-top:28px;">
+      <div class="guarantee-icon">&#x2713;</div>
+      <h3>LITERALLY ZERO RISK.</h3>
+      <p>Try it for month one. If you don't see any lift — more opens, more clicks, more revenue — cancel. I'll refund 100% of your money. No questions asked.</p>
+      <p>You keep everything I built for you. The strategy. The emails. The flows. All yours.</p>
+      <p><strong style="color:var(--accent);">I take all the risk. You keep all the upside.</strong></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- COST OF INACTION -->
+<!-- ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="prose">
+    <div class="kicker kicker-red">The real cost</div>
+    <h2>EVERY MONTH YOU WAIT<br/>IS MONEY YOU <span style="color:var(--red);">NEVER GET BACK.</span></h2>
+    <div class="copy">
+      <p>Your list is getting colder <em>right now.</em> Every email you send without trust architecture is <strong style="color:var(--white);">burning trust with subscribers who were ready to buy</strong> — and boring the ones who needed something different.</p>
+      <p>If your list does $20K/mo in email revenue and you're leaving even 30% on the table — that's <strong style="color:var(--red);">$6,000 every single month</strong> you don't have this system. <strong style="color:var(--white);">$72,000 a year.</strong></p>
+      <p>This costs $1,000/mo. <strong style="color:var(--accent);">The math isn't close.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- FINAL CTA -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="cta-section">
+  <h2>SAME LIST. SAME OFFER.<br/><span>COMPLETELY DIFFERENT RESULTS.</span></h2>
+
+  <p style="max-width:520px;margin:0 auto 40px;text-align:center;font-size:19px;position:relative;color:var(--light);">Every email. Every flow. Every campaign.<br/>Written. Optimized. Deployed. Every month.</p>
+
+  <div style="position:relative;">
+    <a href="#" class="cta-btn" style="font-size:20px;padding:24px 60px;">Start Email Trust Architecture</a>
+  </div>
+
+  <div style="position:relative;margin-top:16px;">
+    <p style="font-size:15px;color:var(--muted);max-width:100%;">$1,000/mo &middot; No contracts &middot; Cancel anytime &middot; 30-day money-back guarantee</p>
+  </div>
+
+  <div class="urgency-box" style="position:relative;margin-top:24px;">
+    <div class="urgency-icon">⚠</div>
+    <div class="urgency-label">Limited Availability</div>
+    <p>I'm capping this at <strong>20 total clients.</strong> Each one gets a custom AI profile built from scratch — I can't do that at scale. When the spots fill, this page comes down. If you're reading this, there's still one open.</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

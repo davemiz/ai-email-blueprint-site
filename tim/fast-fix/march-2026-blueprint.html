@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Email Blueprint — Fast Fix · March 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     DESIGN SYSTEM — Email Blueprint (White/Light)
+     ═══════════════════════════════════════════════════════════
+     Fonts:    Inter (body/labels) + Instrument Sans (display)
+     Palette:  Zinc-based, inverted naming (--white = darkest)
+
+     TYPOGRAPHY HIERARCHY
+     ─────────────────────────────────────────────────────────
+     h1    56px  Instrument Sans 700  uppercase   (page title)
+     h2    48px  Instrument Sans 700  uppercase   (section-intro)
+     h2    36px  Instrument Sans 700  uppercase   (section title)
+     h2    30px  Instrument Sans 700  uppercase   (campaign/flow)
+     h3    24px  Instrument Sans 700  title case  (subsection)
+     h4    22px  Instrument Sans 700  title case  (numbered step)
+     h4    17px  Instrument Sans 700  title case  (test card)
+     h4    16px  Instrument Sans 700  uppercase   (strategy card)
+     body  15px  Inter 400                        (paragraph)
+     meta  13-14px Inter 400-500                  (tables, details)
+     label 10-11px Inter 500-600     uppercase    (section labels)
+
+     BORDER TIERS
+     ─────────────────────────────────────────────────────────
+     --border           primary dividers, section borders
+     --border-subtle    faint: table rows, inner separators
+
+     TEXT TIERS (dark → light)
+     ─────────────────────────────────────────────────────────
+     --white            strongest: headings, page title
+     --text-strong      emphasis: bold values, active states
+     --body             body text
+     --muted            muted body, strategy notes
+     --text-secondary   secondary: snapshot copy, table cells
+     --text-tertiary    tertiary: nav links, table headers
+     --text-caption     captions: labels, meta, step numbers
+
+     SURFACE TIERS (light → dark)
+     ─────────────────────────────────────────────────────────
+     --black            page background (#FFF)
+     --surface-hover    table hover (var(--surface-hover))
+     --surface-subtle   snapshot, grey bands (var(--surface-subtle))
+     --dark             alt surface (#F7F8FA)
+     --surface-pill     pills, badges, hover bg (#F4F4F5)
+     --card             cards, strategy notes (#F3F4F6)
+     ═══════════════════════════════════════════════════════════ */
+
+  :root {
+    /* ── Surfaces ── */
+    --black: #FFFFFF;
+    --surface-hover: #FAFAFA;
+    --surface-subtle: #F8F9FB;
+    --dark: #F7F8FA;
+    --surface-pill: #F4F4F5;
+    --card: #F3F4F6;
+
+    /* ── Borders ── */
+    --border: #EBEBEB;
+    --border-subtle: #F4F4F5;
+
+    /* ── Text (dark → light) ── */
+    --white: #000000;
+    --text-strong: #18181b;
+    --light: #111827;
+    --accent: #111827;
+    --body: #1F2937;
+    --muted: #4B5563;
+    --text-secondary: #52525b;
+    --text-tertiary: #71717a;
+    --text-caption: #a1a1aa;
+
+    /* ── Semantic ── */
+    --accent-dim: rgba(17,24,39,0.04);
+    --accent-border: rgba(17,24,39,0.12);
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.05);
+    --red-border: rgba(220,38,38,0.20);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--body); font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* Header */
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .brand-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 5px; text-transform: uppercase; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+  .powered-by { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.5px; text-transform: none; color: var(--muted); }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--muted); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: 'Instrument Sans', sans-serif; font-size: 56px; font-weight: 700; color: var(--white); line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 16px; }
+  .header h1 span { color: var(--muted); display: block; font-weight: 500; }
+  .header-sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; font-weight: 400; letter-spacing: 0.5px; }
+  .header-tags { display: flex; gap: 24px; flex-wrap: wrap; }
+  .header-tag { font-family: 'Instrument Sans', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); padding: 8px 0; border-bottom: 1px solid var(--border); }
+
+  /* Sections */
+  .section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; display: block; }
+  .section-month-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .section h2 { font-family: 'Instrument Sans', sans-serif; font-size: 36px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.1; margin-bottom: 24px; }
+  .section .section-intro { font-size: 17px; color: var(--muted); max-width: 600px; margin-bottom: 12px; line-height: 1.7; font-weight: 400; }
+  .section p { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--white); font-weight: 600; }
+
+  /* Trust Strategy Snapshot */
+  .snapshot-box { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 48px; margin-top: 40px; }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-strong); }
+  .snapshot-box p span { color: var(--red); font-weight: 500; }
+  .snapshot-box .trust-snapshot-stats { border-top-color: var(--border); }
+  .snapshot-box .mini-stat { color: var(--text-tertiary); }
+  .snapshot-box .mini-stat-num { color: var(--text-strong); }
+
+  /* Strategy Grid */
+  .strategy-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 40px; }
+  .strategy-card { background: var(--card); padding: 36px 40px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .strategy-card h4 { font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0; text-transform: uppercase; color: var(--white); margin-bottom: 10px; }
+  .strategy-card p { font-size: 14px; color: var(--body); max-width: 100%; margin-bottom: 0; line-height: 1.75; }
+  /* Campaign-group strategy grids stay 2-column */
+  .campaign-group .strategy-grid { grid-template-columns: 1fr 1fr; }
+  /* Implementation roadmap inside next-month-box stays 2-column, cards go white on grey parent */
+  .next-month-box .strategy-grid { grid-template-columns: 1fr 1fr; }
+  .next-month-box .strategy-card { background: var(--black); border-color: var(--border); }
+
+  /* Numbered Steps */
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--card); border-radius: 6px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: 'Instrument Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--text-strong); margin: 0 0 8px 0; letter-spacing: -0.01em; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+
+  /* Section Intro Box */
+  .section-intro { border-top: none; border-bottom: 1px solid var(--border); padding: 36px 0; margin-bottom: 48px; }
+  .section-intro .section-label { margin-bottom: 8px; }
+  .section-intro h2 { font-size: 48px; margin-bottom: 12px; }
+  .section-intro p { margin-bottom: 0; }
+
+  /* Campaign Calendar */
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table-wrap { background: var(--black); border: 1px solid var(--border); border-radius: 8px; padding: 0; margin-top: 36px; overflow: hidden; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); color: #333; }
+  .cal-table-wrap *, .cal-table-wrap strong, .cal-table-wrap b { color: inherit; }
+  .cal-table-wrap strong, .cal-table-wrap b { color: var(--text-strong) !important; }
+  .cal-table thead th { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 16px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .cal-table tbody tr:hover { background: var(--surface-hover); }
+  .cal-table tbody td { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); padding: 16px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: top; line-height: 1.5; }
+  .cal-table tbody td:first-child { color: var(--text-strong); font-weight: 500; }
+  .cal-table tbody td:nth-child(2) { color: var(--text-secondary); }
+  .cal-table tbody td:nth-child(3) { color: var(--text-secondary); }
+  .cal-table .tag { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; padding: 0; border: none; color: var(--text-caption); display: inline-block; border-radius: 0; }
+  .cal-table .tag-accent { border: none; color: var(--text-strong); background: none; font-weight: 500; }
+
+  /* Email Copy Sections */
+  .email-block { margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .email-block:first-child { margin-top: 24px; padding-top: 0; border-top: none; }
+  .email-num { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .email-title { font-family: 'Instrument Sans', sans-serif; font-size: 20px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .email-tags { margin-bottom: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 3px 10px; border: 1px solid var(--border); border-radius: 100px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-caption); }
+  .email-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: 2px; overflow: hidden; }
+  .email-meta > div { padding: 20px 24px; }
+  .email-meta > div:first-child { border-right: 1px solid var(--border-subtle); }
+  .email-meta-item { }
+  .email-meta-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .email-meta-value { font-size: 13px; color: var(--body); line-height: 1.8; }
+  .email-meta-value strong { color: var(--white); font-weight: 500; }
+  .sl-list { list-style: none; padding: 0; margin: 0; }
+  .sl-list li { font-size: 13px; color: var(--body); padding: 7px 0; border-bottom: 1px solid var(--border-subtle); }
+  .sl-list li:last-child { border-bottom: none; }
+  .sl-list li span { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li { font-size: 13px; color: var(--body); padding: 7px 0; border-bottom: 1px solid var(--border-subtle); line-height: 1.5; }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-list li span { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption); width: 80px; margin-right: 4px; vertical-align: baseline; }
+  .flow-group .email-meta { background: var(--black); border-color: var(--border); }
+  .flow-group .email-meta > div:first-child { border-right-color: var(--border); }
+  .flow-group .sl-list li { border-bottom-color: var(--border-subtle); }
+  .flow-group .detail-list li { border-bottom-color: var(--border-subtle); }
+
+  /* Email Body (white boxes) */
+  .email-body-wrapper { position: relative; margin-top: 20px; background: var(--black); border-radius: 8px; padding: 48px 0; border: 1px solid var(--border); box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .email-body { color: #333333; padding: 0 40px; font-size: 15px; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+  .email-body p { color: #333333; font-size: 15px; line-height: 1.8; margin-bottom: 16px; max-width: 100%; }
+  .email-body p:last-child { margin-bottom: 0; }
+  .email-body a { color: #2563EB; text-decoration: underline; }
+  .email-body .sig { margin-top: 24px; color: #666; font-size: 14px; }
+  .email-body .ps { margin-top: 20px; font-size: 14px; color: #555; font-style: italic; }
+  .email-body ul, .email-body ol { margin: 12px 0; padding-left: 20px; color: #333; }
+  .email-body li { margin-bottom: 8px; font-size: 15px; line-height: 1.7; }
+  .email-body .cta-button { display: inline-block; background: #2563EB; color: #FFFFFF !important; padding: 14px 32px; text-decoration: none; font-weight: 600; font-size: 16px; border-radius: 4px; margin: 16px 0; }
+  .email-body h3 { color: #111; font-size: 18px; margin-bottom: 12px; }
+  .email-body strong, .email-body b, .email-body p strong, .email-body p b { color: #222 !important; font-weight: 600; }
+
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); color: #666; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; border-radius: 6px; }
+  .copy-btn:hover { background: rgba(0,0,0,0.1); color: #333; }
+  .copy-btn.copied { background: var(--dark); border-color: var(--border); color: var(--body); }
+  .copy-btn svg { width: 16px; height: 16px; }
+
+  /* Strategy Note */
+  .strategy-note { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 32px 36px; margin-top: 24px; }
+  .strategy-note p { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--accent); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+
+  /* Major Section Divider */
+  .section-break { padding: 0; margin: 0 -40px; border: none; position: relative; background: var(--surface-hover); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-break-inner { display: flex; align-items: center; gap: 24px; padding: 36px 40px; }
+  .section-break-line { flex: 1; height: 1px; background: var(--border); }
+  .section-break-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-caption); white-space: nowrap; }
+
+  /* Grey Band Sections (full viewport width) */
+  .section-grey-band { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 80px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .section + .section { padding-top: 60px; border-top: 1px solid var(--border); }
+  .section-grey-band .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-grey-band .cal-table-wrap { background: var(--black); }
+  .section-grey-band .signal-card { background: var(--black); }
+
+  /* Automations Section (grey wrapper — full viewport width) */
+  .section-automations { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 80px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  /* Sticky Nav */
+  .sticky-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); margin: 0 -40px; padding: 0 40px; }
+  .sticky-nav-inner { display: flex; justify-content: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 10px 0; }
+  .sticky-nav-inner::-webkit-scrollbar { display: none; }
+  .sticky-nav a { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-tertiary); text-decoration: none; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: all 0.15s ease; letter-spacing: -0.01em; }
+  .sticky-nav a:hover { color: var(--text-strong); background: var(--surface-pill); }
+  .section-automations .flow-group { background: transparent; margin: 0 -40px; padding: 80px 40px; border-top: 1px solid var(--border); }
+  .section-campaigns { border-bottom: none; }
+  .section-campaigns .campaign-group:last-child { border-bottom: none; }
+  .section-automations .flow-group:first-of-type { border-top: none; }
+  .section-automations .section-intro { border-bottom: none; margin-bottom: 0; }
+  .section-automations .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-automations + .section { padding-top: 80px; }
+
+  /* Flow Diagrams */
+  .flow-group { padding: 80px 40px; border-bottom: none; background: var(--surface-subtle); margin: 0 -40px; border-top: 1px solid var(--border); }
+  .flow-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .flow-title { font-family: 'Instrument Sans', sans-serif; font-size: 30px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.1; margin-bottom: 16px; }
+  .flow-desc { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Flow Table (ShadCN style) */
+  .flow-table-wrap { background: var(--black); border: 1px solid var(--border); border-radius: 8px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; text-transform: none; color: var(--text-tertiary); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .flow-table tbody td { font-size: 13px; color: var(--text-tertiary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--surface-hover); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-caption); font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 1px; width: 60px; }
+  .flow-table tbody td:nth-child(2) { color: var(--text-strong); font-weight: 500; }
+  .flow-table tbody td:nth-child(3) { color: var(--text-tertiary); }
+  .flow-table .flow-trigger-badge { display: inline-block; padding: 4px 12px; background: var(--surface-pill); border-radius: 100px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-strong); }
+
+  /* Testing & Optimization */
+  .test-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 32px; }
+  .test-card { background: var(--card); border: 1px solid var(--border); padding: 36px 40px; border-radius: 8px; }
+  .test-card h4 { font-family: 'Instrument Sans', sans-serif; font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+  .test-card .test-type { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .test-card p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+
+  /* Signal Cards */
+  .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  .signal-card { padding: 36px; }
+  .signal-card h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+  .signal-card ul { list-style: none; margin: 0; padding: 0; }
+  .signal-card li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 28px; position: relative; }
+  .signal-card li:last-child { border-bottom: none; }
+  .signal-card li::before { position: absolute; left: 0; font-weight: 700; font-size: 14px; }
+  .signal-card-green { background: var(--black); border: 1px solid var(--border); border-radius: 8px; }
+  .signal-card-green h4 { color: var(--body); }
+  .signal-card-green li::before { content: "\2713"; color: var(--body); }
+  .signal-card-red { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; }
+  .signal-card-red h4 { color: var(--red); }
+  .signal-card-red li::before { content: "\26A0"; color: var(--red); }
+
+  /* Playbook Subsection (inside a .section — uses h3 for subsection title) */
+  .playbook-subsection { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--border); }
+  .playbook-subsection .section-label { margin-bottom: 16px; }
+  .playbook-subsection h3 { font-family: 'Instrument Sans', sans-serif; font-size: 24px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 16px; }
+  .playbook-subsection > p { margin-bottom: 40px; }
+  .playbook-subsection .numbered-steps { margin-top: 32px; }
+  .playbook-subsection .numbered-step { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .playbook-subsection .numbered-step:last-child { border-bottom: none; }
+  .playbook-subsection .step-num { font-family: 'Instrument Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--muted); min-width: 28px; padding-top: 2px; }
+  .playbook-subsection .numbered-step h4 { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .playbook-subsection .numbered-step p { font-size: 14px; color: var(--body); line-height: 1.7; margin-bottom: 0; }
+
+  /* Segment Cards */
+  .seg-group-row td { font-family: 'Inter', sans-serif; font-size: 11px !important; font-weight: 500 !important; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption) !important; background: var(--surface-hover); padding: 14px 20px !important; border-bottom: 1px solid var(--border) !important; border-top: 1px solid var(--border) !important; }
+  .seg-warn-row { background: #FFFBFB !important; }
+  .seg-warn-row:hover { background: #FFF5F5 !important; }
+  .seg-warn-row td:first-child { color: #991B1B !important; }
+
+  /* Header Meta */
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 48px; background: var(--black); border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; overflow: hidden; }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; padding: 32px 36px; border-right: 1px solid var(--border); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .meta-value { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; color: var(--white); letter-spacing: -0.01em; }
+
+  /* Mini Stats */
+  .trust-snapshot-stats { display: flex; gap: 16px; padding-top: 24px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; margin-top: 24px; align-items: center; }
+  .mini-stat { font-size: 13px; color: var(--text-caption); font-weight: 400; }
+  .mini-stat + .mini-stat::before { content: "|"; margin-right: 16px; color: var(--border); font-weight: 300; }
+  .mini-stat-num { font-family: 'Instrument Sans', sans-serif; font-size: 20px; font-weight: 700; color: var(--white); margin-right: 4px; }
+
+  /* Next Month Boxes */
+  .next-month-box { background: var(--card); border: 1px solid var(--border); padding: 44px; margin-top: 32px; border-radius: 8px; }
+  .next-month-box h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .next-month-box ul { list-style: none; margin: 0; padding: 0; }
+  .next-month-box li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 32px; position: relative; }
+  .next-month-box li:last-child { border-bottom: none; }
+  .next-month-box li::before { content: "\25A1"; color: var(--muted); position: absolute; left: 4px; font-size: 14px; }
+
+  /* Campaign Group Header */
+  .campaign-group { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .campaign-group h2 { font-family: 'Instrument Sans', sans-serif; font-size: 30px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.1; margin-bottom: 20px; }
+  .campaign-desc { font-size: 14px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Subject Line (ShadCN normalized) */
+  .subject-line { font-size: 14px; color: var(--body); padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+  .subject-line:last-child { border-bottom: none; }
+  .sl-letter { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+
+  /* Footer */
+  .footer { padding: 80px 0 80px; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--muted); font-style: italic; }
+
+  /* Accordion (shadcn style) */
+  .accordion { margin-top: 40px; }
+  .accordion-item { border-bottom: 1px solid var(--border); }
+  .accordion-item:first-child { border-top: 1px solid var(--border); }
+  .accordion-item summary { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; cursor: pointer; list-style: none; font-family: 'Instrument Sans', sans-serif; font-size: 17px; font-weight: 600; color: var(--text-tertiary); transition: color 0.2s; }
+  .accordion-item summary:hover { color: var(--text-strong); }
+  .accordion-item[open] summary { color: var(--white); }
+  .accordion-item summary::-webkit-details-marker { display: none; }
+  .accordion-item summary::marker { display: none; content: ''; }
+  .accordion-item summary::after { content: ''; display: inline-block; width: 16px; height: 16px; flex-shrink: 0; margin-left: 16px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; transition: transform 0.2s ease; }
+  .accordion-item[open] summary::after { transform: rotate(180deg); }
+  .accordion-content { padding: 0 0 24px 0; }
+  .accordion-content p { font-size: 15px; color: var(--text-tertiary); line-height: 1.75; max-width: 700px; margin-bottom: 0; }
+  .accordion-content p strong { color: var(--white); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+    .copy-btn { display: none; }
+    .email-body { border: 1px solid #ddd; }
+    .section, .header { border-color: #eee; }
+    :root { --white: #000; --body: #222; --muted: #666; --dark: #f9f9f9; --card: #f5f5f5; --border: #e0e0e0; --accent: #222; --black: #fff; }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .strategy-grid, .email-meta, .test-grid, .signal-grid, .campaign-group .strategy-grid, .next-month-box .strategy-grid { grid-template-columns: 1fr; }
+    .header-meta-row { gap: 24px; }
+    .signal-card { padding: 24px; }
+    .signal-card li { font-size: 15px; }
+    .cal-table thead th, .cal-table tbody td { padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">The Email Blueprint<span class="powered-by">powered by: Email Trust Architecture AI</span></div>
+      <div class="header-meta">
+        <p>Prepared by Dave Miz</p>
+        <p>March 2026</p>
+      </div>
+    </div>
+    <h1>Fast Fix Jewelry &amp; <span>Watch Repairs</span></h1>
+    <p class="header-sub">March 2026 Email Blueprint</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value">Fast Fix Jewelry</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span class="meta-value">GoHighLevel</span></div>
+      <div class="meta-item"><span class="meta-label">Month</span><span class="meta-value">March 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Locations</span><span class="meta-value">4</span></div>
+      <div class="meta-item"><span class="meta-label">Campaigns</span><span class="meta-value">3 Campaigns · 12 Emails</span></div>
+      <div class="meta-item"><span class="meta-label">Automations</span><span class="meta-value">3 Flows · 8 Emails</span></div>
+    </div>
+  </div>
+
+  <!-- STICKY NAV -->
+  <nav class="sticky-nav">
+    <div class="sticky-nav-inner">
+      <a href="#strategy">Strategy</a>
+      <a href="#diagnosis">Diagnosis</a>
+      <a href="#approach">Approach</a>
+      <a href="#segments">Segments</a>
+      <a href="#deliverability">Deliverability</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#automations">Automations</a>
+      <a href="#tests">Split Tests</a>
+      <a href="#next-month">Next Month</a>
+    </div>
+  </nav>
+
+  <!-- TRUST STRATEGY SNAPSHOT -->
+  <div class="section" id="strategy">
+    <div class="section-label">This Month's Trust Strategy</div>
+    <div class="section-month-label">Month 1:</div>
+    <h2>Build the Foundation</h2>
+    <div class="snapshot-box">
+      <p>This is <strong>Month 1</strong> — first time sending a consistent, strategically planned email program. The list is warm (people joined in-store during repairs) but email trust is low because <span>sending has been inconsistent and generic</span>. March is a <strong>trust-building month</strong>. All three campaigns are value-forward — no hard sells, no discounts. We're proving to subscribers that emails from Fast Fix are worth opening. Each location gets its own version highlighting what makes that store unique. The rhythm: <strong>educate → build credibility → soft seasonal ask</strong>. By the time we ask for anything, we've already deposited twice.</p>
+      <div class="trust-snapshot-stats">
+        <div class="mini-stat"><span class="mini-stat-num">12</span> campaign emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">8</span> automation emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">48</span> subject lines</div>
+        <div class="mini-stat"><span class="mini-stat-num">4</span> locations</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT DIAGNOSIS -->
+  <div class="section" id="diagnosis">
+    <div class="section-label">Account Diagnosis</div>
+    <h2>Where Things Stand</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>List Health</h4>
+          <p>~8,512 active subscribers across 4 locations. Engagement rates vary widely — Barton Creek 10.89% active, Sarasota 5.80%, KOP 11.22%, St. Matthews 15.27%. <strong>Segment to Active 90 days for all sends. Do not blast full lists.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Deliverability</h4>
+          <p>Open rates averaging 10-15% are below where they should be. Likely caused by inconsistent sending history and sending to unengaged contacts. <strong>Sending only to active contacts will immediately improve open rates and sender reputation.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Current Automations</h4>
+          <p>None. No welcome sequence, no post-repair follow-up, no review request flow. <strong>Automations are included in this blueprint (Welcome + Post-Repair + Review Request). Campaigns launch first.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Growth Opportunity</h4>
+          <p>Fine jewelry case sales are a stated growth priority. Most customers come for repairs but don't browse retail pieces. <strong>Campaign 3 (Mother's Day) subtly introduces fine jewelry without hard-selling it.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTHLY STRATEGY -->
+  <div class="section" id="approach">
+    <div class="section-label">Monthly Strategy</div>
+    <h2>The March Approach</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Primary Goal</h4>
+          <p>Establish Fast Fix as a valuable presence in subscribers' inboxes. Build email trust before asking for anything. Drive incremental foot traffic to all 4 locations.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Trust Architecture</h4>
+          <p>Two value deposits before one soft ask. Campaign 1 educates, Campaign 2 builds credibility, Campaign 3 makes a gentle seasonal suggestion. No discounts. No urgency. Just helpfulness.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Segmentation</h4>
+          <p>Each location sends separately using their own contact list. Send only to Active 90 per location. This means 4 separate sends per campaign — each with location-specific content, address, and unique angles.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Key Metrics</h4>
+          <p>Target open rate: 25%+ (up from 10-15%). Target click rate: 3%+. Unsubscribe ceiling: 0.3% per send. If we hit these on Active 90 sends, we expand the audience next month.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-grey-band">
+  <!-- SEGMENTS -->
+  <div class="section" id="segments">
+    <div class="section-label">Segments to Create</div>
+    <h2>Your Audience Foundation</h2>
+    <p>Create these smart lists in GHL before sending any campaigns or activating automations. <strong>Go to Contacts → Smart Lists → New Smart List</strong> for each one.</p>
+
+    <div class="cal-table-wrap" style="margin-top:24px;">
+      <table class="cal-table">
+        <thead><tr><th>Segment</th><th>Filter Criteria</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr class="seg-group-row"><td colspan="3">Campaign Lists — One Per Location</td></tr>
+          <tr><td>Active 90 Days — Barton Creek</td><td>Location = Barton Creek AND opened or clicked any email in last 90 days</td><td>All Barton Creek campaign sends</td></tr>
+          <tr><td>Active 90 Days — Sarasota</td><td>Location = Sarasota AND opened or clicked any email in last 90 days</td><td>All Sarasota campaign sends</td></tr>
+          <tr><td>Active 90 Days — King of Prussia</td><td>Location = King of Prussia AND opened or clicked any email in last 90 days</td><td>All KOP campaign sends</td></tr>
+          <tr><td>Active 90 Days — St. Matthews</td><td>Location = St. Matthews AND opened or clicked any email in last 90 days</td><td>All St. Matthews campaign sends</td></tr>
+          <tr class="seg-group-row"><td colspan="3">Automation Triggers</td></tr>
+          <tr><td>New Contacts — Last 30 Days</td><td>Contact created in last 30 days</td><td>Welcome Sequence trigger</td></tr>
+          <tr><td>Post-Repair (Tag-Based)</td><td>Contact has tag "repair-completed"</td><td>Post-Repair Follow-up trigger</td></tr>
+          <tr><td>No Review Left</td><td>Contact does NOT have tag "left-review"</td><td>Review Request audience</td></tr>
+          <tr class="seg-warn-row"><td>Lapsed 6+ Months</td><td>No activity in 180+ days AND was previously active</td><td style="color:#DC2626;">Winback — planned for Month 3</td></tr>
+          <tr class="seg-group-row"><td colspan="3">Suppression List</td></tr>
+          <tr class="seg-warn-row"><td>Unengaged 180+ Days</td><td>No email opens AND no clicks in last 180 days. All locations.</td><td style="color:#DC2626;">Exclude from ALL sends until re-engagement</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="strategy-note" style="margin-top:24px;">
+      <p><strong>GHL Setup Tip:</strong> In GHL, Smart Lists update dynamically. Once created, contacts automatically enter and exit based on the filter criteria. You don't need to manually manage these lists — just set the filters correctly and they stay current.</p>
+      <p><strong>Location Field:</strong> Confirm which custom field or tag identifies each contact's store location. This is the foundation for all location-specific sends. If it doesn't exist yet, create a custom field called "Store Location" with dropdown options: Barton Creek, Sarasota, King of Prussia, St. Matthews.</p>
+    </div>
+  </div>
+
+  <!-- DELIVERABILITY QUICK WINS -->
+  <div class="section" id="deliverability">
+    <div class="section-label">Deliverability</div>
+    <h2>Do This Before Sending</h2>
+    <p>These quick fixes will improve inbox placement immediately. Do them once and they'll benefit every send going forward.</p>
+    <div class="signal-grid">
+      <div class="signal-card signal-card-green">
+        <h4>Already Done</h4>
+        <ul>
+          <li>SPF/DKIM/DMARC configured</li>
+          <li>Branded sending domain active</li>
+          <li>Consistent weekly sending established</li>
+          <li>Lists segmented by location in GHL</li>
+        </ul>
+      </div>
+      <div class="signal-card signal-card-red">
+        <h4>Action Required</h4>
+        <ul>
+          <li>Create "Active 90 Days" smart list per location — filter contacts who opened or clicked any email in the last 90 days</li>
+          <li>Suppress contacts with no engagement in 180+ days from all campaign sends</li>
+          <li>Verify reply-to address goes to a monitored inbox (replies improve deliverability)</li>
+          <li>Check for role-based addresses (info@, admin@) and remove from marketing lists</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PLAYBOOK SUBSECTION (client-specific — uncomment and customize per client) -->
+    <!--
+    <div class="playbook-subsection">
+      <div class="section-label">Deliverability</div>
+      <h3>Playbook Title Here</h3>
+      <p>Description of the playbook goes here.</p>
+      <div class="numbered-steps">
+        <div class="numbered-step">
+          <div class="step-num">01</div>
+          <div><h4>Step Title</h4><p>Step description.</p></div>
+        </div>
+      </div>
+    </div>
+    -->
+
+  </div>
+
+  <!-- CAMPAIGN CALENDAR -->
+  <div class="section" id="calendar">
+    <div class="section-label">Campaign Calendar</div>
+    <h2>March 2026 Send Schedule</h2>
+    <div class="cal-table-wrap">
+      <table class="cal-table">
+        <thead><tr><th>Date</th><th>Campaign</th><th>Location</th><th>Trust Move</th></tr></thead>
+        <tbody>
+          <tr><td>Mar 17</td><td>Spring Jewelry Checkup</td><td>Barton Creek</td><td><span class="tag">Introduction → Credibility</span></td></tr>
+          <tr><td>Mar 17</td><td>Spring Jewelry Checkup</td><td>Sarasota</td><td><span class="tag">Introduction → Credibility</span></td></tr>
+          <tr><td>Mar 17</td><td>Spring Jewelry Checkup</td><td>King of Prussia</td><td><span class="tag">Introduction → Credibility</span></td></tr>
+          <tr><td>Mar 17</td><td>Spring Jewelry Checkup</td><td>St. Matthews</td><td><span class="tag">Introduction → Credibility</span></td></tr>
+          <tr><td>Mar 24</td><td>Why Thousands Trust Fast Fix</td><td>Barton Creek</td><td><span class="tag">Credibility</span></td></tr>
+          <tr><td>Mar 24</td><td>Why Thousands Trust Fast Fix</td><td>Sarasota</td><td><span class="tag">Credibility</span></td></tr>
+          <tr><td>Mar 24</td><td>Why Thousands Trust Fast Fix</td><td>King of Prussia</td><td><span class="tag">Credibility</span></td></tr>
+          <tr><td>Mar 24</td><td>Why Thousands Trust Fast Fix</td><td>St. Matthews</td><td><span class="tag">Credibility</span></td></tr>
+          <tr><td>Mar 31</td><td>Mother's Day Early Bird</td><td>Barton Creek</td><td><span class="tag tag-accent">Credibility → Consideration</span></td></tr>
+          <tr><td>Mar 31</td><td>Mother's Day Early Bird</td><td>Sarasota</td><td><span class="tag tag-accent">Credibility → Consideration</span></td></tr>
+          <tr><td>Mar 31</td><td>Mother's Day Early Bird</td><td>King of Prussia</td><td><span class="tag tag-accent">Credibility → Consideration</span></td></tr>
+          <tr><td>Mar 31</td><td>Mother's Day Early Bird</td><td>St. Matthews</td><td><span class="tag tag-accent">Credibility → Consideration</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  </div><!-- /section-grey-band -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- CAMPAIGN EMAILS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-campaigns" id="campaigns">
+    <div class="section-intro">
+      <div class="section-label">Campaign Emails</div>
+      <h2>Scheduled Campaign Sends</h2>
+      <p>These are one-off campaigns sent on specific dates to targeted segments. Unlike automations, each campaign is manually scheduled and sent once — designed around seasonal relevance, trust stage, and audience rotation to keep engagement high without fatiguing your list.</p>
+    </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 1: SPRING CHECKUP     -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 1 of 3</div>
+    <h2>Spring Jewelry Checkup</h2>
+    <p class="campaign-desc">Pure value deposit — educational content that gives people a genuine reason to visit. No selling, no offers. The spring checkup angle is useful and positions Fast Fix as a trusted expert, not a pushy retailer. Once they walk in, the team handles the rest.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Introduction → Credibility</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Value Deposit</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Active 90 Days — per location</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Seasonal care: cleaning, inspection, prong checks — reasons to visit without buying</p></div>
+    </div>
+
+    <!-- EMAIL 01 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 01</div>
+      <div class="email-title">Spring Jewelry Checkup — Barton Creek</div>
+      <div class="email-tags">
+        <span class="tag">Introduction → Credibility</span>
+        <span class="tag">Barton Creek</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Winter loosens prongs</li>
+            <li><span>B.</span> Free 5-min jewelry checkup</li>
+            <li><span>C.</span> Loose stones sneak up on you</li>
+            <li><span>D.</span> {{contact.first_name}}, quick check?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> no appointment, done while you shop</li>
+            <li><span>Send</span> Monday March 17, 10:00 AM CT</li>
+            <li><span>Audience</span> Barton Creek — Active 90 Days</li>
+            <li><span>Goal</span> Drive walk-ins for free inspections</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Quick question — when was the last time you had your jewelry checked?</p>
+          <p>Winter does a number on it. The temperature swings make metal expand and contract, which loosens prongs and weakens clasps over time. Watch bands dry out and crack too. Most people don't notice until something falls out or snaps.</p>
+          <p>We do free checkups right here at Barton Creek Square. Takes about 5 minutes. If anything needs attention, most repairs are done in about an hour while you shop. No appointment needed.</p>
+          <p>Your jewelry matters now, not later. Stop by anytime.</p>
+          <p><a href="#" class="cta-button">Visit Us at Barton Creek Square →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>Barton Creek Square Shopping Center<br>2901 Capital of Texas Hwy, Suite J-12<br>Austin, TX 78746</div>
+          <p class="ps">P.S. We also buy gold — same-day payment, transparent pricing. Just bring your pieces in.</p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Marketing → Emails → Campaigns → New Campaign. Select the Barton Creek contact list, filtered to contacts who opened or clicked in the last 90 days. Schedule for Monday March 17 at 10:00 AM CT. A/B test subject lines A vs D (curiosity vs personalization). Merge tag: {{contact.first_name}}. CTA button should link to Google Maps directions for this location.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 02 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 02</div>
+      <div class="email-title">Spring Jewelry Checkup — Sarasota</div>
+      <div class="email-tags">
+        <span class="tag">Introduction → Credibility</span>
+        <span class="tag">Sarasota</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Salt air wears jewelry down</li>
+            <li><span>B.</span> Free 5-min jewelry checkup</li>
+            <li><span>C.</span> Florida's rough on your pieces</li>
+            <li><span>D.</span> {{contact.first_name}}, quick check?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> 5 minutes, free, no appointment</li>
+            <li><span>Send</span> Monday March 17, 10:00 AM ET</li>
+            <li><span>Audience</span> Sarasota — Active 90 Days</li>
+            <li><span>Goal</span> Drive walk-ins for free inspections</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Living in Florida is great for a lot of reasons. Your jewelry isn't one of them.</p>
+          <p>Salt air, sunscreen, pool chemicals, humidity — they all wear on your pieces over time. Prongs loosen, clasps weaken, settings shift. You probably won't notice until something falls out.</p>
+          <p>We do free checkups right here at University Town Center. Takes about 5 minutes while you shop. If anything needs attention, most repairs are done in about an hour. No appointment needed.</p>
+          <p>We're also authorized retailers for BERING, LUMINOX, VICTORINOX, BULOVA, and WOLF — so whether it's an everyday piece or something high-end, we know what we're looking at.</p>
+          <p>Your jewelry matters now, not later. Stop by anytime.</p>
+          <p><a href="#" class="cta-button">Visit Us at University Town Center →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>140 University Town Center Dr, Space 104<br>Sarasota, FL 34243</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Create a separate campaign for Sarasota. Select the Sarasota contact list, filtered to Active 90 Days. Schedule for Monday March 17 at 10:00 AM ET. A/B test subject lines A vs C (Florida-specific hooks). Merge tag: {{contact.first_name}}. CTA button should link to Google Maps directions for this location.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 03 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 03</div>
+      <div class="email-title">Spring Jewelry Checkup — King of Prussia</div>
+      <div class="email-tags">
+        <span class="tag">Introduction → Credibility</span>
+        <span class="tag">King of Prussia</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Winter loosens prongs</li>
+            <li><span>B.</span> Free 5-min jewelry checkup</li>
+            <li><span>C.</span> Loose stones sneak up on you</li>
+            <li><span>D.</span> {{contact.first_name}}, quick check?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> no appointment, done while you shop</li>
+            <li><span>Send</span> Monday March 17, 10:00 AM ET</li>
+            <li><span>Audience</span> King of Prussia — Active 90 Days</li>
+            <li><span>Goal</span> Drive walk-ins for free inspections</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Winter in the Northeast does a number on jewelry. Temperature swings make metal expand and contract, which loosens prongs and weakens clasps over time. Watch bands dry out and crack. That ring you wear every day? The settings might be looser than you think.</p>
+          <p>We do free checkups right here at King of Prussia Mall. Takes about 5 minutes. If anything needs attention, most repairs are done in about an hour while you shop. No appointment needed.</p>
+          <p>We also take on repairs other jewelers won't touch — we're the official resizing partner of ICONIC Jewelry, so precision work is kind of our thing.</p>
+          <p>Your jewelry matters now, not later. Stop by anytime.</p>
+          <p><a href="#" class="cta-button">Visit Us at King of Prussia Mall →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>160 N Gulph Rd, Unit 2034<br>King of Prussia, PA 19406</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Create a separate campaign for King of Prussia. Select the KOP contact list, filtered to Active 90 Days. Schedule for Monday March 17 at 10:00 AM ET. A/B test subject lines A vs B (curiosity vs benefit). Merge tag: {{contact.first_name}}. CTA button should link to Google Maps directions for this location.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 04 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 04</div>
+      <div class="email-title">Spring Jewelry Checkup — St. Matthews</div>
+      <div class="email-tags">
+        <span class="tag">Introduction → Credibility</span>
+        <span class="tag">St. Matthews</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Winter loosens prongs</li>
+            <li><span>B.</span> Free 5-min jewelry checkup</li>
+            <li><span>C.</span> Loose stones sneak up on you</li>
+            <li><span>D.</span> {{contact.first_name}}, quick check?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> 5 minutes, free, no appointment</li>
+            <li><span>Send</span> Monday March 17, 10:00 AM ET</li>
+            <li><span>Audience</span> St. Matthews — Active 90 Days</li>
+            <li><span>Goal</span> Drive walk-ins for free inspections</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Kentucky winters aren't kind to jewelry. You probably don't notice the wear — but it's happening.</p>
+          <p>Temperature changes make metal expand and contract, which loosens prongs and weakens clasps over time. Watch bands dry out. That favorite ring or necklace? The settings might be looser than you think.</p>
+          <p>We do free checkups right here at Mall St. Matthews. Takes about 5 minutes. If anything needs attention, most repairs are done in about an hour while you shop. No appointment needed.</p>
+          <p>We've been doing this for over 40 years — factory-quality work, done right the first time. Your jewelry matters now, not later.</p>
+          <p>Stop by anytime Monday through Saturday.</p>
+          <p><a href="#" class="cta-button">Visit Us at Mall St. Matthews →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>5000 Shelbyville Road #1050<br>St. Matthews, KY 40207</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Create a separate campaign for St. Matthews. Select the St. Matthews contact list, filtered to Active 90 Days. Schedule for Monday March 17 at 10:00 AM ET. A/B test subject lines A vs D (curiosity vs personalization). Merge tag: {{contact.first_name}}. Note: St. Matthews is closed Sundays — email mentions Monday-Saturday hours.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 2: WHY THOUSANDS TRUST -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 2 of 3</div>
+    <h2>Why Thousands Trust Fast Fix</h2>
+    <p class="campaign-desc">Social proof is the most powerful trust builder for a repair business. People need to trust you with something irreplaceable — their grandmother's ring, their wedding band. This email lets your reviews and track record do the talking. The CTA is intentionally low-pressure.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Credibility (reinforcing)</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Value Deposit</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Active 90 Days — per location</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Social proof: reviews, trust signals, track record — let customers sell for you</p></div>
+    </div>
+
+    <!-- EMAIL 05 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 05</div>
+      <div class="email-title">Why Austin Trusts Fast Fix — Barton Creek</div>
+      <div class="email-tags">
+        <span class="tag">Credibility</span>
+        <span class="tag">Barton Creek</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 926 reviews can't be wrong</li>
+            <li><span>B.</span> We don't send it away</li>
+            <li><span>C.</span> Fixed in about an hour</li>
+            <li><span>D.</span> Bring us the broken piece</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> 40+ years, 4.8 stars, done on-site</li>
+            <li><span>Send</span> Monday March 24, 10:00 AM CT</li>
+            <li><span>Audience</span> Barton Creek — Active 90 Days</li>
+            <li><span>Goal</span> Build trust via social proof</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Handing over jewelry that means something to you isn't easy. Maybe it's your grandmother's ring, or a watch your dad wore every day.</p>
+          <p>Here's what happens when you bring it in: we look at it right there with you. Tell you exactly what it needs, what it costs, and how long it takes — usually about an hour. We don't send anything out. Your piece stays with us the whole time.</p>
+          <p>926 Google reviews and 4.8 stars over 40+ years. We work on everything from Timex to Rolex — ring sizing, watch batteries, stone replacements, custom engraving — all done while you shop at Barton Creek Square.</p>
+          <p>No appointment needed. Just stop in.</p>
+          <p><a href="#" class="cta-button">See Our Google Reviews →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>Barton Creek Square Shopping Center<br>2901 Capital of Texas Hwy, Suite J-12<br>Austin, TX 78746</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Barton Creek list, Active 90 Days. Schedule Monday March 24, 10:00 AM CT. A/B test subject lines A vs C (numbers vs customer quote). CTA button should link to your Google Business Profile for this location. Merge tag: {{contact.first_name}}.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 06 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 06</div>
+      <div class="email-title">Why Sarasota Trusts Fast Fix — Sarasota</div>
+      <div class="email-tags">
+        <span class="tag">Credibility</span>
+        <span class="tag">Sarasota</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 1,138 reviews can't be wrong</li>
+            <li><span>B.</span> We don't send it away</li>
+            <li><span>C.</span> Fixed in about an hour</li>
+            <li><span>D.</span> Bring us the broken piece</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> 40+ years, 4.8 stars, done on-site</li>
+            <li><span>Send</span> Monday March 24, 10:00 AM ET</li>
+            <li><span>Audience</span> Sarasota — Active 90 Days</li>
+            <li><span>Goal</span> Build trust via social proof</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Handing over jewelry that means something to you takes trust. Especially when it's an heirloom, or a gift from someone you love.</p>
+          <p>Here's how we work: we look at it right there with you. Tell you exactly what it needs, what it costs, and how long it takes — usually about an hour. We don't send anything out. Your piece stays with us.</p>
+          <p>1,138 Google reviews and 4.8 stars over 40+ years. We're also authorized retailers for BERING, LUMINOX, VICTORINOX, BULOVA, and WOLF — so we know these brands inside and out.</p>
+          <p>Ring sizing, watch batteries, stone replacements, custom engraving — all done while you shop at University Town Center. No appointment needed.</p>
+          <p><a href="#" class="cta-button">See Our Google Reviews →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>140 University Town Center Dr, Space 104<br>Sarasota, FL 34243</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Sarasota list, Active 90 Days. Schedule Monday March 24, 10:00 AM ET. A/B test subject lines A vs C (review count vs customer quote). CTA button should link to Google Business Profile for this location. Merge tag: {{contact.first_name}}.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 07 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 07</div>
+      <div class="email-title">Why KOP Trusts Fast Fix — King of Prussia</div>
+      <div class="email-tags">
+        <span class="tag">Credibility</span>
+        <span class="tag">King of Prussia</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 1,959 reviews can't be wrong</li>
+            <li><span>B.</span> We fix what others won't</li>
+            <li><span>C.</span> Other jewelers said no</li>
+            <li><span>D.</span> Bring us the broken piece</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> 40+ years, 4.8 stars, done on-site</li>
+            <li><span>Send</span> Monday March 24, 10:00 AM ET</li>
+            <li><span>Audience</span> King of Prussia — Active 90 Days</li>
+            <li><span>Goal</span> Build trust via social proof</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Trusting someone with your jewelry isn't easy — especially when another jeweler already told you it can't be fixed, or that they'd need to send it away for weeks.</p>
+          <p>That's kind of our thing. We take on repairs other shops turn down.</p>
+          <p>Here's how it works: we look at your piece right there with you. Tell you what it needs, what it costs, and how long it takes — usually about an hour. We don't send anything out.</p>
+          <p>1,959 Google reviews and a 4.8-star average over 40+ years. As the official resizing partner of ICONIC Jewelry, precision work is what we do every day.</p>
+          <p>Ring sizing, watch batteries, stone replacements, custom engraving — all done while you shop at King of Prussia Mall. No appointment needed.</p>
+          <p><a href="#" class="cta-button">See Our 1,959 Google Reviews →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>160 N Gulph Rd, Unit 2034<br>King of Prussia, PA 19406</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> King of Prussia list, Active 90 Days. Schedule Monday March 24, 10:00 AM ET. A/B test subject lines B vs C (bold claim vs customer quote). This location has the strongest review story — 1,959 reviews is remarkable. CTA should link to Google Business Profile. Merge tag: {{contact.first_name}}.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 08 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 08</div>
+      <div class="email-title">Why St. Matthews Trusts Fast Fix — St. Matthews</div>
+      <div class="email-tags">
+        <span class="tag">Credibility</span>
+        <span class="tag">St. Matthews</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Most honest business in years</li>
+            <li><span>B.</span> We don't send it away</li>
+            <li><span>C.</span> Your piece never leaves us</li>
+            <li><span>D.</span> 40 years at St. Matthews</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> repaired right here in about an hour</li>
+            <li><span>Send</span> Monday March 24, 10:00 AM ET</li>
+            <li><span>Audience</span> St. Matthews — Active 90 Days</li>
+            <li><span>Goal</span> Build trust via honesty and expertise</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Handing over jewelry that matters to you takes trust. Especially when it's something from your mom, or a ring you haven't taken off in 15 years.</p>
+          <p>Here's how we do it: we look at it right there with you. Tell you what it needs, what it costs, and when it'll be ready — usually about an hour. We don't send anything out. Your piece stays with us the whole time.</p>
+          <p>One customer put it better than we could: "the most honest business I have dealt with in years." We'd rather hear that than any award.</p>
+          <p>We've been doing this for over 40 years at Mall St. Matthews. Ring sizing, watch batteries, stone replacements, chain repairs — factory-quality work, done right the first time. Your jewelry matters now, not later.</p>
+          <p>Monday through Saturday, no appointment needed. Just stop in whenever you're at the mall.</p>
+          <p><a href="#" class="cta-button">Visit Us at Mall St. Matthews →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>5000 Shelbyville Road #1050<br>St. Matthews, KY 40207</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> St. Matthews list, Active 90 Days. Schedule Monday March 24, 10:00 AM ET. A/B test subject lines A vs C (customer quote vs brand phrase). Note: This location has only 12 Google reviews — do NOT lead with review count. Lead with the honesty quote instead. CTA links to Google Maps. Merge tag: {{contact.first_name}}.</p>
+        <p><strong>Review building opportunity:</strong> St. Matthews desperately needs more Google reviews. Consider adding a review request automation for this location first (planned for Month 2).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- CAMPAIGN 3 · MOTHER'S DAY EARLY BIRD              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section campaign-group">
+    <div class="section-label">Campaign 3 · March 31</div>
+    <h2>Mother's Day Early Bird</h2>
+    <p>This is the first soft conversion ask — and we've earned it with two value deposits first. Mother's Day (May 11) gives a natural reason to act without manufactured urgency. Three angles: custom engraving, jewelry restoration, and fine jewelry browsing. No discounts. No pressure. Just a helpful nudge to start thinking early.</p>
+    <div class="strategy-grid" style="margin-top:24px;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Credibility → Consideration</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Soft Conversion Ask</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Active 90 Days — per location</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Personal gifting: engraving, restoration, fine jewelry browsing</p></div>
+    </div>
+
+    <!-- EMAIL 09 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 09</div>
+      <h3 class="email-title">Mother's Day Early Bird — Barton Creek</h3>
+      <div class="email-tags">
+        <span class="tag">Credibility → Consideration</span>
+        <span class="tag">Barton Creek</span>
+        <span class="tag">Soft Ask</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Mother's Day is 6 weeks out</li>
+            <li><span>B.</span> She'll wear this every day</li>
+            <li><span>C.</span> Custom engraving, 30 minutes</li>
+            <li><span>D.</span> {{contact.first_name}}, for Mom?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> skip the gift card, do this instead</li>
+            <li><span>Send</span> Monday March 31, 10:00 AM CT</li>
+            <li><span>Audience</span> Barton Creek — Active 90 Days</li>
+            <li><span>Goal</span> Early Mother's Day traffic + fine jewelry</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Mother's Day is May 11th. That feels far away — until it isn't.</p>
+          <p>Skip the gift card. Here's something better:</p>
+          <p>We do custom engraving right here at Barton Creek Square. A date, initials, a short message — on a bracelet, pendant, watch, or ring. Takes about 30 minutes while you shop. No appointment needed.</p>
+          <p>Or if she has a piece she loves but hasn't worn because something broke — bring it in. New clasp, polished, stones secured. Most repairs done in about an hour. She'll know you paid attention.</p>
+          <p>We also have fine jewelry in our display cases if you want to browse for something she'll wear every day.</p>
+          <p>Start now. May 10th shows up faster than you think.</p>
+          <p><a href="#" class="cta-button">Visit Us at Barton Creek Square →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>Barton Creek Square Shopping Center<br>2901 Capital of Texas Hwy, Suite J-12<br>Austin, TX 78746</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Barton Creek list, Active 90 Days. Schedule Monday March 31, 10:00 AM CT. A/B test subject lines A vs C (date urgency vs specific offer). CTA links to Google Maps. Merge tag: {{contact.first_name}}.</p>
+        <p><strong>Strategic note:</strong> This email subtly introduces fine jewelry case browsing without hard-selling it. The "curated selection" mention plants the seed. April's campaigns can expand on this with specific pieces or a "gift guide" angle.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 10 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 10</div>
+      <h3 class="email-title">Mother's Day Early Bird — Sarasota</h3>
+      <div class="email-tags">
+        <span class="tag">Credibility → Consideration</span>
+        <span class="tag">Sarasota</span>
+        <span class="tag">Soft Ask</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Mother's Day is 6 weeks out</li>
+            <li><span>B.</span> She'll wear this every day</li>
+            <li><span>C.</span> Custom engraving, 30 minutes</li>
+            <li><span>D.</span> {{contact.first_name}}, for Mom?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> skip the gift card, do this instead</li>
+            <li><span>Send</span> Monday March 31, 10:00 AM ET</li>
+            <li><span>Audience</span> Sarasota — Active 90 Days</li>
+            <li><span>Goal</span> Early Mother's Day traffic + watch awareness</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Mother's Day is May 11th. Six weeks goes fast.</p>
+          <p>Skip the gift card. Here's something better:</p>
+          <p>We do custom engraving right here at University Town Center. A date, initials, a short message — on a bracelet, pendant, watch, or ring. Takes about 30 minutes while you shop. No appointment needed.</p>
+          <p>Or if she has a favorite piece that needs some love — a loose clasp, a dull finish, a missing stone — bring it in. Most repairs done in about an hour.</p>
+          <p>Looking for a watch she'll wear every day? We carry BERING, LUMINOX, VICTORINOX, BULOVA, and WOLF. Come in and we'll help you find the right one.</p>
+          <p>Start now. May 10th shows up faster than you think.</p>
+          <p><a href="#" class="cta-button">Visit Us at University Town Center →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>140 University Town Center Dr, Space 104<br>Sarasota, FL 34243</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Sarasota list, Active 90 Days. Schedule Monday March 31, 10:00 AM ET. A/B test subject lines A vs B (date urgency vs benefit). CTA links to Google Maps. Merge tag: {{contact.first_name}}.</p>
+        <p><strong>Strategic note:</strong> Sarasota is the authorized retailer location. The brand watch mention here doubles as a product awareness play — many customers may not know this location sells new watches from these brands.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 11 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 11</div>
+      <h3 class="email-title">Mother's Day Early Bird — King of Prussia</h3>
+      <div class="email-tags">
+        <span class="tag">Credibility → Consideration</span>
+        <span class="tag">King of Prussia</span>
+        <span class="tag">Soft Ask</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Mother's Day is 6 weeks out</li>
+            <li><span>B.</span> She'll wear this every day</li>
+            <li><span>C.</span> Custom engraving, 30 minutes</li>
+            <li><span>D.</span> {{contact.first_name}}, for Mom?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> skip the gift card, do this instead</li>
+            <li><span>Send</span> Monday March 31, 10:00 AM ET</li>
+            <li><span>Audience</span> King of Prussia — Active 90 Days</li>
+            <li><span>Goal</span> Early Mother's Day traffic + fine jewelry</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Mother's Day is May 11th. You know how fast six weeks goes.</p>
+          <p>Skip the gift card. Here's something she'll actually notice:</p>
+          <p>We do custom engraving right here at King of Prussia Mall. A date, initials, a short message — on a bracelet, pendant, watch, or ring. Takes about 30 minutes while you shop. No appointment needed.</p>
+          <p>Or bring in her favorite piece — the one she stopped wearing because the clasp broke or a stone fell out. We'll have it looking new in about an hour. Sometimes that means more than anything you could buy.</p>
+          <p>We also have fine jewelry in our display cases if you want to browse. No pressure.</p>
+          <p>Start now. May 10th shows up faster than you think.</p>
+          <p><a href="#" class="cta-button">Visit Us at King of Prussia Mall →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>160 N Gulph Rd, Unit 2034<br>King of Prussia, PA 19406</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> King of Prussia list, Active 90 Days. Schedule Monday March 31, 10:00 AM ET. A/B test subject lines A vs D (date urgency vs personalization). CTA links to Google Maps. Merge tag: {{contact.first_name}}.</p>
+        <p><strong>Strategic note:</strong> The "restore something she loves" angle is emotionally powerful. It positions repair as a gift — not just a service. This also naturally drives foot traffic into the store where they'll see the display cases.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 12 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 12</div>
+      <h3 class="email-title">Mother's Day Early Bird — St. Matthews</h3>
+      <div class="email-tags">
+        <span class="tag">Credibility → Consideration</span>
+        <span class="tag">St. Matthews</span>
+        <span class="tag">Soft Ask</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Mother's Day is 6 weeks out</li>
+            <li><span>B.</span> She'll wear this every day</li>
+            <li><span>C.</span> Custom engraving, 30 minutes</li>
+            <li><span>D.</span> {{contact.first_name}}, for Mom?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> skip the gift card, do this instead</li>
+            <li><span>Send</span> Monday March 31, 10:00 AM ET</li>
+            <li><span>Audience</span> St. Matthews — Active 90 Days</li>
+            <li><span>Goal</span> Early Mother's Day foot traffic</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hey {{contact.first_name}},</p>
+          <p>Mother's Day is May 11th. Six weeks goes fast.</p>
+          <p>Skip the flowers. Here's something she'll actually keep:</p>
+          <p>We do custom engraving right here at Mall St. Matthews. A date, initials, a short message — on a bracelet, pendant, watch, or ring. Takes about 30 minutes while you shop. No appointment needed.</p>
+          <p>Or if she has a piece that's been sitting in a drawer because something broke — a clasp, a loose stone, a snapped chain — bring it in. Most repairs done in about an hour.</p>
+          <p>Sometimes the most meaningful gift isn't something new. It's restoring something she already loves.</p>
+          <p>Stop by Monday through Saturday. May 10th shows up faster than you think.</p>
+          <p><a href="#" class="cta-button">Visit Us at Mall St. Matthews →</a></p>
+          <div class="sig">Fast Fix Jewelry &amp; Watch Repairs<br>5000 Shelbyville Road #1050<br>St. Matthews, KY 40207</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> St. Matthews list, Active 90 Days. Schedule Monday March 31, 10:00 AM ET. A/B test subject lines A vs B (date urgency vs benefit). CTA links to Google Maps. Merge tag: {{contact.first_name}}. Note: Closed Sundays — email mentions Monday-Saturday.</p>
+        <p><strong>Strategic note:</strong> The restoration angle is particularly strong for this smaller, community-focused location. "Restoring something she already loves" is both emotionally resonant and drives the core repair service.</p>
+      </div>
+    </div>
+  </div>
+  </div><!-- /section-campaigns -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- AUTOMATION FLOWS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-automations" id="automations">
+    <div class="section-intro">
+      <div class="section-label">Automation Flows</div>
+      <h2>Always-On Email Sequences</h2>
+      <p>These automations run 24/7 once activated in GHL. They compound over time — every new contact gets welcomed, every completed repair gets followed up, and review requests go out automatically.</p>
+    </div>
+
+    <!-- WELCOME SEQUENCE -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 1</div>
+      <h3 class="flow-title">Welcome Sequence</h3>
+      <p class="flow-desc">Triggers when a new contact is added to any location list. 3 emails over 5 days. Introduces Fast Fix, highlights speed and convenience, invites first visit.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">New Contact Added</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Welcome to Fast Fix</td><td>Immediate</td></tr>
+            <tr><td>03</td><td>Everything We Fix</td><td>+2 days</td></tr>
+            <tr><td>04</td><td>Come See Us</td><td>+3 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- WELCOME EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 01</div>
+        <h3 class="email-title">Welcome to Fast Fix</h3>
+        <div class="email-tags">
+          <span class="tag">Introduction</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Welcome, {{contact.first_name}}</li>
+              <li><span>B.</span> Quick intro from Fast Fix</li>
+              <li><span>C.</span> Here's what we do (in 60 seconds)</li>
+              <li><span>D.</span> {{contact.first_name}}, thanks for stopping by</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> most repairs done in about an hour</li>
+              <li><span>Trigger</span> Immediately on contact creation</li>
+              <li><span>Audience</span> All new contacts — per location</li>
+              <li><span>Goal</span> Introduce Fast Fix, set expectations</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>Thanks for stopping by Fast Fix. Quick intro so you know who we are:</p>
+            <p>We fix jewelry and watches right here in the mall, while you shop. Most repairs take about an hour. No sending anything away. No waiting weeks.</p>
+            <p>Ring sizing, chain repairs, watch batteries, stone replacements, custom engraving — we've been doing this for 40+ years with factory-quality parts.</p>
+            <p>We're at <strong>[LOCATION NAME]</strong>. No appointment needed — just walk in anytime.</p>
+            <p>We'll send you helpful tips and the occasional update. That's it.</p>
+            <p>— The Fast Fix Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Create workflow: Trigger = Contact Created. Send immediately. Use location-specific version with correct address. Personalize [LOCATION NAME] per contact's list. Merge tag: {{contact.first_name}}.</p>
+        </div>
+      </div>
+
+      <!-- WELCOME EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 02</div>
+        <h3 class="email-title">Everything We Fix (It's More Than You Think)</h3>
+        <div class="email-tags">
+          <span class="tag">Education</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> You'd be surprised what we fix</li>
+              <li><span>B.</span> Way more than watch batteries</li>
+              <li><span>C.</span> Rings, chains, watches, engraving...</li>
+              <li><span>D.</span> We fix things other jewelers won't</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> rings, chains, watches, engraving...</li>
+              <li><span>Trigger</span> 2 days after Welcome 01</li>
+              <li><span>Audience</span> All new contacts — per location</li>
+              <li><span>Goal</span> Educate on full service range</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>Most people walk by our store thinking we just do watch batteries. We do — but that's about 10% of what happens behind our bench.</p>
+            <p>Here's what we actually fix:</p>
+            <p><strong>Jewelry:</strong> Ring sizing, chain and bracelet repair, clasp replacement, stone tightening and replacement, prong re-tipping, rhodium plating, custom engraving, jewelry cleaning and polishing</p>
+            <p><strong>Watches:</strong> Battery replacement, band adjustment and replacement, crystal replacement, water resistance testing, movement repair</p>
+            <p><strong>Other:</strong> Eyeglass frame repair, phone screen protectors</p>
+            <p>Most of it's done in about an hour while you're at the mall. No appointment needed.</p>
+            <p>Got something that needs attention? Bring it in and we'll take a look — no obligation, no appointment needed.</p>
+            <p>— The Fast Fix Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Same workflow, 2-day wait step after Welcome 01. This is the "education" email — shows breadth of services. Many customers only know about watch batteries. This email plants seeds for higher-value repair work.</p>
+        </div>
+      </div>
+
+      <!-- WELCOME EMAIL 3 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 03</div>
+        <h3 class="email-title">Come See Us — No Appointment Needed</h3>
+        <div class="email-tags">
+          <span class="tag">Introduction → Credibility</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Next time you're at the mall</li>
+              <li><span>B.</span> Free estimate, just walk in</li>
+              <li><span>C.</span> Got something sitting in a drawer?</li>
+              <li><span>D.</span> {{contact.first_name}}, we're right here</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> no obligation, no appointment needed</li>
+              <li><span>Trigger</span> 3 days after Welcome 02</li>
+              <li><span>Audience</span> All new contacts — per location</li>
+              <li><span>Goal</span> Soft CTA — drive first visit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>If you've got a piece sitting in a drawer because something's broken — a chain, a clasp, a watch that stopped — bring it in next time you're at the mall.</p>
+            <p>Here's how it works: we look at it right there with you. Tell you what it needs, what it costs, and how long it takes. No obligation. If you want us to fix it, most repairs are done in about an hour while you shop.</p>
+            <p>We've been doing this for 40+ years with factory-quality parts. Your jewelry matters now, not later.</p>
+            <p>We're at <strong>[LOCATION NAME]</strong>. Walk in anytime during mall hours. No appointment needed.</p>
+            <p><a href="#" class="cta-button">Get Directions →</a></p>
+            <p>— The Fast Fix Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Same workflow, 3-day wait step after Welcome 02. This is the soft CTA — "come see us." First real ask after two value deposits. After this email, the contact enters the regular campaign audience. Personalize [LOCATION NAME] per contact's list.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST-REPAIR FOLLOW-UP -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 2</div>
+      <h3 class="flow-title">Post-Repair Follow-Up</h3>
+      <p class="flow-desc">Triggers when a contact is tagged "repair-completed" in GHL (add this tag manually or via pipeline stage). 2 emails: thank you + care tips, then a review request 5 days later.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">Tag: repair-completed</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Thanks for Trusting Us</td><td>+1 day</td></tr>
+            <tr><td>03</td><td>Quick Favor? (Review Request)</td><td>+5 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- POST-REPAIR EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">POST-REPAIR 01</div>
+        <h3 class="email-title">Thanks for Trusting Us</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer → Repeat Buyer</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Thanks for coming in, {{contact.first_name}}</li>
+              <li><span>B.</span> Care tips for your repair</li>
+              <li><span>C.</span> How to keep it looking great</li>
+              <li><span>D.</span> Your repair is done — one more thing</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> keep everything looking great longer</li>
+              <li><span>Trigger</span> 1 day after "repair-completed" tag</li>
+              <li><span>Audience</span> Customers who completed a repair</li>
+              <li><span>Goal</span> Trust deposit + plant return visit seed</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>Thanks for trusting us with your repair. Hope everything looks great.</p>
+            <p>A few quick care tips to keep things in good shape:</p>
+            <p><strong>Jewelry:</strong> Take rings off before washing hands or using cleaning products. Store pieces separately so they don't scratch each other. If you have stones, get the prongs checked every 6-12 months.</p>
+            <p><strong>Watches:</strong> Avoid extreme temperatures. If it's water-resistant, get the seals tested once a year. Replace batteries promptly — a dead battery can leak and damage the movement.</p>
+            <p>If anything doesn't look right with your repair, bring it back. We stand behind our work — done right the first time, every time.</p>
+            <p>— The Fast Fix Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Create workflow: Trigger = Tag Added "repair-completed." 1-day wait, then send. This is a pure trust deposit — no ask. Care tips add value and position Fast Fix as caring beyond the transaction. Also subtly plants "get prongs checked every 6-12 months" as a return visit seed.</p>
+        </div>
+      </div>
+
+      <!-- POST-REPAIR EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">POST-REPAIR 02</div>
+        <h3 class="email-title">Quick Favor?</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer → Advocate</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Quick favor, {{contact.first_name}}?</li>
+              <li><span>B.</span> 30 seconds to help us out</li>
+              <li><span>C.</span> How did we do?</li>
+              <li><span>D.</span> Would you tell a friend about us?</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> a quick Google review means a lot</li>
+              <li><span>Trigger</span> 5 days after Post-Repair 01</li>
+              <li><span>Audience</span> Customers who completed a repair</li>
+              <li><span>Goal</span> Generate Google reviews per location</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>Hope your repair is still looking great.</p>
+            <p>Small ask: if we did a good job, would you mind leaving us a quick Google review? Takes about 30 seconds and it helps other people find a repair shop they can trust.</p>
+            <p><a href="#" class="cta-button">Leave a Google Review →</a></p>
+            <p>If anything isn't right, just reply to this email or stop back in — we'll make it right.</p>
+            <p>Thanks, {{contact.first_name}}.</p>
+            <p>— The Fast Fix Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Same workflow, 5-day wait after Post-Repair 01. CTA button links to location-specific Google review URL. CRITICAL: Use the correct Google review link for each location. Tag contact "review-requested" after send. Exclude contacts already tagged "left-review." Priority deployment: St. Matthews (only 12 reviews).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVIEW REQUEST STANDALONE -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 3</div>
+      <h3 class="flow-title">Review Request — Standalone</h3>
+      <p class="flow-desc">For customers who haven't been through the Post-Repair flow. Can be triggered manually or via tag for existing customers you know had a good experience.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">Manual Trigger / Tag</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Would You Recommend Us?</td><td>Immediate</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- STANDALONE REVIEW -->
+      <div class="email-block">
+        <div class="email-num">REVIEW 01</div>
+        <h3 class="email-title">Would You Recommend Us?</h3>
+        <div class="email-tags">
+          <span class="tag">Repeat Buyer → Advocate</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Would you recommend us?</li>
+              <li><span>B.</span> Your honest opinion?</li>
+              <li><span>C.</span> One quick thing, {{contact.first_name}}</li>
+              <li><span>D.</span> We'd love your feedback</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> takes 30 seconds and helps a lot</li>
+              <li><span>Trigger</span> Manual or tag-based</li>
+              <li><span>Audience</span> Existing customers — exclude "left-review" tag</li>
+              <li><span>Goal</span> Generate Google reviews across all locations</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>You've been to Fast Fix before, and we appreciate that.</p>
+            <p>If you had a good experience, we'd really appreciate a quick Google review. Takes about 30 seconds and helps other people find a repair shop they can trust.</p>
+            <p><a href="#" class="cta-button">Leave a Quick Review →</a></p>
+            <p>And if there's anything we could have done better, we'd rather hear it from you directly — just reply to this email.</p>
+            <p>Thanks, {{contact.first_name}}. Means a lot.</p>
+            <p>— The Fast Fix Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Can be a standalone workflow (manual trigger) or a one-time campaign to the "No Review Left" smart list. CTA links to location-specific Google review URL. Tag "review-requested" after send. Deploy to St. Matthews first — they have only 12 Google reviews and need growth fast. Other locations have 100+ reviews but more always helps.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- A/B TESTING STRATEGY                                -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="tests">
+    <div class="section-label">Testing Strategy</div>
+    <h2>A/B Tests Built Into Every Send</h2>
+    <p>Every campaign has A/B subject line tests baked in. Here's the testing framework — GHL makes this easy with built-in split testing.</p>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Urgency vs. Specificity</h4>
+          <p><strong>Campaign 1 — Barton Creek:</strong> Subject A (seasonal hook) vs Subject C (specific service list). Hypothesis: specificity wins for a first email from a brand they barely know.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Social Proof vs. Speed</h4>
+          <p><strong>Campaign 2 — Barton Creek:</strong> Subject A (review count) vs Subject C (while-you-wait). Hypothesis: social proof wins for credibility-stage emails.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Date Urgency vs. Personalization</h4>
+          <p><strong>Campaign 3 — King of Prussia:</strong> Subject A (6 weeks away) vs Subject D ({{contact.first_name}}, her favorite piece). Hypothesis: personalization beats generic urgency.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Quote vs. Brand Phrase</h4>
+          <p><strong>Campaign 2 — St. Matthews:</strong> Subject A (customer quote) vs Subject C (brand phrase). Hypothesis: customer quote wins at this trust stage — but St. Matthews only has 12 reviews, so the "honest" angle may resonate more than numbers.</p>
+        </div>
+      </div>
+    </div>
+    <div class="strategy-note">
+      <p><strong>How to run in GHL:</strong> When creating each campaign, use the A/B split test feature. Set a 50/50 split. Send the test to 30% of the list first, wait 2 hours, then send the winner to the remaining 70%. Track open rates to determine the winner. Log results for next month's planning.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- NEXT MONTH PREVIEW                                  -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="next-month">
+    <div class="section-label">Looking Ahead</div>
+    <h2>What's Coming in April</h2>
+    <p>March builds the foundation. April adds the infrastructure and starts turning trust into action.</p>
+
+    <div class="next-month-box">
+      <h4>April 2026 Roadmap</h4>
+      <ul>
+        <li><strong>Welcome Sequence (3 emails)</strong> — Goes live in GHL. Triggers automatically when a new contact is added. Already written above.</li>
+        <li><strong>Post-Repair Follow-Up (2 emails)</strong> — Goes live in GHL. Triggers after the "repair-completed" tag is added. Already written above.</li>
+        <li><strong>Review Request Flow (1 email)</strong> — Deploy to St. Matthews first (12 reviews). Then roll out to other locations. Already written above.</li>
+        <li><strong>April Campaigns (3–4 campaigns)</strong> — Mother's Day gift guide, spring deep clean for jewelry collections, fine jewelry spotlight, and possibly a tax refund "treat yourself" angle.</li>
+        <li><strong>Performance Review</strong> — Analyze March open rates, click rates, and foot traffic impact. Update performance-log.md with learnings. Adjust April strategy based on what worked.</li>
+      </ul>
+    </div>
+
+    <div class="next-month-box" style="margin-top:24px;">
+      <div class="strategy-grid" style="margin-top:0;">
+        <div class="strategy-card">
+          <h4>Month 2 Focus</h4>
+          <p>Automations go live (Welcome + Post-Repair + Review Request). These run 24/7 and compound over time. April campaigns shift toward consideration and soft conversion — we've earned the right to ask after March's trust deposits.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Month 3 Focus</h4>
+          <p>Winback sequence for lapsed customers (no engagement in 90+ days). Re-engagement campaign for dormant subscribers. Birthday/anniversary automation if GHL data supports it. Mother's Day week push with final reminder emails.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- IMPLEMENTATION ROADMAP                              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">How to Roll This Out</div>
+    <h2>Implementation Roadmap</h2>
+    <p>Follow this order. Don't skip steps. Each week builds on the last.</p>
+
+    <div class="next-month-box">
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <h4>Week of March 10</h4>
+          <p><strong>Setup GHL lists.</strong> Create the 4 location lists (Barton Creek, Sarasota, King of Prussia, St. Matthews) and the Smart Lists (Active 90 Days, New Contacts 30 Days, Post-Repair, No Review Left). Import or tag existing contacts into the correct location list.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Week of March 17</h4>
+          <p><strong>Send Campaign 1: Spring Jewelry Checkup.</strong> All 4 locations. Copy email bodies from this blueprint. Set up A/B subject line tests. Send Monday 10:00 AM local time per location.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Week of March 24</h4>
+          <p><strong>Send Campaign 2: Why Thousands Trust Fast Fix.</strong> All 4 locations. Review Campaign 1 open/click rates. Adjust if needed. Send Monday 10:00 AM local time.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Week of March 31</h4>
+          <p><strong>Send Campaign 3: Mother's Day Early Bird.</strong> All 4 locations. First soft conversion ask. Send Monday 10:00 AM local time. Begin building automation workflows in GHL using the Welcome, Post-Repair, and Review Request emails from this blueprint.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- FOOTER                                              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-brand">The Email Blueprint</div>
+    <p style="margin-top:8px;font-size:13px;color:var(--text-caption);">Fast Fix Jewelry &amp; Watch Repairs — 4 Locations: Barton Creek (Austin TX), Sarasota FL, King of Prussia PA, St. Matthews KY</p>
+  </footer>
+</div>
+
+<script>
+function copyEmail(btn) {
+  const wrapper = btn.closest('.email-body-wrapper');
+  const body = wrapper.querySelector('.email-body');
+  const text = body.innerText || body.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+    btn.style.color = '#4ADE80';
+    setTimeout(() => {
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

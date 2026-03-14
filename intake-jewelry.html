@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Blueprint Intake — Jewelry Retail</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Saira:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0B0B0B;
+  --dark: #141414;
+  --card: #1A1A1A;
+  --border: #2A2A2A;
+  --accent: #4ADE80;
+  --red: #ff4d4d;
+  --amber: #ffaa00;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+  --text-primary: #f0f1f4;
+  --text-body: #c8c9d0;
+  --text-secondary: #9a9ba6;
+  --text-muted: #6b6c78;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--black);
+  color: var(--text-body);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 60px 40px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.header {
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-label {
+  display: inline-block;
+  background: rgba(74,222,128,0.12);
+  padding: 8px 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(74,222,128,0.25);
+  color: var(--accent);
+  font-family: 'Saira', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-family: 'Saira', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.header-sub {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.8;
+}
+
+/* Navigation */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  background: rgba(11,11,11,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 40px;
+  margin: -20px -40px 48px;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.nav-btn {
+  background: var(--dark);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: 'Saira', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-btn:hover {
+  border-color: rgba(74,222,128,0.4);
+  color: var(--accent);
+}
+
+.nav-btn.active {
+  background: rgba(74,222,128,0.12);
+  border-color: rgba(74,222,128,0.4);
+  color: var(--accent);
+}
+
+/* Sections */
+.section {
+  margin-bottom: 56px;
+}
+
+.section-label {
+  display: inline-block;
+  background: rgba(74,222,128,0.12);
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(74,222,128,0.25);
+  color: var(--accent);
+  font-family: 'Saira', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.section h2 {
+  font-family: 'Saira', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.section-desc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  max-width: 640px;
+}
+
+/* Callout boxes */
+.callout {
+  background: rgba(74,222,128,0.08);
+  border: 1px solid rgba(74,222,128,0.25);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin-bottom: 28px;
+}
+
+.callout-blue {
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.3);
+}
+
+.callout-amber {
+  background: rgba(255,170,0,0.08);
+  border: 1px solid rgba(255,170,0,0.3);
+}
+
+.callout-red {
+  background: rgba(255,77,77,0.08);
+  border: 1px solid rgba(255,77,77,0.3);
+}
+
+.callout-purple {
+  background: rgba(167,139,250,0.08);
+  border: 1px solid rgba(167,139,250,0.3);
+}
+
+.callout-label {
+  font-family: 'Saira', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.callout-blue .callout-label { color: var(--blue); }
+.callout-amber .callout-label { color: var(--amber); }
+.callout-red .callout-label { color: var(--red); }
+.callout-purple .callout-label { color: var(--purple); }
+
+.callout p {
+  font-size: 15px;
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+.callout ul {
+  margin: 8px 0 0 20px;
+  font-size: 15px;
+}
+
+.callout li {
+  margin-bottom: 4px;
+  color: var(--text-body);
+}
+
+/* Form fields */
+.field-group {
+  margin-bottom: 28px;
+}
+
+.field-label {
+  font-family: 'Saira', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.field-hint {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+textarea, input[type="text"], input[type="url"], input[type="email"], input[type="number"] {
+  width: 100%;
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  transition: border-color 0.15s;
+  resize: vertical;
+}
+
+textarea:focus, input[type="text"]:focus, input[type="url"]:focus, input[type="email"]:focus, input[type="number"]:focus {
+  outline: none;
+  border-color: rgba(74,222,128,0.5);
+}
+
+textarea::placeholder, input::placeholder {
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+textarea.large {
+  min-height: 180px;
+}
+
+textarea.medium {
+  min-height: 120px;
+}
+
+textarea.small {
+  min-height: 80px;
+}
+
+textarea.xlarge {
+  min-height: 300px;
+}
+
+/* Two-column grid */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Radio / checkbox groups */
+.option-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.option-btn {
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 20px;
+  color: var(--text-secondary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.option-btn:hover {
+  border-color: rgba(74,222,128,0.4);
+  color: var(--text-primary);
+}
+
+.option-btn.selected {
+  background: rgba(74,222,128,0.12);
+  border-color: rgba(74,222,128,0.5);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Checklist items */
+.checklist {
+  list-style: none;
+  margin: 12px 0;
+}
+
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: var(--text-body);
+}
+
+.checklist li::before {
+  content: "□";
+  color: var(--text-muted);
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: -1px;
+}
+
+/* Dividers */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 48px 0;
+}
+
+/* Export bar */
+.export-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(11,11,11,0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  padding: 16px 40px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  z-index: 200;
+}
+
+.export-btn {
+  font-family: 'Saira', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+}
+
+.export-btn-primary {
+  background: var(--accent);
+  color: var(--black);
+}
+
+.export-btn-primary:hover {
+  background: #5eeb8f;
+}
+
+.export-btn-secondary {
+  background: var(--dark);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.export-btn-secondary:hover {
+  border-color: rgba(74,222,128,0.4);
+  color: var(--accent);
+}
+
+/* Progress indicator */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: 300;
+  transition: width 0.3s;
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--card);
+  border: 1px solid rgba(74,222,128,0.4);
+  color: var(--accent);
+  font-family: 'Saira', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 300;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Subsection spacing */
+.subsection {
+  margin-bottom: 36px;
+}
+
+.subsection-title {
+  font-family: 'Saira', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.subsection-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+/* Platform-specific export cards */
+.platform-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.platform-card {
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+}
+
+.platform-card h4 {
+  font-family: 'Saira', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.platform-card ol {
+  margin-left: 18px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* Inline counter */
+.section-count {
+  font-family: 'Saira', sans-serif;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+/* Print styles */
+@media print {
+  body { background: #fff; color: #222; }
+  body::before { display: none; }
+  .nav-bar, .export-bar, .progress-bar, .toast { display: none !important; }
+  .container { padding: 20px; max-width: 100%; }
+  textarea, input { border: 1px solid #ccc; background: #f9f9f9; color: #222; }
+  .callout { background: #f0f0f0; border-color: #ccc; }
+  .callout-label, .section-label { color: #333; background: #e0e0e0; border-color: #ccc; }
+  .header h1 { color: #111; }
+  .field-label { color: #111; }
+  h2 { color: #111; }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 30px 20px 120px; }
+  .header h1 { font-size: 28px; }
+  .field-row { grid-template-columns: 1fr; }
+  .platform-cards { grid-template-columns: 1fr; }
+  .nav-bar { margin: 0 -20px 36px; padding-left: 20px; padding-right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Client Onboarding</div>
+  <h1>Email Blueprint Intake</h1>
+  <p class="header-sub">
+    Everything we need to write emails that drive foot traffic, online sales, and repeat purchases for your jewelry store. Fill this out thoroughly — the more context you provide, the better every email performs from day one.
+  </p>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-bar" id="navBar">
+  <button class="nav-btn active" onclick="scrollToSection('s1')">Business</button>
+  <button class="nav-btn" onclick="scrollToSection('s2')">Offers</button>
+  <button class="nav-btn" onclick="scrollToSection('s3')">Audience</button>
+  <button class="nav-btn" onclick="scrollToSection('s4')">Proof</button>
+  <button class="nav-btn" onclick="scrollToSection('s5')">Voice</button>
+  <button class="nav-btn" onclick="scrollToSection('s6')">Infrastructure</button>
+  <button class="nav-btn" onclick="scrollToSection('s7')">Performance</button>
+  <button class="nav-btn" onclick="scrollToSection('s8')">Trust</button>
+  <button class="nav-btn" onclick="scrollToSection('s9')">Monthly</button>
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 1: BUSINESS FOUNDATION -->
+<!-- ================================================================ -->
+<div class="section" id="s1">
+  <div class="section-label">Section 1</div>
+  <h2>Business Foundation</h2>
+  <p class="section-desc">The basics. Who you are, what you do, and the landscape you operate in.</p>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Company / Brand Name</label>
+      <input type="text" placeholder="Acme Co.">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Website URL</label>
+      <input type="url" placeholder="https://example.com">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Jewelry Specialty</label>
+      <div class="option-group">
+        <button class="option-btn" onclick="toggleOption(this)">Fine Jewelry</button>
+        <button class="option-btn" onclick="toggleOption(this)">Engagement / Bridal</button>
+        <button class="option-btn" onclick="toggleOption(this)">Fashion Jewelry</button>
+        <button class="option-btn" onclick="toggleOption(this)">Custom Design</button>
+        <button class="option-btn" onclick="toggleOption(this)">Watches</button>
+        <button class="option-btn" onclick="toggleOption(this)">Estate / Vintage</button>
+        <button class="option-btn" onclick="toggleOption(this)">Repairs / Services</button>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Sales Channels</label>
+      <div class="option-group" data-multi="true">
+        <button class="option-btn" onclick="toggleOption(this)">Brick & Mortar Only</button>
+        <button class="option-btn" onclick="toggleOption(this)">Online Store</button>
+        <button class="option-btn" onclick="toggleOption(this)">Both In-Store & Online</button>
+        <button class="option-btn" onclick="toggleOption(this)">Appointment-Based</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Store Locations</label>
+    <div class="field-hint">How many locations? Where are they? Include city/state for each.</div>
+    <textarea class="small" placeholder="e.g. '2 locations — Downtown Miami and Aventura Mall'"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">What Makes Your Store Special?</label>
+    <div class="field-hint">Why do customers choose you over other jewelers? Custom design? Family-owned? Specific brands? Price range? Experience?</div>
+    <textarea class="medium" placeholder="e.g. 'Third-generation family jeweler, GIA-certified gemologists on staff, specialize in custom engagement rings, carry exclusive brands like Tacori and Hearts on Fire...'"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Average Order Value</label>
+    <div class="field-hint">Rough average — what does a typical customer spend per visit?</div>
+    <input type="text" placeholder="e.g. $1,200">
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Key Competitors (Local)</label>
+    <div class="field-hint">Other jewelry stores in your area. Who are your customers also considering?</div>
+    <textarea class="small" placeholder="e.g. 'Kay Jewelers, Jared, local independent store XYZ, online retailers like Blue Nile and James Allen...'"></textarea>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ================================================================ -->
+<!-- SECTION 2: OFFER STACK -->
+<!-- ================================================================ -->
+<div class="section" id="s2">
+  <div class="section-label">Section 2</div>
+  <h2>Products & Services</h2>
+  <p class="section-desc">Everything you sell and every service you offer. We need the full picture to plan campaigns that make sense across seasons.</p>
+
+  <div class="callout">
+    <div class="callout-label">Why this matters</div>
+    <p>Jewelry is deeply seasonal and emotional. Monthly email campaigns need to rotate between product categories, promote the right items at the right time, and cross-sell intelligently (engagement ring → wedding band → anniversary gifts). The more we understand your full catalog, the smarter every campaign gets.</p>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Product Categories & Price Ranges</label>
+    <div class="field-hint">List your main product categories with typical price ranges. Check all that apply and add details.</div>
+    <textarea class="large" placeholder="e.g.
+Engagement Rings — $2,000-$25,000 — Custom and designer settings, GIA certified diamonds
+Wedding Bands — $300-$3,000 — Men's and women's, platinum, gold, alternative metals
+Fine Jewelry (Necklaces, Earrings, Bracelets) — $200-$10,000
+Fashion / Everyday Jewelry — $50-$500
+Watches — $500-$15,000 — Brands carried: Rolex, Tag Heuer, etc.
+Custom Design Services — $1,000+ — From sketch to finished piece
+Repair & Maintenance — $50-$500 — Ring sizing, prong retipping, cleaning
+Appraisals — $75-$150 per item"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Top Revenue Drivers</label>
+    <div class="field-hint">Which products or services bring in the most revenue? What brings people through the door most often?</div>
+    <textarea class="medium" placeholder="e.g. 'Engagement rings are 40% of revenue, custom design is growing fast, repair services drive repeat visits...'"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Brands You Carry</label>
+    <div class="field-hint">Designer brands, exclusive lines, or your own house brand?</div>
+    <textarea class="small" placeholder="e.g. Tacori, Hearts on Fire, Gabriel & Co., David Yurman, house brand, estate pieces..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Services Beyond Products</label>
+    <div class="field-hint">Repairs, cleaning, appraisals, custom design, financing, trade-ins — anything that keeps customers coming back.</div>
+    <textarea class="medium" placeholder="e.g.
+Free lifetime cleaning and inspection
+Custom design consultations
+Insurance appraisals
+Jewelry repair (in-house or outsourced?)
+Financing options (in-house or third-party like Affirm?)
+Trade-in / upgrade programs"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Guarantee / Risk Reversal</label>
+    <div class="field-hint">Return policies, warranties, upgrade programs, satisfaction guarantees?</div>
+    <textarea class="small" placeholder="e.g. '30-day return policy, lifetime warranty on custom pieces, diamond upgrade program (full value toward bigger stone)...'"></textarea>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ================================================================ -->
+<!-- SECTION 3: AUDIENCE PROFILE -->
+<!-- ================================================================ -->
+<div class="section" id="s3">
+  <div class="section-label">Section 3</div>
+  <h2>Audience Profile</h2>
+  <p class="section-desc">We need to know who we're writing to — not just demographics, but how they think, what keeps them up at night, and how they talk about their problems.</p>
+
+  <div class="callout callout-blue">
+    <div class="callout-label">The trust principle</div>
+    <p>Jewelry is an emotional, high-trust purchase. People don't resist offers — they resist being asked for more trust than they're ready to give. Whether it's an engagement ring or an anniversary gift, we need to understand your customer's mindset to calibrate every email perfectly.</p>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Who Are Your Main Customer Types?</label>
+    <div class="field-hint">Check all that apply — most stores serve multiple types.</div>
+    <div class="option-group" data-multi="true">
+      <button class="option-btn" onclick="toggleOption(this)">Engagement Ring Shoppers</button>
+      <button class="option-btn" onclick="toggleOption(this)">Anniversary / Milestone Gifters</button>
+      <button class="option-btn" onclick="toggleOption(this)">Self-Purchasers (Treat Yourself)</button>
+      <button class="option-btn" onclick="toggleOption(this)">Holiday Gift Buyers</button>
+      <button class="option-btn" onclick="toggleOption(this)">Custom Design Clients</button>
+      <button class="option-btn" onclick="toggleOption(this)">Repair / Service Customers</button>
+      <button class="option-btn" onclick="toggleOption(this)">Collectors / Enthusiasts</button>
+      <button class="option-btn" onclick="toggleOption(this)">Estate / Pre-Owned Buyers</button>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Typical Customer — Demographics</label>
+      <div class="field-hint">Age range, gender split, income level, local area radius.</div>
+      <textarea class="small" placeholder="e.g. '30-60 year olds, 60% women (self-purchase + hints), 40% men (engagement + gifts), household income $100K+, within 25 miles of store...'"></textarea>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Typical Customer — What Matters to Them</label>
+      <div class="field-hint">Values, priorities, what they care about in a jeweler.</div>
+      <textarea class="small" placeholder="e.g. 'Trust and reputation, quality craftsmanship, personalized service, supporting local business, finding something unique...'"></textarea>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Buying Occasions</label>
+    <div class="field-hint">What brings people in? What triggers a jewelry purchase for your customers?</div>
+    <textarea class="medium" placeholder="e.g.
+- Engagements / proposals
+- Anniversaries (especially milestone: 10, 25, 50)
+- Valentine's Day
+- Mother's Day
+- Christmas / Holidays
+- Birthdays
+- Graduations
+- 'Just because' / self-reward
+- Push presents
+- Estate settlement / inheritance"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Top Hesitations & Fears</label>
+    <div class="field-hint">What stops people from buying or coming in? What makes them hesitate?</div>
+    <textarea class="medium" placeholder="e.g.
+- 'Am I getting ripped off?' (price transparency fear)
+- 'What if she doesn't like it?' (wrong choice fear)
+- 'I can get it cheaper online' (comparison shopping)
+- 'I don't know anything about diamonds' (knowledge gap)
+- 'Is this store trustworthy?' (first-time buyer anxiety)
+- 'I need to think about it' (commitment anxiety on big purchases)"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">How Do Customers Find You?</label>
+    <div class="field-hint">Primary traffic sources — how do people discover your store and end up on your email list?</div>
+    <textarea class="small" placeholder="e.g. Google search, walk-ins, referrals from friends/family, social media (Instagram), wedding planners, bridal expos, Yelp/Google reviews..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">How Do People Join Your Email List?</label>
+    <div class="field-hint">What's the sign-up mechanism? In-store form, website popup, event, purchase?</div>
+    <textarea class="small" placeholder="e.g. 'In-store purchase (auto-added), website popup for 10% off, bridal expo sign-ups, repair drop-off form, GHL form on website...'"></textarea>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ================================================================ -->
+<!-- SECTION 4: PROOF & RESULTS -->
+<!-- ================================================================ -->
+<div class="section" id="s4">
+  <div class="section-label">Section 4</div>
+  <h2>Proof & Results</h2>
+  <p class="section-desc">Social proof is the engine of email conversion. Give us everything you've got — case studies, testimonials, data, wins.</p>
+
+  <div class="field-group">
+    <label class="field-label">Best Customer Stories</label>
+    <div class="field-hint">Memorable proposal stories, custom design journeys, multi-generational customers — the stories that show who you are as a jeweler. These become the heart of your email campaigns.</div>
+    <textarea class="large" placeholder="Story 1:
+Customer came in looking for... We helped them by... The result was... They said...
+
+Story 2:
+A couple came in for their engagement ring... (custom design process, proposal story, etc.)
+
+Story 3:
+Long-time customer brought in their grandmother's ring to be redesigned..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Google Reviews / Testimonials</label>
+    <div class="field-hint">Copy/paste your best 5-10 reviews from Google, Yelp, or The Knot. Include the customer's first name if available.</div>
+    <textarea class="large" placeholder="Paste your strongest reviews here..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Credentials & Trust Signals</label>
+    <div class="field-hint">Years in business, certifications, awards, memberships, number of customers served — anything that builds credibility.</div>
+    <textarea class="medium" placeholder="e.g. 'Family-owned since 1985, GIA Graduate Gemologist on staff, AGS member, 4.9 stars on Google (500+ reviews), featured in local media, Better Business Bureau A+ rating...'"></textarea>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Google Rating</label>
+      <input type="text" placeholder="e.g. 4.9 stars">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Number of Reviews</label>
+      <input type="text" placeholder="e.g. 500+">
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ================================================================ -->
+<!-- SECTION 5: BRAND VOICE & STYLE -->
+<!-- ================================================================ -->
+<div class="section" id="s5">
+  <div class="section-label">Section 5</div>
+  <h2>Brand Voice & Style</h2>
+  <p class="section-desc">This is how we make every email sound like you — not like a generic AI or a different brand.</p>
+
+  <div class="callout callout-amber">
+    <div class="callout-label">Critical — Read This</div>
+    <p>This section is the difference between emails that feel like your store and emails that feel generic. The writing samples are the most important part of the entire intake. If you've sent any emails before (even basic ones), paste them here. If not, we'll build your voice from scratch based on the other sections.</p>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Writing Samples — Best Brand Emails (Minimum 5, Ideally 10+)</label>
+    <div class="field-hint">Paste complete emails — subject line, body, CTA. These can be emails you've written yourself OR emails from someone whose style you want us to emulate. Either way, they should represent the brand voice you want us to replicate. The more you give us, the more accurately we clone the voice.</div>
+    <textarea class="xlarge" placeholder="EMAIL 1:
+Subject:
+Body:
+---
+
+EMAIL 2:
+Subject:
+Body:
+---
+
+EMAIL 3:
+Subject:
+Body:
+---
+
+(Continue for at least 5 emails...)"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Brand Personality</label>
+    <div class="field-hint">Pick 3-5 words that describe your brand voice. Or describe how you want to come across.</div>
+    <textarea class="small" placeholder="e.g. 'Warm and personal. Elegant but not stuffy. Knowledgeable without being intimidating. Like a trusted family jeweler, not a big-box retailer.'"></textarea>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Tone Spectrum</label>
+      <div class="field-hint">Where do you fall?</div>
+      <div class="option-group">
+        <button class="option-btn" onclick="toggleOption(this)">Very Casual</button>
+        <button class="option-btn" onclick="toggleOption(this)">Casual</button>
+        <button class="option-btn" onclick="toggleOption(this)">Balanced</button>
+        <button class="option-btn" onclick="toggleOption(this)">Professional</button>
+        <button class="option-btn" onclick="toggleOption(this)">Very Formal</button>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Energy Level</label>
+      <div class="field-hint">How do your emails typically feel?</div>
+      <div class="option-group">
+        <button class="option-btn" onclick="toggleOption(this)">Calm & Measured</button>
+        <button class="option-btn" onclick="toggleOption(this)">Warm & Friendly</button>
+        <button class="option-btn" onclick="toggleOption(this)">Energetic</button>
+        <button class="option-btn" onclick="toggleOption(this)">High-Intensity</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Words & Phrases You Love</label>
+    <div class="field-hint">Signature phrases, favorite expressions, recurring terms in your writing.</div>
+    <textarea class="small" placeholder="e.g. 'Our family has been...', 'There's something special about...', 'We believe every piece tells a story...'"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Blacklisted Words — NEVER Use These</label>
+    <div class="field-hint">Words or phrases that make you cringe or don't fit your brand.</div>
+    <textarea class="medium" placeholder="e.g. 'bling, cheap, discount, bargain, deal, fake, costume, knockoff...'"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Voice Inspiration</label>
+    <div class="field-hint">Whose writing or communication style do you admire? Who do you want to sound like?</div>
+    <textarea class="small" placeholder="e.g. 'Tiffany's elegant tone, another local jeweler's warmth, a luxury brand's exclusivity...'"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Existing Brand / Style Guidelines</label>
+    <div class="field-hint">If you have a brand guide, style doc, or specific formatting preferences, paste or describe them here.</div>
+    <textarea class="medium" placeholder="Any specific formatting rules, emoji usage, capitalization preferences, sign-off style, etc."></textarea>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ================================================================ -->
+<!-- SECTION 6: EMAIL INFRASTRUCTURE -->
+<!-- ================================================================ -->
+<div class="section" id="s6">
+  <div class="section-label">Section 6</div>
+  <h2>Email Infrastructure</h2>
+  <p class="section-desc">Technical setup, list health, and what's currently running. We need to know the machinery before we write a word.</p>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Email Service Provider (ESP)</label>
+      <div class="option-group">
+        <button class="option-btn" onclick="toggleOption(this)">GoHighLevel (GHL)</button>
+        <button class="option-btn" onclick="toggleOption(this)">Mailchimp</button>
+        <button class="option-btn" onclick="toggleOption(this)">Constant Contact</button>
+        <button class="option-btn" onclick="toggleOption(this)">Klaviyo</button>
+        <button class="option-btn" onclick="toggleOption(this)">HubSpot</button>
+        <button class="option-btn" onclick="toggleOption(this)">Podium</button>
+        <button class="option-btn" onclick="toggleOption(this)">None / Not Sure</button>
+        <button class="option-btn" onclick="toggleOption(this)">Other</button>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">ESP (if Other)</label>
+      <input type="text" placeholder="Name of your email platform">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Total List Size</label>
+      <input type="text" placeholder="e.g. 25,000 subscribers">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Active / Engaged Subscribers</label>
+      <div class="field-hint">Opened or clicked in last 90 days</div>
+      <input type="text" placeholder="e.g. ~12,000 (48%)">
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Key Segments</label>
+    <div class="field-hint">How is your list segmented? What are the major groups?</div>
+    <textarea class="medium" placeholder="e.g.
+- Buyers vs. Non-buyers
+- Product category interest (skincare, haircare, etc.)
+- Lead magnet source (webinar, ebook, quiz)
+- VIP / High-spenders ($500+)
+- Geographic segments
+- Engagement tiers (30/60/90/180 day)"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Current Sending Frequency</label>
+    <div class="option-group">
+      <button class="option-btn" onclick="toggleOption(this)">Daily</button>
+      <button class="option-btn" onclick="toggleOption(this)">3-5x / Week</button>
+      <button class="option-btn" onclick="toggleOption(this)">2x / Week</button>
+      <button class="option-btn" onclick="toggleOption(this)">Weekly</button>
+      <button class="option-btn" onclick="toggleOption(this)">2x / Month</button>
+      <button class="option-btn" onclick="toggleOption(this)">Monthly</button>
+      <button class="option-btn" onclick="toggleOption(this)">Irregular</button>
+      <button class="option-btn" onclick="toggleOption(this)">Not Sending</button>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Active Automations / Flows</label>
+    <div class="field-hint">List every automation currently running. Include flow name, trigger, and whether it's performing well or needs work.</div>
+    <textarea class="large" placeholder="e.g.
+✅ Welcome Email — 1 email — triggered on list signup — basic
+✅ Post-Purchase Thank You — triggered after sale — running
+✅ Appointment Reminder — triggered on booking — running
+❌ Birthday / Anniversary — not set up
+❌ Winback (Haven't Visited in 6+ Months) — not set up
+❌ Custom Design Follow-Up — not set up
+❌ Repair Ready for Pickup — not set up
+❌ Review Request — not set up
+..."></textarea>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Technical Authentication</div>
+    <div class="subsection-desc">If you're unsure about any of these, that's fine — just note "don't know" and we'll check.</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label">SPF Record</label>
+        <div class="option-group">
+          <button class="option-btn" onclick="toggleOption(this)">Set up</button>
+          <button class="option-btn" onclick="toggleOption(this)">Not sure</button>
+          <button class="option-btn" onclick="toggleOption(this)">Not set up</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">DKIM Record</label>
+        <div class="option-group">
+          <button class="option-btn" onclick="toggleOption(this)">Set up</button>
+          <button class="option-btn" onclick="toggleOption(this)">Not sure</button>
+          <button class="option-btn" onclick="toggleOption(this)">Not set up</button>
+        </div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label">DMARC Record</label>
+        <div class="option-group">
+          <button class="option-btn" onclick="toggleOption(this)">Set up</button>
+          <button class="option-btn" onclick="toggleOption(this)">Not sure</button>
+          <button class="option-btn" onclick="toggleOption(this)">Not set up</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Branded Sending Domain</label>
+        <div class="option-group">
+          <button class="option-btn" onclick="toggleOption(this)">Yes</button>
+          <button class="option-btn" onclick="toggleOption(this)">Not sure</button>
+          <button class="option-btn" onclick="toggleOption(this)">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ================================================================ -->
+<!-- SECTION 7: PERFORMANCE DATA EXPORT -->
+<!-- ================================================================ -->
+<div class="section" id="s7">
+  <div class="section-label">Section 7</div>
+  <h2>Performance Data</h2>
+  <p class="section-desc">We need actual numbers, not estimates. Export your data from your ESP so we can see exactly what's happening.</p>
+
+  <div class="callout callout-red">
+    <div class="callout-label">Required — Export Your Data</div>
+    <p>Self-reported metrics are unreliable. We need real exports from your platform covering <strong>the last 6 months minimum</strong> (12 months preferred). This gives us accurate baselines, seasonal patterns, and engagement trends to build from.</p>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-label">Where to Send Your Exports</div>
+    <p>Export the files below as CSV or Excel, then share them with us via:</p>
+    <ul>
+      <li><strong>Google Drive / Dropbox</strong> — Create a shared folder and send us the link</li>
+      <li><strong>Email</strong> — Attach the files directly to your intake submission email</li>
+      <li><strong>Slack</strong> — Drop them in our shared channel</li>
+    </ul>
+    <p style="margin-top: 10px;">Label each file clearly (e.g. "Campaign-Performance-Last-12mo.csv").</p>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">What to Export</div>
+    <div class="subsection-desc">Export these three reports and share them with us (CSV, Excel, or PDF):</div>
+
+    <div class="callout">
+      <div class="callout-label">Export 1 — Campaign Performance</div>
+      <p>All campaigns/broadcasts sent in the last 6-12 months. Should include: campaign name, send date, recipients, open rate, click rate, unsubscribe rate, revenue attributed (if available).</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Export 2 — Flow / Automation Performance</div>
+      <p>All active flows/automations and their performance. Should include: flow name, total recipients, open rate, click rate, conversion rate, revenue (if available).</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Export 3 — List Growth & Health</div>
+      <p>Subscriber growth over the last 6-12 months. Should include: monthly new subscribers, monthly unsubscribes, monthly bounces, list size over time. Also export engagement segmentation if available (% active vs. inactive).</p>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">How to Export (By Platform)</div>
+
+    <div class="platform-cards">
+      <div class="platform-card">
+        <h4>GoHighLevel (GHL)</h4>
+        <ol>
+          <li>Emails: Marketing → Emails → Campaign stats (screenshot or export)</li>
+          <li>Automations: Automation → Workflow stats (screenshot each active workflow)</li>
+          <li>Contacts: Contacts → Export all contacts as CSV</li>
+          <li>Stats: Reporting → Email stats overview (screenshot)</li>
+        </ol>
+      </div>
+      <div class="platform-card">
+        <h4>Mailchimp</h4>
+        <ol>
+          <li>Campaigns: Reports → Export as CSV</li>
+          <li>Automations: Automations → View Report → Export</li>
+          <li>List Health: Audience → Manage Audience → Export Audience</li>
+          <li>Growth: Audience → Growth History (screenshot)</li>
+        </ol>
+      </div>
+      <div class="platform-card">
+        <h4>Constant Contact</h4>
+        <ol>
+          <li>Campaigns: Reporting → Email → Export</li>
+          <li>Contacts: Contacts → Export Contacts</li>
+          <li>Growth: Reporting → Contact Growth (screenshot)</li>
+          <li>Automations: Automations → View Results</li>
+        </ol>
+      </div>
+      <div class="platform-card">
+        <h4>Other / Not Sure</h4>
+        <ol>
+          <li>Export any campaign/email history you can find</li>
+          <li>Export your contact/customer list as CSV</li>
+          <li>Screenshot any stats dashboards</li>
+          <li>If unsure, just let us know — we'll help pull the data</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Data Export Notes</label>
+    <div class="field-hint">Anything we should know about the data? Platform changes, migration history, data gaps?</div>
+    <textarea class="small" placeholder="e.g. 'Migrated from Mailchimp to Klaviyo in March 2025 so older data is in Mailchimp...'"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Current Benchmarks (if you know them)</label>
+    <div class="field-hint">Your average campaign metrics. Leave blank if you're sending the exports — we'll calculate these ourselves.</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label" style="font-size:14px">Avg Open Rate</label>
+        <input type="text" placeholder="e.g. 32%">
+      </div>
+      <div class="field-group">
+        <label class="field-label" style="font-size:14px">Avg Click Rate</label>
+        <input type="text" placeholder="e.g. 2.8%">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label" style="font-size:14px">Avg Revenue per Campaign</label>
+        <input type="text" placeholder="e.g. $1,200">
+      </div>
+      <div class="field-group">
+        <label class="field-label" style="font-size:14px">Monthly Email Revenue</label>
+        <input type="text" placeholder="e.g. $15,000">
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ================================================================ -->
+<!-- SECTION 8: TRUST LANDSCAPE -->
+<!-- ================================================================ -->
+<div class="section" id="s8">
+  <div class="section-label">Section 8</div>
+  <h2>Trust Landscape</h2>
+  <p class="section-desc">This is where most email strategies go wrong. Before we write anything, we need to understand the relationship between you and your list.</p>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Why This Section Exists</div>
+    <p>Jewelry is a high-trust, emotional purchase. A customer who bought an engagement ring last year has a completely different relationship with you than someone who signed up at a bridal expo. This section prevents the #1 email strategy mistake: treating everyone the same.</p>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">How Do Most People Join Your List?</label>
+    <div class="field-hint">What's the primary opt-in mechanism? This tells us their initial trust level and expectations.</div>
+    <textarea class="medium" placeholder="e.g.
+- In-store purchase (added at checkout)
+- Repair / service drop-off form
+- Website popup (% off first purchase)
+- Bridal expo or event sign-up
+- Appointment booking
+- Contest or giveaway entry
+- Social media (Instagram link in bio)"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">What Were They Promised When They Signed Up?</label>
+    <div class="field-hint">Exact opt-in messaging matters. If they signed up for "weekly tips" and you're selling daily, there's a trust gap.</div>
+    <textarea class="small" placeholder="e.g. 'Most are added after a purchase — no specific promise', 'Website says: Sign up for exclusive offers and new arrivals', 'Bridal expo: Enter to win a $500 gift card'..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Sending Consistency</label>
+    <div class="field-hint">Have you been consistent? Any long gaps? Changes in frequency?</div>
+    <textarea class="medium" placeholder="e.g.
+- We send around holidays but not much in between
+- Very inconsistent — sometimes monthly, sometimes nothing for months
+- We've never really had a regular email schedule
+- We used to send weekly, stopped about a year ago"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Past Issues</label>
+    <div class="field-hint">Any deliverability problems, spam complaints, blacklisting, or negative subscriber feedback?</div>
+    <textarea class="small" placeholder="e.g. 'Got flagged for spam in Gmail last year', 'High unsubscribe rate after a promotional push', 'No known issues'..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">List Hygiene</label>
+    <div class="field-hint">Have you ever cleaned your list? Run a sunset flow? Removed inactive subscribers?</div>
+    <div class="option-group">
+      <button class="option-btn" onclick="toggleOption(this)">Regular cleanups</button>
+      <button class="option-btn" onclick="toggleOption(this)">Done it once or twice</button>
+      <button class="option-btn" onclick="toggleOption(this)">Never cleaned the list</button>
+      <button class="option-btn" onclick="toggleOption(this)">Not sure</button>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">How Would You Describe the Relationship?</label>
+    <div class="field-hint">Be honest — this helps us pick the right strategy. Check all that apply.</div>
+    <div class="option-group">
+      <button class="option-btn" onclick="toggleOption(this)">They love us — high engagement, replies, loyalty</button>
+      <button class="option-btn" onclick="toggleOption(this)">Warm but passive — they open but rarely click</button>
+      <button class="option-btn" onclick="toggleOption(this)">Mixed — some engaged, many inactive</button>
+      <button class="option-btn" onclick="toggleOption(this)">Cold — we haven't emailed in a while</button>
+      <button class="option-btn" onclick="toggleOption(this)">Damaged — past issues, trust needs rebuilding</button>
+      <button class="option-btn" onclick="toggleOption(this)">New — most are recent subscribers</button>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Do Subscribers Reply to Your Emails?</label>
+    <div class="field-hint">Reply behavior is one of the strongest trust signals. What kind of replies do you get?</div>
+    <textarea class="small" placeholder="e.g. 'Yes, we get 5-10 replies per campaign — mostly positive', 'Rarely', 'Only complaint replies', 'We don't ask for replies'..."></textarea>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ================================================================ -->
+<!-- SECTION 9: MONTHLY BLUEPRINT CONTEXT -->
+<!-- ================================================================ -->
+<div class="section" id="s9">
+  <div class="section-label">Section 9</div>
+  <h2>Monthly Blueprint Context</h2>
+  <p class="section-desc">The forward-looking context we need to plan your first month of campaigns — and every month after.</p>
+
+  <div class="callout">
+    <div class="callout-label">Jewelry's Seasonal Calendar</div>
+    <p>Jewelry retail runs on key calendar moments. Tell us which ones matter most to your store so we can plan campaigns around them.</p>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Key Selling Seasons — Rank Your Top 5</label>
+    <div class="field-hint">Which holidays/seasons drive the most revenue for your store? Rank them 1-5.</div>
+    <textarea class="large" placeholder="e.g.
+1. Christmas / Holiday Season (Nov-Dec) — biggest month
+2. Valentine's Day (Feb) — strong for gifts
+3. Mother's Day (May) — second biggest gifting event
+4. Engagement Season (Nov-Feb) — proposal surge
+5. Anniversaries (year-round) — consistent driver
+
+Other important dates for us:
+- Graduation season (May-June)
+- Back to school (Aug-Sep)
+- Black Friday / Small Business Saturday
+- Our store anniversary (date: _____)
+- Local events (bridal expos, art walks, etc.)"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Next 90 Days — What's Coming Up?</label>
+    <div class="field-hint">Upcoming sales, events, new collections, store happenings. Even tentative plans help us plan campaigns.</div>
+    <textarea class="large" placeholder="Month 1:
+- Any sales or promotions planned?
+- New collection or designer arriving?
+- In-store events?
+
+Month 2:
+- ...
+
+Month 3:
+- ...
+
+Tentative:
+- ..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Content Themes That Resonate</label>
+    <div class="field-hint">What kind of content or messaging works best for your customers? What do they respond to?</div>
+    <textarea class="medium" placeholder="e.g.
+- Behind-the-scenes of custom design process
+- Education (diamond buying tips, gemstone guides)
+- Customer love stories / proposal stories
+- New arrivals and collection spotlights
+- Styling tips and jewelry pairing ideas
+- Store history and team introductions
+- Jewelry care and maintenance tips"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">What's Working Right Now?</label>
+    <div class="field-hint">What brings people in? What marketing is working? Be specific.</div>
+    <textarea class="medium" placeholder="e.g. 'Instagram drives walk-ins', 'Google reviews are our best marketing', 'Word of mouth from existing customers', 'Our holiday sale email last year brought in 20 appointments'..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">What's NOT Working?</label>
+    <div class="field-hint">What are you frustrated with? What do you wish was better? Be honest.</div>
+    <textarea class="medium" placeholder="e.g. 'We barely email and know we should', 'People buy once and never come back', 'No one opens our emails', 'We don't capture customer data well', 'Our list is probably mostly dead'..."></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Goals</label>
+    <div class="field-hint">What do you want email to do for your business?</div>
+    <div class="option-group" data-multi="true">
+      <button class="option-btn" onclick="toggleOption(this)">Drive More Foot Traffic</button>
+      <button class="option-btn" onclick="toggleOption(this)">Increase Online Sales</button>
+      <button class="option-btn" onclick="toggleOption(this)">Get Repeat Purchases</button>
+      <button class="option-btn" onclick="toggleOption(this)">Book More Appointments</button>
+      <button class="option-btn" onclick="toggleOption(this)">Promote Sales & Events</button>
+      <button class="option-btn" onclick="toggleOption(this)">Win Back Inactive Customers</button>
+      <button class="option-btn" onclick="toggleOption(this)">Build Stronger Customer Relationships</button>
+      <button class="option-btn" onclick="toggleOption(this)">Generate Reviews / Referrals</button>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label" style="font-size:14px">Current Monthly Revenue</label>
+      <input type="text" placeholder="e.g. $80,000">
+    </div>
+    <div class="field-group">
+      <label class="field-label" style="font-size:14px">Revenue Goal from Email</label>
+      <input type="text" placeholder="e.g. $10,000/month attributable to email">
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Anything Else We Should Know?</label>
+    <div class="field-hint">Context, concerns, priorities, store culture, pet peeves — anything that helps us do better work for you.</div>
+    <textarea class="medium" placeholder="Anything else..."></textarea>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- COMPLETION -->
+<div class="section" style="text-align:center; padding: 40px 0;">
+  <div class="callout" style="text-align:left; max-width: 640px; margin: 0 auto;">
+    <div class="callout-label">What Happens Next</div>
+    <p style="margin-bottom: 12px;"><strong style="color: var(--text-primary);">1. Submit this form</strong> — Use the button below to copy all responses or print to PDF.</p>
+    <p style="margin-bottom: 12px;"><strong style="color: var(--text-primary);">2. Send your data exports</strong> — Campaign performance and contact data from your platform (GHL, Mailchimp, etc.).</p>
+    <p style="margin-bottom: 12px;"><strong style="color: var(--text-primary);">3. We build your blueprint</strong> — Your store's voice, audience, seasonal calendar, and performance data get synthesized into your Email Blueprint.</p>
+    <p><strong style="color: var(--text-primary);">4. First month's campaigns</strong> — You receive your first monthly email blueprint with campaigns, automations, and copy ready to deploy.</p>
+  </div>
+</div>
+
+</div>
+
+<!-- EXPORT BAR -->
+<div class="export-bar">
+  <button class="export-btn export-btn-primary" onclick="copyAll()">Copy All Responses</button>
+  <button class="export-btn export-btn-secondary" onclick="window.print()">Print / Save PDF</button>
+  <button class="export-btn export-btn-secondary" onclick="clearAll()">Clear All</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+// Toggle option buttons
+function toggleOption(btn) {
+  // Check if parent group is single or multi select
+  const group = btn.parentElement;
+  const isSingleSelect = group.dataset.multi !== 'true';
+
+  if (isSingleSelect) {
+    group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  }
+  btn.classList.toggle('selected');
+}
+
+// Scroll to section
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    const offset = 80;
+    const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
+
+// Update nav on scroll
+function updateNav() {
+  const sections = document.querySelectorAll('.section[id]');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  let current = 's1';
+
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) {
+      current = s.id;
+    }
+  });
+
+  navBtns.forEach((btn, i) => {
+    btn.classList.toggle('active', btn.getAttribute('onclick')?.includes(current));
+  });
+}
+
+// Progress bar
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / docHeight) * 100;
+  document.getElementById('progressBar').style.width = progress + '%';
+}
+
+window.addEventListener('scroll', () => {
+  updateNav();
+  updateProgress();
+});
+
+// Show toast
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// Copy all responses
+function copyAll() {
+  const sections = document.querySelectorAll('.section[id]');
+  let output = '=== EMAIL BLUEPRINT INTAKE ===\n\n';
+
+  sections.forEach(section => {
+    const h2 = section.querySelector('h2');
+    if (h2) output += '--- ' + h2.textContent.toUpperCase() + ' ---\n\n';
+
+    const fields = section.querySelectorAll('.field-group');
+    fields.forEach(field => {
+      const label = field.querySelector('.field-label');
+      const textarea = field.querySelector('textarea');
+      const input = field.querySelector('input');
+      const optionGroup = field.querySelector('.option-group');
+
+      if (label) {
+        const labelText = label.textContent;
+
+        if (textarea && textarea.value.trim()) {
+          output += labelText + ':\n' + textarea.value.trim() + '\n\n';
+        } else if (input && input.value.trim()) {
+          output += labelText + ': ' + input.value.trim() + '\n';
+        } else if (optionGroup) {
+          const selected = optionGroup.querySelectorAll('.selected');
+          if (selected.length) {
+            const vals = Array.from(selected).map(s => s.textContent);
+            output += labelText + ': ' + vals.join(', ') + '\n';
+          }
+        }
+      }
+    });
+
+    output += '\n';
+  });
+
+  navigator.clipboard.writeText(output).then(() => {
+    showToast('All responses copied to clipboard');
+  }).catch(() => {
+    showToast('Copy failed — try Print instead');
+  });
+}
+
+// Clear all
+function clearAll() {
+  if (!confirm('Clear all responses? This cannot be undone.')) return;
+
+  document.querySelectorAll('textarea').forEach(t => t.value = '');
+  document.querySelectorAll('input[type="text"], input[type="url"], input[type="email"], input[type="number"]').forEach(i => i.value = '');
+  document.querySelectorAll('.option-btn.selected').forEach(b => b.classList.remove('selected'));
+  showToast('All responses cleared');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Trust Architecture Audit — Blissfully Living | Email Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── Surfaces ── */
+    --black: #FFFFFF;
+    --surface-hover: #FAFAFA;
+    --surface-subtle: #F8F9FB;
+    --dark: #F7F8FA;
+    --surface-pill: #F4F4F5;
+    --card: #F3F4F6;
+
+    /* ── Borders ── */
+    --border: #EBEBEB;
+    --border-subtle: #F4F4F5;
+
+    /* ── Text (dark → light) ── */
+    --white: #000000;
+    --text-strong: #18181b;
+    --light: #111827;
+    --body: #1F2937;
+    --muted: #4B5563;
+    --text-secondary: #52525b;
+    --text-tertiary: #71717a;
+    --text-caption: #a1a1aa;
+
+    /* ── Semantic ── */
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.08);
+    --red-border: rgba(220,38,38,0.22);
+    --amber: #D97706;
+    --amber-dim: rgba(217,119,6,0.08);
+    --amber-border: rgba(217,119,6,0.22);
+    --green: #16A34A;
+    --green-dim: rgba(22,163,74,0.08);
+    --green-border: rgba(22,163,74,0.22);
+
+    /* ── Accent ── */
+    --accent: #18181b;
+    --num-bg: #64748B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--body); font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  h1, h2, h3, h4 { font-family: 'Instrument Sans', sans-serif; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* ═══ STICKY NAV ═══ */
+  .sticky-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 960px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 0; height: 52px; overflow-x: auto; scrollbar-width: none; }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-brand { font-family: 'Instrument Sans', sans-serif; font-weight: 700; font-size: 15px; color: var(--text-strong); white-space: nowrap; margin-right: 28px; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 2px; list-style: none; }
+  .nav-links a { display: block; padding: 6px 10px; font-size: 13px; font-weight: 500; color: var(--text-caption); text-decoration: none; white-space: nowrap; border-radius: 6px; transition: all 0.15s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text-strong); background: rgba(0,0,0,0.04); }
+
+  /* ═══ HEADER ═══ */
+  .header { padding: 80px 0 56px; border-bottom: 1px solid var(--border); }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .brand-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 5px; text-transform: uppercase; color: var(--muted); }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--muted); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-size: 52px; font-weight: 700; color: var(--white); line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 16px; }
+  .header h1 span { color: var(--muted); display: block; font-weight: 500; font-size: 36px; }
+  .header-sub { font-size: 16px; color: var(--muted); max-width: 600px; line-height: 1.7; }
+
+  /* ═══ SECTIONS ═══ */
+  .section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; display: block; }
+  .section h2 { font-size: 32px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.15; margin-bottom: 20px; }
+  .section p { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--text-strong); font-weight: 600; }
+
+  /* ═══ SCORE CARD ═══ */
+  .score-section { padding: 0 0 64px; }
+  .score-card { background: var(--black); border: 1px solid var(--border); border-radius: 8px; padding: 48px; display: grid; grid-template-columns: 220px 1fr; gap: 48px; align-items: center; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .score-gauge { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .gauge-ring { position: relative; width: 180px; height: 180px; }
+  .gauge-ring svg { transform: rotate(-90deg); width: 180px; height: 180px; }
+  .gauge-ring .track { fill: none; stroke: var(--card); stroke-width: 12; }
+  .gauge-ring .fill { fill: none; stroke-width: 12; stroke-linecap: round; stroke-dasharray: 502; stroke-dashoffset: 502; transition: stroke-dashoffset 1.5s ease-out, stroke 0.3s; }
+  .gauge-ring .fill.green { stroke: var(--green); }
+  .gauge-ring .fill.amber { stroke: var(--amber); }
+  .gauge-ring .fill.red { stroke: var(--red); }
+  .gauge-number { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Instrument Sans', sans-serif; font-size: 52px; font-weight: 700; line-height: 1; }
+  .gauge-number small { font-size: 20px; font-weight: 400; color: var(--text-caption); }
+  .score-label-text { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-caption); }
+  .score-breakdown { display: flex; flex-direction: column; gap: 16px; }
+  .score-breakdown h3 { font-size: 20px; font-weight: 700; color: var(--text-strong); margin-bottom: 4px; }
+  .breakdown-row { display: flex; align-items: center; gap: 12px; }
+  .breakdown-label { font-size: 14px; color: var(--text-secondary); width: 170px; flex-shrink: 0; }
+  .breakdown-bar-track { flex: 1; height: 8px; background: var(--card); border-radius: 4px; overflow: hidden; }
+  .breakdown-bar-fill { height: 100%; border-radius: 4px; transition: width 1.2s ease-out; }
+  .breakdown-bar-fill.green { background: var(--green); }
+  .breakdown-bar-fill.amber { background: var(--amber); }
+  .breakdown-bar-fill.red { background: var(--red); }
+  .breakdown-score { font-size: 14px; font-weight: 600; width: 32px; text-align: right; flex-shrink: 0; color: var(--text-strong); }
+
+  /* ═══ STAT GRID ═══ */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-radius: 8px; overflow: hidden; margin: 28px 0 36px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .stat-cell { background: var(--black); padding: 28px 16px; text-align: center; }
+  .stat-cell .num { font-family: 'Instrument Sans', sans-serif; font-size: 34px; font-weight: 700; line-height: 1; margin-bottom: 6px; letter-spacing: -1px; }
+  .stat-cell .num.critical { color: var(--red); }
+  .stat-cell .num.warning { color: var(--amber); }
+  .stat-cell .num.good { color: var(--green); }
+  .stat-cell .num.neutral { color: var(--text-strong); }
+  .stat-cell .label { font-size: 11px; font-weight: 500; color: var(--text-caption); text-transform: uppercase; letter-spacing: 1px; }
+  .stat-cell .detail { font-size: 12px; color: var(--text-caption); margin-top: 4px; }
+
+  /* ═══ CHECK GRID ═══ */
+  .check-grid { margin: 24px 0 32px; background: var(--black); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .check-row { display: flex; align-items: center; gap: 14px; padding: 16px 24px; border-bottom: 1px solid var(--border-subtle); }
+  .check-row:last-child { border-bottom: none; }
+  .check-row.row-red { background: #FEF2F2; border-bottom-color: #FECACA; }
+  .check-row.row-amber { background: #FFFBEB; border-bottom-color: #FDE68A; }
+  .check-row.row-green { background: #F0FDF4; border-bottom-color: #BBF7D0; }
+  .check-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .check-icon.icon-x { background: var(--red-dim); color: var(--red); }
+  .check-icon.icon-warn { background: var(--amber-dim); color: var(--amber); }
+  .check-icon.icon-ok { background: var(--green-dim); color: var(--green); }
+  .check-label { font-size: 14px; color: var(--body); flex: 1; line-height: 1.5; }
+  .check-label strong { color: var(--text-strong); font-weight: 600; }
+  .check-value { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-caption); text-align: right; min-width: 100px; }
+
+  /* ═══ DATA TABLE ═══ */
+  .table-wrap { background: var(--black); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 24px 0 32px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .data-table thead th.right { text-align: right; }
+  .data-table tbody td { padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); font-size: 14px; color: var(--text-secondary); }
+  .data-table tbody td:first-child { color: var(--text-strong); font-weight: 500; }
+  .data-table tbody td.right { text-align: right; }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover { background: var(--surface-hover); }
+
+  /* ═══ BADGES ═══ */
+  .badge { display: inline-block; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; }
+  .badge-red { background: var(--red-dim); color: var(--red); border: 1px solid var(--red-border); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid var(--amber-border); }
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+
+  /* ═══ CALLOUT ═══ */
+  .callout { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 28px 32px; margin: 24px 0 32px; }
+  .callout-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; color: var(--text-caption); }
+  .callout p { font-size: 14px; color: var(--body); line-height: 1.75; margin: 0; max-width: 100%; }
+  .callout p strong { color: var(--text-strong); }
+
+  /* ═══ MINI STATS ═══ */
+  .mini-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border-radius: 8px; overflow: hidden; margin: 20px 0 20px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .mini-stat { background: var(--black); padding: 20px 14px; text-align: center; }
+  .mini-stat .num { font-family: 'Instrument Sans', sans-serif; font-size: 24px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .mini-stat .num.critical { color: var(--red); }
+  .mini-stat .num.warning { color: var(--amber); }
+  .mini-stat .num.good { color: var(--green); }
+  .mini-stat .num.neutral { color: var(--text-strong); }
+  .mini-stat .label { font-size: 11px; color: var(--text-caption); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ═══ SUB-SECTIONS ═══ */
+  .sub-section { padding-top: 40px; margin-top: 40px; border-top: 1px solid var(--border); }
+  .sub-section:first-of-type { padding-top: 0; margin-top: 0; border-top: none; }
+  .sub-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .sub-title { font-family: 'Instrument Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--text-strong); margin-bottom: 12px; letter-spacing: -0.01em; }
+  .sub-note { font-size: 14px; color: var(--muted); margin-bottom: 16px; line-height: 1.7; }
+
+  /* ═══ SECTION HEADER W/ NUMBER ═══ */
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .section-number { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #fff; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--num-bg); border-radius: 6px; flex-shrink: 0; }
+  .section-title-group { flex: 1; }
+  .section-title-group h2 { font-size: 39px; font-weight: 700; color: var(--text-strong); text-transform: none; letter-spacing: -0.02em; margin-bottom: 0; line-height: 1.15; }
+  .section-title-group p { font-size: 14px; color: var(--text-caption); margin: 4px 0 0; }
+
+  /* ═══ STATUS BADGES (section headers) ═══ */
+  .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+  .status-badge.s-green { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+  .status-badge.s-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid var(--amber-border); }
+  .status-badge.s-red { background: var(--red-dim); color: var(--red); border: 1px solid var(--red-border); }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .status-dot.d-green { background: var(--green); }
+  .status-dot.d-amber { background: var(--amber); }
+  .status-dot.d-red { background: var(--red); }
+
+  /* ═══ TRUST RATIO BAR ═══ */
+  .trust-ratio-bar { display: flex; height: 32px; border-radius: 6px; overflow: hidden; margin: 24px 0 12px; font-size: 12px; font-weight: 600; }
+  .trust-ratio-bar .deposits { background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .trust-ratio-bar .withdrawals { background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .trust-ratio-legend { display: flex; gap: 24px; font-size: 13px; color: var(--text-caption); margin-bottom: 28px; }
+  .trust-ratio-legend .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+  .trust-ratio-legend .legend-dot.deposit { background: var(--green); }
+  .trust-ratio-legend .legend-dot.withdrawal { background: var(--red); }
+
+  /* ═══ FLOW GRID ═══ */
+  .flow-grid { margin: 24px 0 32px; }
+  .flow-item { display: flex; align-items: center; gap: 14px; padding: 16px 24px; background: var(--black); border: 1px solid var(--border); border-bottom: none; }
+  .flow-item:first-child { border-radius: 8px 8px 0 0; }
+  .flow-item:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+  .flow-status { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .flow-status.active { background: var(--green-dim); color: var(--green); }
+  .flow-status.missing { background: var(--red-dim); color: var(--red); }
+  .flow-status.partial { background: var(--amber-dim); color: var(--amber); }
+  .flow-name { font-size: 14px; font-weight: 600; color: var(--text-strong); }
+  .flow-meta { font-size: 13px; color: var(--text-caption); margin-top: 2px; }
+
+  /* ═══ OPPORTUNITY BLOCK ═══ */
+  .opp-block { background: var(--surface-subtle); border: 2px solid var(--border); border-radius: 8px; padding: 44px 40px; margin: 40px 0 0; }
+  .opp-block h3 { font-size: 24px; font-weight: 700; color: var(--text-strong); margin-bottom: 12px; text-transform: uppercase; }
+  .opp-block > p { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; max-width: 100%; }
+  .opp-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .opp-stat { background: var(--black); border: 1px solid var(--border); border-radius: 8px; padding: 24px 16px; text-align: center; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .opp-stat .num { font-family: 'Instrument Sans', sans-serif; font-size: 30px; font-weight: 700; color: var(--text-strong); line-height: 1; margin-bottom: 4px; }
+  .opp-stat .label { font-size: 11px; color: var(--text-caption); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ═══ OPPORTUNITY LIST ═══ */
+  .opp-list { margin: 28px 0 0; }
+  .opp-item { display: flex; align-items: center; gap: 20px; padding: 20px 24px; background: var(--black); border: 1px solid var(--border); border-bottom: none; }
+  .opp-item:first-child { border-radius: 8px 8px 0 0; }
+  .opp-item:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+  .opp-item:hover { background: var(--surface-hover); }
+  .opp-item-info { flex: 1; }
+  .opp-item-info h4 { font-size: 15px; font-weight: 600; color: var(--text-strong); margin-bottom: 2px; }
+  .opp-item-info p { font-size: 13px; color: var(--text-caption); margin: 0; }
+  .opp-item-impact { text-align: right; }
+  .opp-item-impact .value { font-family: 'Instrument Sans', sans-serif; font-size: 18px; font-weight: 700; color: var(--green); }
+  .opp-item-impact .per { font-size: 11px; color: var(--text-caption); text-transform: uppercase; letter-spacing: 0.5px; }
+  .effort-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+  .effort-low { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+  .effort-medium { background: var(--amber-dim); color: var(--amber); border: 1px solid var(--amber-border); }
+
+  /* ═══ REVENUE HERO ═══ */
+  .revenue-hero { background: var(--surface-subtle); border: 2px solid var(--border); border-radius: 8px; padding: 44px 40px; text-align: center; margin-bottom: 32px; }
+  .revenue-hero .rev-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 12px; }
+  .revenue-hero .rev-amount { font-family: 'Instrument Sans', sans-serif; font-size: 48px; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: 8px; }
+  .revenue-hero .rev-amount span { font-size: 28px; }
+  .revenue-hero .rev-period { font-size: 14px; color: var(--muted); }
+
+  /* ═══ TIMELINE ═══ */
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 28px; }
+  .step-card { background: var(--black); border: 1px solid var(--border); border-radius: 8px; padding: 28px 24px; display: flex; flex-direction: column; }
+  .step-num { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-caption); background: var(--card); width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .step-title { font-size: 18px; font-weight: 700; color: var(--text-strong); margin-bottom: 10px; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 16px; flex: 1; }
+  .step-time { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: var(--green); letter-spacing: 0.5px; text-transform: uppercase; margin-top: auto; }
+
+  /* ═══ CTA SECTION ═══ */
+  .cta-section { padding: 64px 0; text-align: center; }
+  .cta-section h2 { font-size: 36px; font-weight: 700; color: var(--text-strong); text-transform: uppercase; margin-bottom: 12px; }
+  .cta-section h2 em { color: var(--green); font-style: normal; }
+  .cta-section > p { font-size: 15px; color: var(--muted); margin-bottom: 32px; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .cta-button { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: var(--text-strong); color: #fff; font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 600; border-radius: 8px; text-decoration: none; transition: background 0.2s; }
+  .cta-button:hover { background: var(--white); }
+  .cta-note { font-size: 13px; color: var(--text-caption); margin-top: 16px; }
+
+  /* ═══ FOOTER ═══ */
+  .footer { text-align: center; padding: 48px 0 72px; }
+  .footer p { font-size: 12px; color: var(--text-caption); margin-bottom: 2px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+  .footer h4 { font-size: 16px; font-weight: 600; color: var(--text-strong); margin-top: 4px; }
+  .footer .date { font-size: 13px; color: var(--text-caption); margin-top: 4px; font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+  /* ═══ GREY BAND ═══ */
+  .grey-band {
+    background: var(--card);
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 64px calc(50vw - 480px + 40px);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .grey-band .section { border-bottom: none; padding: 0; }
+  .grey-band .check-grid { background: var(--black); }
+  .grey-band .table-wrap { background: var(--black); }
+  .grey-band .stat-grid { background: var(--border); }
+  .grey-band .stat-cell { background: var(--black); }
+  .grey-band .mini-stat-row { background: var(--border); }
+  .grey-band .mini-stat { background: var(--black); }
+  .grey-band .flow-item { background: var(--black); }
+  .grey-band .opp-block { background: var(--black); }
+  .grey-band .opp-stat { background: var(--surface-subtle); }
+  .grey-band .opp-item { background: var(--black); }
+  .grey-band .step-card { background: var(--black); }
+  .grey-band .revenue-hero { background: var(--black); }
+  .grey-band .score-card { background: var(--black); }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 36px; }
+    .header h1 span { font-size: 24px; }
+    .section h2 { font-size: 26px; }
+    .section-title-group h2 { font-size: 22px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .mini-stat-row { grid-template-columns: 1fr 1fr; }
+    .opp-stats { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .score-card { grid-template-columns: 1fr; text-align: center; }
+    .check-row { flex-wrap: wrap; gap: 8px; }
+    .check-value { min-width: auto; text-align: left; }
+    .opp-item { flex-wrap: wrap; gap: 12px; }
+    .data-table thead th, .data-table tbody td { padding: 10px 14px; font-size: 13px; }
+    .grey-band { padding-left: 20px; padding-right: 20px; }
+    .page { padding: 0 20px; }
+    .header { padding: 48px 0 40px; }
+    .section { padding: 48px 0; }
+    .nav-inner { padding: 0 20px; }
+    .revenue-hero { padding: 32px 24px; }
+    .revenue-hero .rev-amount { font-size: 36px; }
+  }
+
+  /* ═══ PRINT / PDF ═══ */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    body { background: #FFFFFF !important; }
+    .page { padding: 20px 28px !important; max-width: 100% !important; }
+    .sticky-nav { display: none !important; }
+    .grey-band { width: 100% !important; margin-left: 0 !important; padding-left: 28px !important; padding-right: 28px !important; background: #F3F4F6 !important; }
+    .section { padding: 40px 0 !important; }
+    .header { padding: 40px 0 32px !important; }
+    .badge-red { background: rgba(220,38,38,0.05) !important; color: #DC2626 !important; border-color: rgba(220,38,38,0.18) !important; }
+    .badge-amber { background: rgba(217,119,6,0.05) !important; color: #D97706 !important; border-color: rgba(217,119,6,0.18) !important; }
+    .badge-green { background: rgba(22,163,74,0.05) !important; color: #16A34A !important; border-color: rgba(22,163,74,0.18) !important; }
+    .check-icon.icon-x { background: rgba(220,38,38,0.05) !important; color: #DC2626 !important; }
+    .check-icon.icon-warn { background: rgba(217,119,6,0.05) !important; color: #D97706 !important; }
+    .check-icon.icon-ok { background: rgba(22,163,74,0.05) !important; color: #16A34A !important; }
+    .section, .header { page-break-inside: avoid; }
+    .stat-grid, .check-grid, .table-wrap, .opp-block, .process-grid { page-break-inside: avoid; }
+  }
+  @page { size: letter; margin: 0.5in; }
+</style>
+</head>
+<body>
+
+<!-- ═══ STICKY NAV ═══ -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <div class="nav-brand">Email Blueprint</div>
+    <ul class="nav-links">
+      <li><a href="#trust-score">Trust Score</a></li>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#domain-health">Domain</a></li>
+      <li><a href="#segmentation">Segmentation</a></li>
+      <li><a href="#trust-ratio">Trust Architecture</a></li>
+      <li><a href="#funnels">Funnels</a></li>
+      <li><a href="#copy">Copy</a></li>
+      <li><a href="#flows">Flows</a></li>
+      <li><a href="#guardrails">Guardrails</a></li>
+      <li><a href="#opportunity">Opportunity</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══ HEADER ═══ -->
+<div class="page">
+
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">Email Trust Architecture Audit</div>
+      <div class="header-meta">
+        <p>Dave Mizrahi</p>
+        <p>March 2026</p>
+      </div>
+    </div>
+    <h1>Blissfully Living <span>Email Program Audit</span></h1>
+    <p class="header-sub">A complete analysis of your email program through the lens of trust, deliverability, and revenue architecture. Powered by the Email Trust Architecture framework.</p>
+  </div>
+
+  <!-- ═══ EMAIL TRUST SCORE ═══ -->
+  <section id="trust-score" class="score-section" style="padding-top:48px;">
+    <div class="score-card">
+      <div class="score-gauge">
+        <div class="gauge-ring">
+          <svg viewBox="0 0 180 180">
+            <circle class="track" cx="90" cy="90" r="80"/>
+            <circle class="fill" id="gaugeCircle" cx="90" cy="90" r="80"/>
+          </svg>
+          <div class="gauge-number" id="gaugeNumber">0<small>/100</small></div>
+        </div>
+        <div class="score-label-text">Email Trust Score</div>
+      </div>
+      <div class="score-breakdown">
+        <h3>Score Breakdown</h3>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Sender Reputation</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="35" style="width:0%"></div></div>
+          <span class="breakdown-score">35</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Engagement Health</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="22" style="width:0%"></div></div>
+          <span class="breakdown-score">22</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Trust Architecture</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="30" style="width:0%"></div></div>
+          <span class="breakdown-score">30</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Flow Architecture</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="24" style="width:0%"></div></div>
+          <span class="breakdown-score">24</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Funnel Performance</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="48" style="width:0%"></div></div>
+          <span class="breakdown-score">48</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Automations</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="15" style="width:0%"></div></div>
+          <span class="breakdown-score">15</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Domain Health</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="38" style="width:0%"></div></div>
+          <span class="breakdown-score">38</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 01: EXECUTIVE SUMMARY ═══ -->
+  <section id="summary" class="section">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title-group">
+        <h2>The Big Picture</h2>
+        <p>What we found in your email program</p>
+      </div>
+    </div>
+
+    <p>Blissfully Living has strong lead magnets and a growing audience, but the email infrastructure is almost entirely missing. You're generating leads through well-performing funnels, then losing them because there's no system to nurture, convert, or retain those leads after opt-in. Four compounding issues are working against you:</p>
+
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num critical">4.7%</div><div class="label">Active Subscribers</div><div class="detail">Only 422 of 9,030 opened in 30d</div></div>
+      <div class="stat-cell"><div class="num critical">0.18%</div><div class="label">Worst Funnel Opt-in</div><div class="detail">Luminis: 9 of 5,125 visitors</div></div>
+      <div class="stat-cell"><div class="num critical">0 of 6</div><div class="label">Core Flows Active</div><div class="detail">30 emails written, none connected</div></div>
+      <div class="stat-cell"><div class="num critical">65.7%</div><div class="label">Cold Subscribers</div><div class="detail">5,937 with zero engagement</div></div>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>95.3% of your list didn't open an email in the last 30 days</strong> &mdash; only 422 of 9,030 subscribers showed any engagement. This means the vast majority of your list has gone silent, which damages your sender reputation every time you send.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>30 emails exist in GHL but none are connected to automations</strong> &mdash; you have post-purchase sequences for Soul Deck (11 emails) and Meditation Scripts (2 emails), plus lead magnet nurture for 7 Hidden Habits (9 emails) and Soulmate Manifestation (8 emails). All of them are sitting in GHL doing nothing. No triggers, no workflows, no automation. The content is there... it's just not working for you.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>Luminis landing page is broken</strong> &mdash; 5,125 unique visitors and only 9 opt-ins (0.18%). This page is getting significant traffic but converting almost nobody. Something is fundamentally wrong with the page experience.</div>
+      </div>
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>Sending from GHL shared domain with no reply address</strong> &mdash; ghmail.drkimberlyword.com is GoHighLevel's shared sending infrastructure, not a branded domain. And with no reply-to configured, subscriber replies go nowhere.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 02: SENDER REPUTATION & DOMAIN HEALTH ═══ -->
+  <section id="domain-health" class="section">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title-group">
+        <h2>Sender Reputation & Domain Health</h2>
+        <p>Sending infrastructure, authentication, and configuration</p>
+      </div>
+      <div class="status-badge s-amber">
+        <span class="status-dot d-amber"></span>
+        Needs Work
+      </div>
+    </div>
+
+    <p>Your emails are sent through GoHighLevel's LeadConnector email system on the shared subdomain <strong>ghmail.drkimberlyword.com</strong>. While GHL handles basic authentication at the platform level, several configuration gaps are hurting your deliverability and engagement signals.</p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th style="width:40px">Status</th><th>Check</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-amber">Warn</span></td><td><strong>Sending Domain</strong></td><td>Using ghmail.drkimberlyword.com &mdash; GHL shared subdomain, not a dedicated branded domain</td></tr>
+          <tr><td><span class="badge badge-amber">Warn</span></td><td><strong>SPF / DKIM</strong></td><td>Managed by GHL at platform level &mdash; functional but shared across all LeadConnector users</td></tr>
+          <tr><td><span class="badge badge-red">Fail</span></td><td><strong>Reply-To Address</strong></td><td>No reply address configured &mdash; subscriber replies go nowhere</td></tr>
+          <tr><td><span class="badge badge-red">Fail</span></td><td><strong>Forwarding Address</strong></td><td>No forwarding address set &mdash; any replies that do arrive are lost</td></tr>
+          <tr><td><span class="badge badge-amber">Warn</span></td><td><strong>BCC Configuration</strong></td><td>No BCC set &mdash; no record of outbound sends for reference or compliance</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>No reply-to address configured</strong> &mdash; when subscribers reply to your emails, the response goes nowhere. Replies are one of the strongest positive engagement signals for inbox providers like Gmail and Yahoo. You're missing them entirely.</div>
+      </div>
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>Shared sending domain limits reputation control</strong> &mdash; ghmail.drkimberlyword.com shares sender reputation with other GHL users. Set up a dedicated branded sending domain (e.g., mail.drkimberlyword.com) for full control over your deliverability.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<!-- ═══ 03: ENGAGEMENT SEGMENTATION — grey band ═══ -->
+<div class="grey-band">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title-group">
+        <h2 id="segmentation">Engagement Segmentation</h2>
+        <p>How your subscribers break down by engagement tier</p>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Critical
+      </div>
+    </div>
+
+    <p>Every subscriber falls into one of four engagement tiers based on their behavior. High-performing email programs send different content at different frequencies to each tier. Right now, <strong>your entire list gets the same emails</strong> &mdash; and 65.7% of that list hasn't engaged in over 90 days.</p>
+
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num neutral">9,030</div><div class="label">Total Subscribers</div></div>
+      <div class="stat-cell"><div class="num critical">422</div><div class="label">Active (30 days)</div><div class="detail">4.7% of total list</div></div>
+      <div class="stat-cell"><div class="num warning">3,093</div><div class="label">Active (90 days)</div><div class="detail">34.3% of total list</div></div>
+      <div class="stat-cell"><div class="num critical">5,937</div><div class="label">Cold (90+ days)</div><div class="detail">65.7% no activity</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Tier</th><th>Definition</th><th class="right">Subscribers</th><th class="right">% of List</th><th>Recommended Frequency</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-green">Hot</span></td><td>Opened or clicked in last 30 days</td><td class="right"><strong>422</strong></td><td class="right">4.7%</td><td>4-5x per week</td></tr>
+          <tr><td><span class="badge badge-amber">Warm</span></td><td>Opened or clicked in 31-60 days</td><td class="right"><strong>1,461</strong></td><td class="right">16.2%</td><td>3x per week</td></tr>
+          <tr><td><span class="badge" style="background:rgba(99,102,241,0.08);color:#6366F1;border:1px solid rgba(99,102,241,0.2);">Cool</span></td><td>Opened or clicked in 61-90 days</td><td class="right"><strong>1,210</strong></td><td class="right">13.4%</td><td>1-2x per week</td></tr>
+          <tr><td><span class="badge badge-red">Cold</span></td><td>No engagement in 90+ days</td><td class="right"><strong>5,937</strong></td><td class="right">65.7%</td><td>Sunset flow only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>65.7% of your list is Cold</strong> &mdash; sending to 5,937 disengaged subscribers damages sender reputation with Gmail, Yahoo, and Outlook. These contacts drag down open rates and increase spam placement for everyone, including your engaged subscribers.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>Only 422 people are actively engaged</strong> &mdash; your Hot tier is just 4.7% of your list. This means less than 1 in 20 subscribers is paying attention to your emails right now. The rest need re-engagement or removal.</div>
+      </div>
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>No tier-based sending strategy</strong> &mdash; Hot subscribers (4.7%) should hear from you 4-5x/week. Cold subscribers (65.7%) should only receive a sunset re-engagement sequence before being removed from active sends.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ═══ 04: TRUST ARCHITECTURE ANALYSIS ═══ -->
+  <section id="trust-ratio" class="section">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title-group">
+        <h2>Trust Architecture Analysis</h2>
+        <p>The balance between trust deposits and trust withdrawals</p>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Critical
+      </div>
+    </div>
+
+    <p>Every email you send either <strong>deposits trust</strong> (delivers value without asking for anything) or <strong>withdraws trust</strong> (asks the subscriber to buy, click, or take action). Healthy programs maintain at least a 2:1 deposit-to-withdrawal ratio. Your funnel architecture reveals a structural imbalance.</p>
+
+    <p>Of your 7 active funnels, only 2 are pure value lead magnets (trust deposits). The remaining 5 are product/sales focused (trust withdrawals). This means the subscriber journey is: <strong>free content &rarr; buy something</strong> &mdash; with no nurture in between.</p>
+
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num neutral">7</div><div class="label">Active Funnels</div><div class="detail">Analyzed Jan-Mar 2026</div></div>
+      <div class="stat-cell"><div class="num good">2</div><div class="label">Deposit Funnels</div><div class="detail">Lead magnets (value-first)</div></div>
+      <div class="stat-cell"><div class="num critical">5</div><div class="label">Withdrawal Funnels</div><div class="detail">Sales &amp; product pages</div></div>
+      <div class="stat-cell"><div class="num critical">2:5</div><div class="label">Trust Ratio</div><div class="detail">Target: 2:1 deposits first</div></div>
+    </div>
+
+    <div class="trust-ratio-bar">
+      <div class="deposits" style="width:29%">29%</div>
+      <div class="withdrawals" style="width:71%">71%</div>
+    </div>
+    <div class="trust-ratio-legend">
+      <span><span class="legend-dot deposit"></span> Deposit funnels (value-only lead magnets)</span>
+      <span><span class="legend-dot withdrawal"></span> Withdrawal funnels (sales/product pages)</span>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Trust Architecture Framework</div>
+      <p>In the Email Trust Architecture model, subscribers move through 7 trust stages: <strong>Unaware &rarr; Interested &rarr; Engaged &rarr; Buyer &rarr; Repeat Buyer &rarr; Advocate &rarr; Influencer</strong>. Each email should only ask a subscriber to move one stage forward. Your current funnel structure jumps from <strong>Interested directly to Buyer</strong> &mdash; skipping the Engaged stage entirely. This trust violation is why engagement drops off after opt-in.</p>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>Nurture content exists but isn't connected</strong> &mdash; you actually have a 9-email sequence for 7 Hidden Habits and an 8-email sequence for Soulmate Manifestation sitting in GHL. These are solid nurture sequences that walk subscribers through the content step by step. But because they're not connected to any automation, subscribers still go from Interested to silence. The fix is connecting what you already built, not starting from scratch.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>Post-purchase sequences exist but aren't activated</strong> &mdash; Soul Deck buyers have an 11-email onboarding sequence and Meditation Scripts buyers have a 2-email welcome sequence already written in GHL. But because they're disconnected from purchase triggers, buyers get nothing after checkout. Connecting these would immediately improve the customer experience and set up upsell opportunities.</div>
+      </div>
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>Lead magnets are strong and have sequences... that aren't connected</strong> &mdash; 5-Minute Soulmate Manifestation (36% opt-in) and 7 Hidden Habits (29% opt-in) are excellent trust deposits. You even wrote full nurture sequences for both (8 and 9 emails respectively). But the sequences aren't wired to the opt-in triggers, so the trust earned still evaporates within days.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<!-- ═══ 05: FUNNEL PERFORMANCE — grey band ═══ -->
+<div class="grey-band">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title-group">
+        <h2 id="funnels">Funnel Performance</h2>
+        <p>Opt-in rates and conversion data across all active funnels</p>
+      </div>
+      <div class="status-badge s-amber">
+        <span class="status-dot d-amber"></span>
+        Mixed
+      </div>
+    </div>
+
+    <p>You're running 7 funnels that generated a combined 32,319 unique visitors between January 1 and March 11, 2026. Two funnels are performing exceptionally well. One is catastrophically broken. The rest need optimization.</p>
+
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num neutral">32,319</div><div class="label">Total Unique Visitors</div><div class="detail">Jan 1 &ndash; Mar 11, 2026</div></div>
+      <div class="stat-cell"><div class="num neutral">5,038</div><div class="label">Total Opt-ins</div><div class="detail">Across all funnels</div></div>
+      <div class="stat-cell"><div class="num good">36.3%</div><div class="label">Best Opt-in Rate</div><div class="detail">Soulmate Manifestation</div></div>
+      <div class="stat-cell"><div class="num critical">0.18%</div><div class="label">Worst Opt-in Rate</div><div class="detail">Luminis &mdash; broken</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Funnel</th><th>Type</th><th class="right">Unique Visitors</th><th class="right">Opt-ins</th><th class="right">Opt-in %</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>5-Min Soulmate Manifestation</strong></td><td><span class="badge badge-green">Deposit</span></td><td class="right">4,352</td><td class="right">1,580</td><td class="right" style="color:var(--green);font-weight:600;">36.31%</td><td><span class="badge badge-green">Strong</span></td></tr>
+          <tr><td><strong>7 Hidden Habits That Keep You Single</strong></td><td><span class="badge badge-green">Deposit</span></td><td class="right">9,055</td><td class="right">2,591</td><td class="right" style="color:var(--green);font-weight:600;">28.61%</td><td><span class="badge badge-green">Strong</span></td></tr>
+          <tr><td><strong>Beyond the Talk</strong></td><td><span class="badge badge-red">Withdrawal</span></td><td class="right">13,225</td><td class="right">811</td><td class="right">6.13%</td><td><span class="badge badge-amber">Needs Work</span></td></tr>
+          <tr><td><strong>Aligned To Receive Workshop</strong></td><td><span class="badge badge-red">Withdrawal</span></td><td class="right">339</td><td class="right">9</td><td class="right" style="color:var(--red);">3.07%</td><td><span class="badge badge-red">Critical</span></td></tr>
+          <tr><td><strong>Blissboard</strong></td><td><span class="badge badge-red">Withdrawal</span></td><td class="right">550</td><td class="right">37</td><td class="right">6.73%</td><td><span class="badge badge-amber">Needs Work</span></td></tr>
+          <tr><td><strong>Luminis</strong></td><td><span class="badge badge-red">Withdrawal</span></td><td class="right">5,125</td><td class="right">9</td><td class="right" style="color:var(--red);font-weight:600;">0.18%</td><td><span class="badge badge-red">Broken</span></td></tr>
+          <tr><td><strong>Luminis Remote Angle</strong></td><td><span class="badge badge-red">Withdrawal</span></td><td class="right">7</td><td class="right">1</td><td class="right" style="color:var(--text-caption);">14.29%</td><td><span class="badge" style="background:var(--surface-pill);color:var(--text-caption);border:1px solid var(--border);">Low Traffic</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>Luminis landing page is catastrophically broken</strong> &mdash; 5,125 unique visitors and only 9 opt-ins is a 0.18% conversion rate. A functioning landing page should convert at 15-30%+ for a lead magnet, 5-10%+ for a product page. This page alone is losing hundreds of potential leads every month from existing traffic.</div>
+      </div>
+      <div class="check-row row-green">
+        <div class="check-icon icon-ok">&#10003;</div>
+        <div class="check-label"><strong>Two lead magnets are performing exceptionally well</strong> &mdash; 5-Minute Soulmate Manifestation at 36.3% and 7 Hidden Habits at 28.6% are above industry benchmarks. These are your best trust deposit assets and should be the foundation of your growth strategy.</div>
+      </div>
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>Beyond the Talk has 13,225 visitors but only 6.1% opt-in</strong> &mdash; this is your highest-traffic funnel. Even a modest improvement to 10-12% opt-in would generate hundreds of additional leads per month from traffic you're already paying for.</div>
+      </div>
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>No revenue tracking on any funnel</strong> &mdash; none of your funnels track revenue from checkout to purchase completion. Without this data, you can't measure ROI on traffic or identify which funnels are actually generating revenue.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ═══ 06: EMAIL COPY & CREATIVE ═══ -->
+  <section id="copy" class="section">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title-group">
+        <h2>Email Copy &amp; Creative</h2>
+        <p>Subject lines, body copy, CTAs, and design patterns</p>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Needs Restructuring
+      </div>
+    </div>
+
+    <p>After reviewing the actual email sequences in GHL, Dr. Word has 30 emails across 4 sequences. The brand voice is authentic and the content intention is good. But the emails themselves have structural problems that would hurt performance even if they were connected to automations. They're too long, the CTAs are buried at the bottom, and there's no multi-CTA strategy based on where the subscriber is in the trust journey.</p>
+
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num warning">30</div><div class="label">Emails Written</div><div class="detail">Across 4 product/nurture sequences</div></div>
+      <div class="stat-cell"><div class="num good">Authentic</div><div class="label">Brand Voice</div><div class="detail">Warm, on-brand, genuine tone</div></div>
+      <div class="stat-cell"><div class="num critical">Too Long</div><div class="label">Email Length</div><div class="detail">Walls of text, readers won't finish</div></div>
+      <div class="stat-cell"><div class="num critical">Buried</div><div class="label">CTA Placement</div><div class="detail">Single CTA at the very bottom</div></div>
+    </div>
+
+    <h3 style="font-size:18px; font-weight:700; color:var(--text-strong); margin:32px 0 16px;">Subject Lines</h3>
+    <p>Subject lines across all 4 sequences use curiosity and identity-based framing, which is the right approach for this audience. Examples like step-numbered progression, identity hooks, and emotional triggers match Dr. Word's brand voice well. The subject lines aren't the problem here.</p>
+
+    <h3 style="font-size:18px; font-weight:700; color:var(--text-strong); margin:32px 0 16px;">Body Copy</h3>
+    <p>The content intention is solid... Dr. Word writes like a mentor, not a marketer, and that's a strength. But the execution has a core structural issue: these emails are way too long. Each one reads more like a blog post or lesson than an email. Most subscribers won't scroll to the bottom, which means most subscribers never see the CTA. In email, shorter almost always wins. The goal is to deliver one clear idea per email, create curiosity or a quick win, and move them to the next action... not give them the entire lesson inside the email itself.</p>
+
+    <h3 style="font-size:18px; font-weight:700; color:var(--text-strong); margin:32px 0 16px;">Calls to Action</h3>
+    <p>Every email uses a single CTA placed at the very bottom. This is the biggest structural problem. High-performing emails use multiple CTAs positioned throughout the email, with each CTA calibrated to where the reader is in the trust journey. A subscriber who's ready to buy shouldn't have to scroll past 800 words to find the link. And a subscriber who's still warming up should get a lower-commitment CTA (watch this, read this) early in the email, with higher-commitment CTAs (buy this, book this) further down. Right now, every email treats every subscriber the same way... one CTA, one ask, buried at the bottom.</p>
+
+    <h3 style="font-size:18px; font-weight:700; color:var(--text-strong); margin:32px 0 16px;">Sequences Identified</h3>
+    <p>Four complete sequences exist in GHL, all disconnected from automations:</p>
+    <div style="margin:16px 0 24px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div style="padding:14px 18px; background:var(--surface-subtle); border:1px solid var(--border); border-radius:8px;"><strong style="font-size:14px; color:var(--text-strong);">Soul Deck Mastery</strong><br><span style="font-size:13px; color:var(--muted);">11 emails &bull; Post-purchase onboarding</span></div>
+        <div style="padding:14px 18px; background:var(--surface-subtle); border:1px solid var(--border); border-radius:8px;"><strong style="font-size:14px; color:var(--text-strong);">Meditation Scripts</strong><br><span style="font-size:13px; color:var(--muted);">2 emails &bull; Post-purchase delivery</span></div>
+        <div style="padding:14px 18px; background:var(--surface-subtle); border:1px solid var(--border); border-radius:8px;"><strong style="font-size:14px; color:var(--text-strong);">7 Hidden Habits</strong><br><span style="font-size:13px; color:var(--muted);">9 emails &bull; Lead magnet nurture</span></div>
+        <div style="padding:14px 18px; background:var(--surface-subtle); border:1px solid var(--border); border-radius:8px;"><strong style="font-size:14px; color:var(--text-strong);">Soulmate Manifestation</strong><br><span style="font-size:13px; color:var(--muted);">8 emails &bull; Course delivery</span></div>
+      </div>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row row-green">
+        <div class="check-icon icon-ok">&#10003;</div>
+        <div class="check-label"><strong>Brand voice is authentic and differentiated</strong> &mdash; Dr. Word's writing voice is warm, genuine, and clearly hers. This is a real asset. Most GHL accounts have generic template copy. The voice doesn't need to change... the structure does.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>Emails are too long</strong> &mdash; most of these emails read like full lessons or blog posts. In email, shorter wins. The goal is one clear idea, one quick insight or curiosity hook, then move the reader to the next action. The deep content should live on the course platform or a landing page... not inside the email itself.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>CTAs are buried at the bottom of every email</strong> &mdash; every email has a single call-to-action placed at the very end. Most subscribers won't scroll that far. High-performing emails place multiple CTAs throughout... an early low-commitment CTA (watch, read, explore), a mid-email CTA, and a closing CTA for subscribers who are ready to act. One buried CTA means most of the action you want subscribers to take never gets seen.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>No multi-CTA trust ladder strategy</strong> &mdash; every email treats every subscriber identically. There's no differentiation between someone who just opted in yesterday and someone who's been reading for 3 weeks. CTAs should be calibrated to the subscriber's trust level... lower-commitment asks early in the relationship, higher-commitment asks once trust is established. This single-CTA approach leaves significant revenue on the table.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>None of the 30 emails are connected to automations</strong> &mdash; on top of the structural issues, the content isn't even being sent. No purchase triggers, no opt-in triggers, no drip timing. These emails need to be rewritten shorter, restructured with multi-CTA placement, and then wired up to automations.</div>
+      </div>
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>No cross-sell bridge between sequences</strong> &mdash; each sequence ends without pointing to the next product in the ladder. After someone completes the 7 Hidden Habits nurture, there's no transition to the next offer. Adding bridge emails between sequences would create natural upsell paths.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<div class="page">
+
+  <!-- ═══ 07: FLOW ARCHITECTURE ═══ -->
+  <section id="flows" class="section">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-title-group">
+        <h2>Flow Architecture</h2>
+        <p>Core automated flows and always-on revenue</p>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Critical
+      </div>
+    </div>
+
+    <p>Automated flows run 24/7 and typically generate 30-50% of total email revenue for well-built programs. You currently have <strong>zero active flows</strong>, but the situation is better than it first appeared: <strong>30 emails across 4 sequences</strong> already exist in GHL. They're just not connected to any triggers or automations. The content is built... it needs to be wired up.</p>
+
+    <div class="flow-grid">
+      <div class="flow-item">
+        <div class="flow-status missing">&#10005;</div>
+        <div><div class="flow-name">Welcome Sequence</div><div class="flow-meta">Not set up &mdash; no general welcome or brand introduction for new subscribers</div></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status partial">!</div>
+        <div><div class="flow-name">Post-Purchase Nurture</div><div class="flow-meta">Content exists (Soul Deck: 11 emails, Meditation Scripts: 2 emails) &mdash; not connected to purchase triggers</div></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status missing">&#10005;</div>
+        <div><div class="flow-name">Abandoned Checkout</div><div class="flow-meta">Not set up &mdash; Beyond the Talk has 957 checkout views with no recovery sequence</div></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status partial">!</div>
+        <div><div class="flow-name">Lead Magnet Nurture</div><div class="flow-meta">Content exists (7 Hidden Habits: 9 emails, Soulmate Manifestation: 8 emails) &mdash; not connected to opt-in triggers</div></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status missing">&#10005;</div>
+        <div><div class="flow-name">Winback Flow</div><div class="flow-meta">Not set up &mdash; 5,937 cold subscribers get no re-engagement attempt</div></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status missing">&#10005;</div>
+        <div><div class="flow-name">Sunset / List Hygiene</div><div class="flow-meta">Not set up &mdash; disengaged contacts stay on the list, hurting deliverability</div></div>
+      </div>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>30 emails exist across 4 sequences, but none are connected</strong> &mdash; Post-Purchase and Lead Magnet Nurture content is already written and on-brand. Welcome, Abandoned Checkout, Winback, and Sunset still need to be built from scratch. The good news: connecting the existing 30 emails is a quick win that unlocks immediate value.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>957 checkout page views with no recovery</strong> &mdash; Beyond the Talk's checkout page had 957 views. Without an abandoned checkout flow, every person who leaves that page without buying is gone forever. Industry average recovery rate is 5-15%.</div>
+      </div>
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>4,171 lead magnet opt-ins with nurture content that never sent</strong> &mdash; your two best funnels generated 4,171 opt-ins in ~10 weeks. The nurture sequences for both lead magnets are written (17 emails total) but were never connected. Every one of those leads cooled off without receiving the content that was built for them.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<!-- ═══ 08: DELIVERABILITY GUARDRAILS — grey band ═══ -->
+<div class="grey-band">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <div class="section-title-group">
+        <h2 id="guardrails">Deliverability Guardrails</h2>
+        <p>Safe, Warning, and Stop thresholds for key metrics</p>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        At Risk
+      </div>
+    </div>
+
+    <p>Every email metric has a Safe, Warning, and Stop zone. When a metric enters the Warning or Stop zone, it requires immediate attention before it damages your sender reputation. Here's where the metrics we can measure stand:</p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Metric</th><th class="right">Your Value</th><th class="right">Safe</th><th class="right">Warning</th><th class="right">Stop</th><th>Zone</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Active Rate (30d)</strong></td><td class="right">4.7%</td><td class="right">&gt; 15%</td><td class="right">8-15%</td><td class="right">&lt; 8%</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>Active Rate (90d)</strong></td><td class="right">34.3%</td><td class="right">&gt; 60%</td><td class="right">40-60%</td><td class="right">&lt; 40%</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>Cold Subscriber %</strong></td><td class="right">65.7%</td><td class="right">&lt; 20%</td><td class="right">20-40%</td><td class="right">&gt; 40%</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>Reply-To Address</strong></td><td class="right">Not Set</td><td class="right">Configured</td><td class="right">&mdash;</td><td class="right">Not Set</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>Branded Domain</strong></td><td class="right">Shared</td><td class="right">Dedicated</td><td class="right">Shared</td><td class="right">&mdash;</td><td><span class="badge badge-amber">Warning</span></td></tr>
+          <tr><td><strong>Automated Flows</strong></td><td class="right">0 active (30 written)</td><td class="right">&gt; 4</td><td class="right">1-3</td><td class="right">0 active</td><td><span class="badge badge-red">Stop</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Data Gap</div>
+      <p>Campaign-level metrics like unsubscribe rate, spam complaint rate, bounce rate, and click-through rate require access to your email send analytics within GHL. These metrics are critical for ongoing deliverability monitoring and should be reviewed as part of any implementation plan.</p>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row row-red">
+        <div class="check-icon icon-x">&#10005;</div>
+        <div class="check-label"><strong>5 of 6 measurable metrics are in the Stop zone</strong> &mdash; Active rates, cold subscriber percentage, reply-to configuration, and flow count all require immediate intervention before sending additional campaigns.</div>
+      </div>
+      <div class="check-row row-amber">
+        <div class="check-icon icon-warn">!</div>
+        <div class="check-label"><strong>Campaign analytics not accessible</strong> &mdash; without visibility into open rates, click rates, spam complaints, and bounce rates at the campaign level, you're flying blind on deliverability health.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ═══ 09: THE OPPORTUNITY ═══ -->
+  <section id="opportunity" class="section">
+    <div class="section-header">
+      <div class="section-number">09</div>
+      <div class="section-title-group">
+        <h2>The Opportunity</h2>
+        <p>What you're leaving on the table</p>
+      </div>
+    </div>
+
+    <div class="revenue-hero">
+      <div class="rev-label">Your Untapped Potential</div>
+      <div class="rev-amount">5 Critical Fixes</div>
+      <div class="rev-period">that would transform your email program within 90 days</div>
+    </div>
+
+    <div class="opp-list">
+      <div class="opp-item">
+        <div class="opp-item-info">
+          <h4>Fix the Luminis landing page</h4>
+          <p>5,125 monthly visitors at 0.18% opt-in &mdash; improving to even 10% captures 500+ leads/month from existing traffic</p>
+        </div>
+        <div class="opp-item-impact"><div class="value">Highest ROI</div><div class="per">immediate fix</div></div>
+        <span class="effort-badge effort-low">Low Effort</span>
+      </div>
+      <div class="opp-item">
+        <div class="opp-item-info">
+          <h4>Rewrite 30 emails shorter + build 4 missing flows</h4>
+          <p>Current emails are too long with buried CTAs. Rewrite shorter with multi-CTA trust ladder strategy, then wire up to automations and build Welcome, Abandoned Checkout, Winback, Sunset.</p>
+        </div>
+        <div class="opp-item-impact"><div class="value">30-50%</div><div class="per">of email revenue</div></div>
+        <span class="effort-badge effort-med">Medium Effort</span>
+      </div>
+      <div class="opp-item">
+        <div class="opp-item-info">
+          <h4>Implement engagement segmentation</h4>
+          <p>Stop sending to 5,937 cold subscribers &mdash; protect deliverability for your 3,093 engaged contacts</p>
+        </div>
+        <div class="opp-item-impact"><div class="value">Deliverability</div><div class="per">protection</div></div>
+        <span class="effort-badge effort-low">Low Effort</span>
+      </div>
+      <div class="opp-item">
+        <div class="opp-item-info">
+          <h4>Add cross-sell bridges between sequences</h4>
+          <p>Each sequence ends without pointing to the next product. Adding transition emails creates natural upsell paths through the product ladder.</p>
+        </div>
+        <div class="opp-item-impact"><div class="value">Conversion</div><div class="per">multiplier</div></div>
+        <span class="effort-badge effort-low">Low Effort</span>
+      </div>
+      <div class="opp-item">
+        <div class="opp-item-info">
+          <h4>Set up branded domain + reply address</h4>
+          <p>Dedicated sending domain, monitored reply-to, proper forwarding &mdash; full control over sender reputation</p>
+        </div>
+        <div class="opp-item-impact"><div class="value">Foundation</div><div class="per">infrastructure</div></div>
+        <span class="effort-badge effort-low">Low Effort</span>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<!-- ═══ 10: THE ROADMAP — grey band ═══ -->
+<div class="grey-band">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <div class="section-title-group">
+        <h2 id="roadmap">The Roadmap</h2>
+        <p>Your 90-day Email Trust Architecture implementation plan</p>
+      </div>
+    </div>
+
+    <p>Based on your audit results, here's the phased roadmap to rebuild your email program on a foundation of trust. Each phase builds on the previous one.</p>
+
+    <div class="process-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-title">Foundation</div>
+        <div class="step-desc">Set up branded sending domain and reply address. Build engagement segments (Hot, Warm, Cool, Cold). Suppress Cold segment from all sends. Fix the Luminis landing page.</div>
+        <div class="step-time">Days 1-14</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-title">Architecture</div>
+        <div class="step-desc">Rewrite all 4 existing sequences shorter with multi-CTA trust ladder strategy. Connect to their triggers (Soul Deck, Meditation Scripts, 7 Hidden Habits, Soulmate Manifestation). Deploy Welcome sequence. Create Abandoned Checkout recovery for Beyond the Talk.</div>
+        <div class="step-time">Days 15-45</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-title">Strategy</div>
+        <div class="step-desc">Add cross-sell bridge emails at the end of each sequence. Build Winback sequence for lapsed subscribers. Create Sunset flow for permanently disengaged contacts. Map the product ladder in email.</div>
+        <div class="step-time">Days 30-60</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-title">Optimization</div>
+        <div class="step-desc">Launch trust-based campaign calendar (2:1 deposits to withdrawals). Tier-based frequency by engagement. A/B test subject lines. Add revenue tracking to all funnels.</div>
+        <div class="step-time">Days 60-90</div>
+      </div>
+    </div>
+
+    <p style="margin-top:32px;">These four phases would transform your email program from a silent list into an active revenue engine. The lead magnets are already working. The traffic is already flowing. You already have 30 emails with strong brand voice and genuine content... they just need to be restructured shorter, given proper multi-CTA placement, and wired up to automations. The foundation is there. The question is whether you want to keep those emails sitting idle, or rebuild them into a system that actually converts.</p>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ═══ CTA ═══ -->
+  <div class="cta-section">
+    <h2>Ready to rebuild on <em>trust?</em></h2>
+    <p>Your audit revealed critical gaps in flow architecture, email copy structure, engagement segmentation, and trust strategy. We've already built the plan. See what it looks like when the Email Blueprint handles it for you.</p>
+    <a href="blissfully-living-offer.html" class="cta-button">
+      See Your Custom Plan
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <p class="cta-note">No commitment &mdash; just see exactly what we'd build for Blissfully Living</p>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <p>Prepared For</p>
+    <h4>Dr. Kimberly Word &middot; Blissfully Living</h4>
+    <div class="date">March 2026 &middot; Email Blueprint &middot; Powered by Email Trust Architecture</div>
+  </div>
+
+</div>
+
+<script>
+// ── GAUGE ANIMATION ──
+const SCORE = 30;
+const circumference = 2 * Math.PI * 80;
+
+function getScoreColor(score) {
+  if (score >= 75) return 'green';
+  if (score >= 50) return 'amber';
+  return 'red';
+}
+
+function animateGauge() {
+  const circle = document.getElementById('gaugeCircle');
+  const numberEl = document.getElementById('gaugeNumber');
+  const color = getScoreColor(SCORE);
+
+  circle.classList.add(color);
+  circle.style.strokeDasharray = circumference;
+
+  const offset = circumference - (SCORE / 100) * circumference;
+
+  requestAnimationFrame(() => {
+    circle.style.strokeDashoffset = offset;
+  });
+
+  let current = 0;
+  const duration = 1500;
+  const start = performance.now();
+
+  function updateNumber(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    current = Math.round(SCORE * eased);
+    numberEl.innerHTML = current + '<small>/100</small>';
+    numberEl.style.color = `var(--${color})`;
+    if (progress < 1) requestAnimationFrame(updateNumber);
+  }
+
+  requestAnimationFrame(updateNumber);
+}
+
+// ── BREAKDOWN BAR ANIMATION ──
+function animateBreakdowns() {
+  document.querySelectorAll('.breakdown-bar-fill').forEach(bar => {
+    const score = bar.getAttribute('data-score');
+    setTimeout(() => {
+      bar.style.width = score + '%';
+    }, 300);
+  });
+}
+
+// ── SCROLL SPY ──
+function initScrollSpy() {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const ids = Array.from(navLinks).map(a => a.getAttribute('href').replace('#', ''));
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-100px 0px -60% 0px' });
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  animateGauge();
+  animateBreakdowns();
+  initScrollSpy();
+});
+</script>
+</body>
+</html>
