@@ -449,25 +449,52 @@ h1, h2, h3, h4, .section-pill, .hero-pill, .dept-title, .deliv-card h3, .for-car
   padding-right: 40px;
   border-radius: 0;
 }
-.loop-track {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+.loop-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   margin-bottom: 32px;
+  max-width: 640px;
+}
+.loop-timeline::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 36px;
+  bottom: 36px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--border) 100%);
+}
+.loop-timeline::after {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 36px;
+  width: 6px;
+  height: 40px;
+  border-radius: 3px;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(23,23,23,0.3), 0 0 24px rgba(23,23,23,0.15);
+  animation: pulse-down 3.5s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes pulse-down {
+  0% { top: 36px; opacity: 0; }
+  10% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: calc(100% - 60px); opacity: 0; }
 }
 .loop-step {
-  background: #fff;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius);
-  padding: 28px 24px;
-  box-shadow: var(--shadow);
   display: flex;
-  gap: 16px;
+  gap: 20px;
   align-items: flex-start;
+  padding: 16px 0;
+  position: relative;
 }
 .step-dot {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--accent);
   display: flex;
@@ -478,20 +505,34 @@ h1, h2, h3, h4, .section-pill, .hero-pill, .dept-title, .deliv-card h3, .for-car
   font-weight: 500;
   color: #fff;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 4px var(--bg-muted);
 }
-.loop-step-content { flex: 1; }
+.loop-step-content {
+  flex: 1;
+  padding-top: 6px;
+}
 .loop-step h3 {
   font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--text-heading);
   margin-bottom: 4px;
   letter-spacing: -0.2px;
 }
 .loop-step p {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.65;
+}
+.loop-step .step-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
 }
 .loop-wrap {
   font-size: 16px;
@@ -811,7 +852,7 @@ h1, h2, h3, h4, .section-pill, .hero-pill, .dept-title, .deliv-card h3, .for-car
   .problem-grid { grid-template-columns: 1fr; }
   .dept-grid { grid-template-columns: 1fr; }
   .deliv-grid { grid-template-columns: 1fr; }
-  .loop-track { grid-template-columns: 1fr; gap: 12px; }
+  .loop-timeline { max-width: 100%; }
   .section-loop { margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px; }
   .for-grid { grid-template-columns: 1fr; }
   .compare-grid { grid-template-columns: 1fr; }
@@ -822,7 +863,7 @@ h1, h2, h3, h4, .section-pill, .hero-pill, .dept-title, .deliv-card h3, .for-car
 }
 
 @media (max-width: 480px) {
-  .loop-track { grid-template-columns: 1fr; gap: 10px; }
+  .loop-timeline { max-width: 100%; }
   .hero h1 { font-size: 32px; }
 }
 </style>
@@ -1034,47 +1075,53 @@ h1, h2, h3, h4, .section-pill, .hero-pill, .dept-title, .deliv-card h3, .for-car
     <h2>It gets smarter every month you use it.</h2>
     <p class="section-sub">Most businesses set up email once and forget it. This system compounds, month after month.</p>
 
-    <div class="loop-track">
+    <div class="loop-timeline">
       <div class="loop-step">
         <div class="step-dot">1</div>
         <div class="loop-step-content">
+          <div class="step-label">You</div>
           <h3>Share your data</h3>
-          <p>ESP data, past campaigns, current flows.</p>
+          <p>ESP exports, past campaigns, current flows, and revenue numbers. Takes 10 minutes.</p>
         </div>
       </div>
       <div class="loop-step">
         <div class="step-dot">2</div>
         <div class="loop-step-content">
-          <h3>AI analyzes it</h3>
-          <p>Performance, segments, deliverability gaps.</p>
+          <div class="step-label">The ETA AI</div>
+          <h3>Analyzes everything</h3>
+          <p>The Email Trust Architecture AI scans performance, segments, deliverability gaps, and missed revenue.</p>
         </div>
       </div>
       <div class="loop-step">
         <div class="step-dot">3</div>
         <div class="loop-step-content">
-          <h3>Strategy is built</h3>
-          <p>A 30-day plan for your list and offers.</p>
+          <div class="step-label">The ETA AI</div>
+          <h3>Builds your 30-day strategy</h3>
+          <p>A revenue plan mapped to your list, your offers, and what actually worked last month.</p>
         </div>
       </div>
       <div class="loop-step">
         <div class="step-dot">4</div>
         <div class="loop-step-content">
-          <h3>Copy is written</h3>
-          <p>Campaigns, subject lines, automations, tests.</p>
+          <div class="step-label">The ETA AI</div>
+          <h3>Writes every email</h3>
+          <p>Campaigns, subject lines, automations, and split tests. In your voice, ready to send.</p>
         </div>
       </div>
       <div class="loop-step">
         <div class="step-dot">5</div>
         <div class="loop-step-content">
-          <h3>Team executes</h3>
-          <p>Upload, schedule, send. No guesswork.</p>
+          <div class="step-label">Your team</div>
+          <h3>Uploads and sends</h3>
+          <p>Drop it into your ESP, schedule, and hit send. No guesswork, no blank screens.</p>
         </div>
       </div>
       <div class="loop-step">
         <div class="step-dot">6</div>
         <div class="loop-step-content">
-          <h3>Results compound</h3>
-          <p>Next month is sharper than this one.</p>
+          <div class="step-label">The compounding effect</div>
+          <h3>Revenue grows every cycle</h3>
+          <p>Month 3 outperforms month 1. Open rates climb, segments tighten, and revenue per send increases because every cycle builds on real data from the last.</p>
         </div>
       </div>
     </div>
