@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Email Blueprint - Annuity Gator - April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     DESIGN SYSTEM - Email Blueprint (Peec-style)
+     ═══════════════════════════════════════════════════════════ */
+  :root {
+    --black: #FFFFFF;
+    --surface-hover: #FAFAFA;
+    --surface-subtle: #F8F9FB;
+    --dark: #F7F8FA;
+    --surface-pill: #F4F4F5;
+    --card: #F3F4F6;
+    --border: #EBEBEB;
+    --border-subtle: #F4F4F5;
+    --white: #000000;
+    --text-strong: #18181b;
+    --light: #111827;
+    --accent: #111827;
+    --body: #1F2937;
+    --muted: #4B5563;
+    --text-secondary: #52525b;
+    --text-tertiary: #71717a;
+    --text-caption: #a1a1aa;
+    --accent-dim: rgba(17,24,39,0.04);
+    --accent-border: rgba(17,24,39,0.12);
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.05);
+    --red-border: rgba(220,38,38,0.20);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%); background-attachment: fixed; color: var(--body); font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* Header */
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .brand-label { display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-secondary); padding: 5px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: #fff; }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--muted); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: 'Geist', sans-serif; font-size: 56px; font-weight: 600; color: var(--white); line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .header h1 span { color: var(--text-secondary); display: block; font-weight: 600; font-size: inherit; letter-spacing: inherit; }
+  .header-sub { font-size: 17px; color: var(--text-secondary); max-width: 620px; margin-bottom: 40px; font-weight: 400; line-height: 1.65; }
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 48px; background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .meta-item { display: flex; flex-direction: column; gap: 8px; padding: 24px 28px; border-right: 1px solid var(--border); background: var(--black); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-caption); }
+  .meta-value { font-family: 'Geist', sans-serif; font-size: 18px; font-weight: 600; color: var(--white); letter-spacing: -0.02em; }
+
+  /* Sections */
+  .section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 12px; display: inline-block; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .section-month-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .section h2 { font-family: 'Geist', sans-serif; font-size: 52px; font-weight: 600; color: var(--white); letter-spacing: -1.2px; line-height: 1.05; margin-bottom: 24px; }
+  .section .section-intro-text { font-size: 17px; color: var(--muted); max-width: 600px; margin-bottom: 0; line-height: 1.7; font-weight: 400; }
+  .section p { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--white); font-weight: 600; }
+
+  /* Snapshot */
+  .snapshot-box { background: var(--surface-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 48px; margin-top: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-strong); }
+  .snapshot-box p span { color: var(--red); font-weight: 500; }
+  .trust-snapshot-stats { display: flex; gap: 16px; padding-top: 24px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; margin-top: 24px; }
+  .mini-stat { font-size: 13px; color: var(--text-caption); font-weight: 400; }
+  .mini-stat + .mini-stat::before { content: "|"; margin-right: 16px; color: var(--border); font-weight: 300; }
+  .mini-stat-num { font-family: 'Geist', sans-serif; font-size: 20px; font-weight: 500; color: var(--white); margin-right: 4px; }
+
+  /* Strategy Grid */
+  .strategy-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 40px; background: var(--surface-subtle); border-radius: 20px; padding: 20px; }
+  .strategy-card { background: #FFFFFF; padding: 28px 32px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .strategy-card h4 { font-family: 'Geist', sans-serif; font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 10px; }
+  .strategy-card p { font-size: 14px; color: var(--body); max-width: 100%; margin-bottom: 0; line-height: 1.75; }
+  .campaign-group .strategy-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Numbered Steps */
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--card); border-radius: 12px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 600; color: var(--white); margin: 0 0 8px 0; letter-spacing: -0.3px; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+
+  /* Section Intro */
+  .section-intro { border-top: none; border-bottom: 1px solid var(--border); padding: 24px 0; margin-bottom: 0; }
+  .section-intro .section-label { margin-bottom: 8px; }
+  .section-intro h2 { font-size: 52px; letter-spacing: -1.2px; margin-bottom: 12px; }
+  .section-intro p { margin-bottom: 0; }
+
+  /* Calendar */
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table-wrap { background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin-top: 36px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); color: #333; }
+  .cal-table-wrap strong, .cal-table-wrap b { color: var(--text-strong) !important; }
+  .cal-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .cal-table tbody tr:hover { background: var(--surface-hover); }
+  .cal-table tbody td { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: top; line-height: 1.5; }
+  .cal-table tbody td:first-child { color: var(--text-strong); font-weight: 500; }
+  .cal-table .tag { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; padding: 0; border: none; color: var(--text-caption); display: inline-block; }
+  .cal-table .tag-accent { color: var(--text-strong); font-weight: 500; }
+
+  /* Email Blocks */
+  .email-block { margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .email-block:first-child { margin-top: 24px; padding-top: 0; border-top: none; }
+  .email-num { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .email-title { font-family: 'Geist', sans-serif; font-size: 26px; font-weight: 600; color: var(--white); letter-spacing: -0.4px; margin-bottom: 12px; }
+  .email-tags { margin-bottom: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 3px 10px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-caption); background: #FFFFFF; }
+  .email-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .email-meta > div { padding: 20px 24px; }
+  .email-meta > div:first-child { border-right: 1px solid rgba(0,0,0,0.06); }
+  .email-meta-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-caption); margin-bottom: 10px; }
+  .email-meta-value { font-size: 14px; color: var(--body); line-height: 1.8; }
+  .sl-list { list-style: none; padding: 0; margin: 0; }
+  .sl-list li { font-size: 14px; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-subtle); }
+  .sl-list li:last-child { border-bottom: none; }
+  .sl-list li span { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li { font-size: 14px; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-subtle); line-height: 1.5; }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-list li span { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption); width: 80px; margin-right: 4px; }
+
+  /* Email Body */
+  .email-body-wrapper { position: relative; margin-top: 20px; background: #FFFFFF; border-radius: 16px; padding: 48px 0; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .email-body { color: #333333; padding: 0 40px; font-size: 15px; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+  .email-body p { color: #333333; font-size: 15px; line-height: 1.8; margin-bottom: 16px; max-width: 100%; }
+  .email-body p:last-child { margin-bottom: 0; }
+  .email-body a { color: #2563EB; text-decoration: underline; }
+  .email-body .sig { margin-top: 24px; color: #666; font-size: 14px; }
+  .email-body .ps { margin-top: 20px; font-size: 14px; color: #555; font-style: italic; }
+  .email-body strong, .email-body b, .email-body p strong { color: #222 !important; font-weight: 600; }
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); color: #666; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; border-radius: 6px; }
+  .copy-btn:hover { background: rgba(0,0,0,0.1); color: #333; }
+  .copy-btn.copied { background: var(--dark); border-color: var(--border); color: var(--body); }
+  .copy-btn svg { width: 16px; height: 16px; }
+
+  /* Strategy Note */
+  .strategy-note { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 28px 32px; margin-top: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .strategy-note p { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--accent); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+
+  /* Grey Band */
+  .section-grey-band { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 56px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-grey-band .cal-table-wrap { background: var(--black); }
+
+  /* Automations */
+  .section-automations { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 56px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-automations .flow-group { background: transparent; margin: 0 -40px; padding: 56px 40px; border-top: 1px solid var(--border); }
+  .section-automations .flow-group:first-of-type { border-top: none; }
+  .section-automations .section-intro { border-bottom: none; margin-bottom: 0; }
+  .section-automations .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-automations + .section { padding-top: 56px; }
+
+  /* Flow Group */
+  .flow-group { padding: 56px 40px; border-bottom: none; background: var(--surface-subtle); margin: 0 -40px; border-top: 1px solid var(--border); }
+  .flow-group .email-meta { background: #FFFFFF; border-color: rgba(0,0,0,0.06); }
+  .flow-group .email-meta > div:first-child { border-right-color: rgba(0,0,0,0.06); }
+  .flow-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .flow-title { font-family: 'Geist', sans-serif; font-size: 40px; font-weight: 600; color: var(--white); letter-spacing: -1px; line-height: 1.1; margin-bottom: 16px; }
+  .flow-desc { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+  .flow-table-wrap { background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .flow-table tbody td { font-size: 14px; color: var(--text-secondary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--surface-hover); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-caption); font-size: 12px; font-weight: 500; width: 60px; }
+  .flow-table tbody td:nth-child(2) { color: var(--text-strong); font-weight: 500; }
+  .flow-table .flow-trigger-badge { display: inline-block; padding: 4px 12px; background: var(--surface-pill); border-radius: 8px; font-size: 11px; font-weight: 500; color: var(--text-strong); }
+
+  /* Signal Cards */
+  .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  .signal-card { padding: 36px; }
+  .signal-card h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+  .signal-card ul { list-style: none; margin: 0; padding: 0; }
+  .signal-card li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 28px; position: relative; }
+  .signal-card li:last-child { border-bottom: none; }
+  .signal-card li::before { position: absolute; left: 0; font-weight: 700; font-size: 14px; }
+  .signal-card-green { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .signal-card-green h4 { color: var(--body); }
+  .signal-card-green li::before { content: "\2713"; color: var(--body); }
+  .signal-card-red { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .signal-card-red h4 { color: var(--red); }
+  .signal-card-red li::before { content: "\26A0"; color: var(--red); }
+
+  /* Campaign Group */
+  .campaign-group { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .campaign-group h2 { font-family: 'Geist', sans-serif; font-size: 40px; font-weight: 600; color: var(--white); letter-spacing: -1px; line-height: 1.1; margin-bottom: 20px; }
+  .campaign-desc { font-size: 14px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+  .section-campaigns { border-bottom: none; }
+  .section-campaigns .campaign-group:last-child { border-bottom: none; }
+
+  /* Next Month */
+  .next-month-box { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); padding: 36px; margin-top: 32px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .next-month-box h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .next-month-box ul { list-style: none; margin: 0; padding: 0; }
+  .next-month-box li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 32px; position: relative; }
+  .next-month-box li:last-child { border-bottom: none; }
+  .next-month-box li::before { content: "\25A1"; color: var(--muted); position: absolute; left: 4px; font-size: 14px; }
+
+  /* Sticky Nav */
+  .sticky-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); margin: 0 -40px; padding: 0 40px; }
+  .sticky-nav-inner { display: flex; justify-content: center; gap: 2px; overflow-x: auto; scrollbar-width: none; padding: 10px 0; }
+  .sticky-nav-inner::-webkit-scrollbar { display: none; }
+  .sticky-nav a { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-tertiary); text-decoration: none; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: all 0.15s ease; }
+  .sticky-nav a:hover { color: var(--text-strong); background: var(--surface-pill); }
+
+  /* Footer */
+  .footer { padding: 56px 0; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--muted); font-style: italic; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+    .copy-btn { display: none; }
+    :root { --white: #000; --body: #222; --muted: #666; --dark: #f9f9f9; --card: #f5f5f5; --border: #e0e0e0; --accent: #222; --black: #fff; }
+  }
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .strategy-grid, .email-meta, .signal-grid, .campaign-group .strategy-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">The Email Blueprint</div>
+      <div class="header-meta">
+        <p>Prepared by Dave Miz</p>
+        <p>April 2026</p>
+      </div>
+    </div>
+    <h1>Annuity <span>Gator</span></h1>
+    <p class="header-sub">April 2026 Email Blueprint, Onboarding Edition. 4 automation flows and 4 campaigns designed to convert engaged readers into scheduled evaluation appointments.</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value">Annuity Gator</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span class="meta-value">Keap</span></div>
+      <div class="meta-item"><span class="meta-label">Month</span><span class="meta-value">April 2026</span></div>
+      <div class="meta-item"><span class="meta-label">List Size</span><span class="meta-value">22,704 marketable</span></div>
+      <div class="meta-item"><span class="meta-label">Campaigns</span><span class="meta-value">4 Campaigns · 12 Emails</span></div>
+      <div class="meta-item"><span class="meta-label">Automations</span><span class="meta-value">4 Flows · 16 Emails</span></div>
+    </div>
+  </div>
+
+  <!-- STICKY NAV -->
+  <nav class="sticky-nav">
+    <div class="sticky-nav-inner">
+      <a href="#strategy">Strategy</a>
+      <a href="#diagnosis">Diagnosis</a>
+      <a href="#approach">Approach</a>
+      <a href="#deliverability">Deliverability</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#automations">Automations</a>
+      <a href="#next-month">Next Month</a>
+    </div>
+  </nav>
+
+  <!-- TRUST STRATEGY SNAPSHOT -->
+  <div class="section" id="strategy">
+    <div class="section-label">This Month's Trust Strategy</div>
+    <div class="section-month-label">Month 1:</div>
+    <h2>Close the Scheduling Gap</h2>
+    <div class="snapshot-box">
+      <p>Annuity Gator has <strong>40% open rates</strong> and <span>0.15% click-through rates</span>. People are reading every email, but almost nobody clicks. The problem isn't engagement or deliverability. The problem is <strong>structural</strong>: emails read like educational newsletters with a single buried CTA. Readers enjoy the content and leave. This month, we keep the calm advisor tone that works, but we restructure every email to create clear movement toward scheduling. Shorter copy, multiple CTAs woven throughout, and specific language about what the call actually involves. The ask stays the same: schedule your free 15-minute evaluation. The framing changes based on where the reader is in their journey.</p>
+      <div class="trust-snapshot-stats">
+        <div class="mini-stat"><span class="mini-stat-num">12</span> campaign emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">16</span> automation emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">42</span> advisors</div>
+        <div class="mini-stat"><span class="mini-stat-num">4.8</span> Trustpilot stars</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT DIAGNOSIS -->
+  <div class="section" id="diagnosis">
+    <div class="section-label">Account Diagnosis</div>
+    <h2>Where Things Stand</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>The Scheduling Gap</h4>
+          <p>Lead-to-appointment conversion is 37-41% (goal: 50-60%+). Keap tag <strong>"02. Requested Annuity Evaluation - Didn't Schedule"</strong> identifies the gap. These people completed the quiz and requested an evaluation but never booked a call. This is the highest-leverage segment in the entire list.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Email Structure Problem</h4>
+          <p>Current emails are 150-250 words with a single CTA buried mid-body. They read like educational articles, not conversion emails. <strong>Open rates are excellent (40%), but CTR is 0.15%.</strong> The fix is structural: shorter copy (50-100 words), 3 CTAs per email, and hooks that create momentum toward scheduling.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Automation Gap</h4>
+          <p>Only 53 contacts are active across all automations for a 30K list. No welcome sequence, no "didn't schedule" recovery flow, no re-engagement campaign. <strong>This blueprint introduces 4 automation flows that will run 24/7 once activated.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>CPL Pressure</h4>
+          <p>Meta CPL is running $319/lead (target: $250). Improving email conversion doesn't reduce CPL directly, but it means <strong>each lead generates more appointments</strong>, improving the effective cost per appointment significantly. Getting 50-60% conversion from the same leads is like cutting CPL in half.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTHLY STRATEGY -->
+  <div class="section" id="approach">
+    <div class="section-label">Monthly Strategy</div>
+    <h2>The April Approach</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Primary Goal</h4>
+          <p>Move lead-to-appointment conversion from 37-41% toward 50%+. Every email, automation, and campaign in this blueprint exists to get more people to schedule their free 15-minute evaluation call.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Voice Calibration</h4>
+          <p>Keep the calm, empathetic advisor tone. Keep "No pressure. No obligation. Just clarity." Keep the heavy line breaks. Change the structure: shorter copy, 3 CTAs per email, hooks that drive action instead of education. Every email sent from the assigned advisor, not from the Annuity Gator brand.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Trust Architecture</h4>
+          <p>Two value deposits before one direct ask. Campaigns follow the Gain/Logic/Fear sequence: Email 1 leads with outcome, Email 2 leads with proof, Email 3 leads with consequence of inaction. All urgency is life-stage based, never artificial.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Key Metrics</h4>
+          <p>Target open rate: maintain 35%+. Target CTR: 1%+ (up from 0.15%). Target lead-to-appointment: 50%+. Unsubscribe ceiling: 0.3% per send.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELIVERABILITY -->
+  <div class="section-grey-band">
+  <div class="section" id="deliverability">
+    <div class="section-label">Deliverability</div>
+    <h2>Do This Before Sending</h2>
+    <p>Deliverability is strong. Google Postmaster shows 0% spam rate. Focus these actions on improving click rates, not inbox placement.</p>
+    <div class="signal-grid">
+      <div class="signal-card signal-card-green">
+        <h4>Already Done</h4>
+        <ul>
+          <li>Google Postmaster configured, 0% spam rate</li>
+          <li>Active list cleaning (Lockdown, Bounce tags in place)</li>
+          <li>Consistent daily sending cadence established</li>
+          <li>Zero spam complaints across 90 days</li>
+          <li>Trustpilot badge in email footer (trust signal)</li>
+        </ul>
+      </div>
+      <div class="signal-card signal-card-red">
+        <h4>Action Required</h4>
+        <ul>
+          <li>Confirm SPF/DKIM/DMARC are all passing for annuitygator.com (ask Francisco to check)</li>
+          <li>Consider reducing from daily to 4-5x/week. March data shows declining opens toward month end (46% early March to 30% late March)</li>
+          <li>Verify reply-to address goes to a monitored inbox (replies improve sender reputation)</li>
+          <li>Test branded sending domain vs advisor-specific sending domains for deliverability impact</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAMPAIGN CALENDAR -->
+  <div class="section" id="calendar">
+    <div class="section-label">Campaign Calendar</div>
+    <h2>April 2026 Send Schedule</h2>
+    <div class="cal-table-wrap">
+      <table class="cal-table">
+        <thead><tr><th>Week</th><th>Campaign</th><th>G/L/F</th><th>Trust Move</th></tr></thead>
+        <tbody>
+          <tr><td>Apr 1-4</td><td>What Happens in the Call</td><td>Gain</td><td><span class="tag">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 7-8</td><td>What Happens in the Call</td><td>Logic</td><td><span class="tag">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 9-10</td><td>What Happens in the Call</td><td>Fear</td><td><span class="tag tag-accent">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 14-15</td><td>Testimonial Spotlight</td><td>Gain</td><td><span class="tag">Credibility</span></td></tr>
+          <tr><td>Apr 16-17</td><td>Testimonial Spotlight</td><td>Logic</td><td><span class="tag">Credibility</span></td></tr>
+          <tr><td>Apr 18</td><td>Testimonial Spotlight</td><td>Fear</td><td><span class="tag tag-accent">Credibility &rarr; Action</span></td></tr>
+          <tr><td>Apr 21-22</td><td>Market Context</td><td>Gain</td><td><span class="tag">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 23-24</td><td>Market Context</td><td>Logic</td><td><span class="tag">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 25</td><td>Market Context</td><td>Fear</td><td><span class="tag tag-accent">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 28</td><td>Your Advisor</td><td>Gain</td><td><span class="tag">Trust &rarr; Action</span></td></tr>
+          <tr><td>Apr 29</td><td>Your Advisor</td><td>Logic</td><td><span class="tag">Trust &rarr; Action</span></td></tr>
+          <tr><td>Apr 30</td><td>Your Advisor</td><td>Fear</td><td><span class="tag tag-accent">Trust &rarr; Action</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div><!-- /section-grey-band -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- CAMPAIGN EMAILS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-campaigns" id="campaigns">
+    <div class="section-intro">
+      <div class="section-label">Campaign Emails</div>
+      <h2>April Campaigns</h2>
+      <p>4 campaigns, 3 emails each, following the Gain/Logic/Fear framework. Every email sent from the assigned advisor. Every email has 3 CTAs woven through the body pointing to the self-schedule link. Copy is intentionally shorter than current emails to drive action, not education.</p>
+    </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 1: WHAT HAPPENS       -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 1 of 4</div>
+    <h2>What Actually Happens in the Call</h2>
+    <p class="campaign-desc">Directly addresses the biggest conversion blocker: people don't know what the evaluation involves. This campaign demystifies the call, removes ambiguity, and makes scheduling feel like the obvious next step. Sent to the full active list.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Engaged &rarr; Buyer</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Conversion Bridge</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>AG Weekly Cadence -full active list</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Transparency: here's exactly what happens, step by step, in 15 minutes</p></div>
+    </div>
+
+    <!-- CAMPAIGN 1, EMAIL 1 (GAIN) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 01 -GAIN</div>
+      <div class="email-title">The Call That Changes Everything</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Gain</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 15 minutes of clarity</li>
+            <li><span>B.</span> One call, one answer</li>
+            <li><span>C.</span> What clarity feels like</li>
+            <li><span>D.</span> Your retirement, answered</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> no pitch, no pressure, just answers</li>
+            <li><span>Send</span> Tuesday April 1</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Drive self-schedule bookings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>You could have your answer in 15 minutes.</p>
+          <p><a href="#">Schedule your free evaluation call.</a></p>
+          <p>Your advisor reviews your situation and tells you straight whether annuities make sense for you.</p>
+          <p><a href="#">Pick a time that works for you.</a></p>
+          <p>Talk soon.</p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Send as broadcast to the AG Weekly Cadence sequence. Each recipient receives from their assigned advisor using Keap's personalized sender field. CTA links point to the self-schedule page. Merge tags: advisor name, credentials, phone in signature. A/B test subject lines A vs C.</p>
+      </div>
+    </div>
+
+    <!-- CAMPAIGN 1, EMAIL 2 (LOGIC) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 02 -LOGIC</div>
+      <div class="email-title">Step by Step: Your Evaluation</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Logic</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Here's what happens</li>
+            <li><span>B.</span> Your call, explained</li>
+            <li><span>C.</span> 4 steps, 15 minutes</li>
+            <li><span>D.</span> No surprises</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> the exact steps, start to finish</li>
+            <li><span>Send</span> Thursday April 3</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Remove ambiguity about the call</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>People hesitate because they don't know what happens on the call. So here it is.</p>
+          <p>If you already know enough, <a href="#">book your 15-minute evaluation here</a>.</p>
+          <p><strong>Step 1:</strong> You share your savings, income needs, and timeline. Just the basics so your advisor has context.</p>
+          <p><strong>Step 2:</strong> Your advisor explains which annuity types fit your situation and which ones don't.</p>
+          <p><strong>Step 3:</strong> You ask questions. As many as you need. No rush.</p>
+          <p><strong>Step 4:</strong> You walk away with a clear recommendation you can act on or sit with.</p>
+          <p>15 minutes, start to finish. No obligation after.</p>
+          <p><a href="#">Schedule your evaluation call here.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Same setup as Email 01. Send as broadcast. A/B test subject lines A vs C. The numbered steps give readers certainty about the process, which reduces scheduling friction.</p>
+      </div>
+    </div>
+
+    <!-- CAMPAIGN 1, EMAIL 3 (FEAR) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 03 -FEAR</div>
+      <div class="email-title">The Cost of Waiting</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Fear</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Another year, same question</li>
+            <li><span>B.</span> Waiting costs money</li>
+            <li><span>C.</span> Still wondering?</li>
+            <li><span>D.</span> The cost of maybe</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> the longer you wait, the narrower your options</li>
+            <li><span>Send</span> Saturday April 5</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Life-stage urgency, drive scheduling</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>"I wish I'd done this sooner." That's the most common thing advisors hear after the first call.</p>
+          <p><a href="#">Schedule your free 15-minute call.</a></p>
+          <p>Every year you wait, your options narrow and the math changes. The call is free, takes 15 minutes, and your advisor will tell you straight whether annuities belong in your plan.</p>
+          <p><a href="#">Pick a time that works for you.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Same broadcast setup. A/B test subject lines A vs D. This email uses life-stage urgency, not artificial scarcity. The "I wish I'd done this sooner" line comes directly from Trustpilot review themes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 2: TESTIMONIAL        -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 2 of 4</div>
+    <h2>Testimonial Spotlight</h2>
+    <p class="campaign-desc">Social proof campaign using real Trustpilot reviews (4.8 stars, 533 reviews) and video testimonial stories. Proves the evaluation is worth it by showing real people who were in the same situation and are glad they made the call.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Credibility &rarr; Action</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Social Proof Deposit</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>AG Weekly Cadence -full active list</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Real people, real results: "no pressure, just information" from someone who was in your shoes</p></div>
+    </div>
+
+    <!-- CAMPAIGN 2, EMAIL 1 (GAIN) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 04 -GAIN</div>
+      <div class="email-title">Ron Was a Skeptic for 10 Years</div>
+      <div class="email-tags">
+        <span class="tag">Credibility</span>
+        <span class="tag">Gain</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Skeptic for a decade</li>
+            <li><span>B.</span> Ron almost didn't call</li>
+            <li><span>C.</span> 10 years of doubt</li>
+            <li><span>D.</span> What changed his mind</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> from skeptic to believer in one call</li>
+            <li><span>Send</span> Monday April 14</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Use social proof to overcome hesitation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Ron spent 10 years convinced annuities weren't for him. He'd read every article, listened to every opinion, and still felt stuck.</p>
+          <p>Then he <a href="#">scheduled a free evaluation call</a>.</p>
+          <p>15 minutes later, he had clarity he'd been chasing for a decade. His words: "From skeptic to believer."</p>
+          <p><a href="#">Watch Ron's story here.</a></p>
+          <p>I'm here when you're ready.</p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast to AG Weekly Cadence. The "Watch Ron's story" CTA links to the video testimonial on annuitygator.com/testimonials/. A/B test A vs B. Ron's testimonial headline on the site: "From Skeptic to Believer: Why I Finally Chose Annuity Gator After a Decade of Doubt."</p>
+      </div>
+    </div>
+
+    <!-- CAMPAIGN 2, EMAIL 2 (LOGIC) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 05 -LOGIC</div>
+      <div class="email-title">533 Reviews. 4.8 Stars.</div>
+      <div class="email-tags">
+        <span class="tag">Credibility</span>
+        <span class="tag">Logic</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 533 people agree</li>
+            <li><span>B.</span> What clients actually say</li>
+            <li><span>C.</span> Read the reviews</li>
+            <li><span>D.</span> 4.8 out of 5 stars</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> no pressure, just straight information</li>
+            <li><span>Send</span> Wednesday April 16</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Build trust through verified proof</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>You don't have to take my word for it. <a href="#">See what 533 clients say on Trustpilot.</a></p>
+          <p>Annuity Gator has 533 verified reviews with a 4.8-star rating. Here's what keeps coming up:</p>
+          <p>"No sales pitch, no pressure, just straight information so I could make a decision."</p>
+          <p>"His no pressure way to educate me on available options is highly appreciated."</p>
+          <p>"I finally feel confident about my retirement income plan."</p>
+          <p>Your evaluation call works the same way. Your advisor gives you the information, and you make the decision on your own terms.</p>
+          <p><a href="#">Schedule your free evaluation.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast. CTA 1 links to Trustpilot page. CTA 2 and 3 link to self-schedule. The review quotes are real, verified Trustpilot reviews from Scott Fisher and Manjit Singh. A/B test A vs B.</p>
+        <p><strong>Note on quotes:</strong> These are short excerpts from verified reviews. Keep them brief and representative.</p>
+      </div>
+    </div>
+
+    <!-- CAMPAIGN 2, EMAIL 3 (FEAR) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 06 -FEAR</div>
+      <div class="email-title">They Almost Didn't Call</div>
+      <div class="email-tags">
+        <span class="tag">Credibility &rarr; Action</span>
+        <span class="tag">Fear</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Almost didn't call</li>
+            <li><span>B.</span> Allan's biggest regret</li>
+            <li><span>C.</span> Years of bad advice</li>
+            <li><span>D.</span> He waited too long</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> what happens when you keep putting it off</li>
+            <li><span>Send</span> Friday April 18</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Convert fence-sitters through regret framing</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Allan spent years getting advice that didn't feel right. He almost didn't call.</p>
+          <p>When he did, he found peace of mind. You can <a href="#">schedule the same free call Allan did</a>.</p>
+          <p>If you've been thinking about it, that probably means something.</p>
+          <p><a href="#">Pick a time that works for you.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast. Allan's video testimonial headline: "After Years of Bad Advice, I Finally Found Peace of Mind with Annuity Gator." A/B test A vs C.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 3: MARKET CONTEXT     -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 3 of 4</div>
+    <h2>Market Context</h2>
+    <p class="campaign-desc">Ties the evaluation to current market conditions. Uses real market context (not fake urgency) to make scheduling feel timely. Positions the call as the smart response to market uncertainty.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Engaged &rarr; Buyer</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Context-Driven Conversion</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>AG Weekly Cadence -full active list</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Market uncertainty makes now the right time to explore structured income options</p></div>
+    </div>
+
+    <!-- CAMPAIGN 3, EMAIL 1 (GAIN) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 07 -GAIN</div>
+      <div class="email-title">Locking In Guaranteed Income</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Gain</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Income that doesn't move</li>
+            <li><span>B.</span> Market-proof retirement</li>
+            <li><span>C.</span> Guaranteed, not guessed</li>
+            <li><span>D.</span> Stop watching the market</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> while others react, you could be set</li>
+            <li><span>Send</span> Monday April 21</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Position evaluation as timely action</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Some retirees check the market every morning. Others stopped because they <a href="#">locked in guaranteed income with their advisor</a>.</p>
+          <p>A free evaluation shows you which option fits your plan.</p>
+          <p><a href="#">Schedule your 15-minute call here.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast. A/B test A vs D. This email adapts the language from their highest-performing current email subjects ("Why some retirees stop watching the market every day").</p>
+      </div>
+    </div>
+
+    <!-- CAMPAIGN 3, EMAIL 2 (LOGIC) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 08 -LOGIC</div>
+      <div class="email-title">Predictable vs. Market-Dependent</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Logic</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Two retirees, same savings</li>
+            <li><span>B.</span> Predictable vs. hopeful</li>
+            <li><span>C.</span> Same million, different life</li>
+            <li><span>D.</span> The income question</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> the difference is how income is structured</li>
+            <li><span>Send</span> Wednesday April 23</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Explain mechanism, build certainty</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Two retirees, same savings, completely different retirements.</p>
+          <p>One depends entirely on market performance for income. When the market dips, so does the paycheck. Every correction means recalculating how long the money lasts.</p>
+          <p>The other structured a portion into predictable payments that show up every month regardless of what the market does. Same nest egg, but one sleeps better.</p>
+          <p>A <a href="#">free 15-minute evaluation</a> shows you which path you're on and whether adjusting makes sense.</p>
+          <p>Your advisor walks you through the numbers for your specific situation. No guesswork, no generic advice.</p>
+          <p><a href="#">Schedule your free 15-minute call.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast. A/B test A vs C. This uses the "two retirees" framework from their existing email copy, restructured with multiple CTAs for higher click-through.</p>
+      </div>
+    </div>
+
+    <!-- CAMPAIGN 3, EMAIL 3 (FEAR) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 09 -FEAR</div>
+      <div class="email-title">When Markets Drop, Income Shouldn't</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Fear</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> If the market drops 20%</li>
+            <li><span>B.</span> Your income, unprotected</li>
+            <li><span>C.</span> Volatility is personal</li>
+            <li><span>D.</span> How exposed are you?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> every correction feels personal when income depends on it</li>
+            <li><span>Send</span> Friday April 25</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Make the consequence of inaction tangible</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>If the market dropped 20% tomorrow, would your monthly income change?</p>
+          <p>For a lot of retirees, the honest answer is yes. And that uncertainty compounds. It changes how you spend, how you plan, and how much you enjoy the retirement you worked decades to reach.</p>
+          <p>A <a href="#">free 15-minute evaluation</a> can show you whether you're protected.</p>
+          <p>Structuring a portion into guaranteed income means the next correction is a headline you read, not a lifestyle you feel.</p>
+          <p><a href="#">Schedule your 15-minute call.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast. A/B test A vs C. Subject line A is adapted from their top-performing subject: "If the market dropped 20% tomorrow, would your income change?" which had 42% opens. We shortened it to 5 words per ETA subject line spec.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 4: YOUR ADVISOR       -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 4 of 4</div>
+    <h2>Your Advisor</h2>
+    <p class="campaign-desc">Leverages the 1:1 advisor relationship that's already built into the sending model. Every email is FROM the assigned advisor, so this campaign leans into that personal connection. Makes the reader feel like a real person is waiting to help them specifically.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Trust &rarr; Action</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Personal Connection</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>AG Weekly Cadence -full active list</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>You already have an advisor in your corner. All you need to do is schedule.</p></div>
+    </div>
+
+    <!-- CAMPAIGN 4, EMAIL 1 (GAIN) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 10 -GAIN</div>
+      <div class="email-title">You Have an Advisor</div>
+      <div class="email-tags">
+        <span class="tag">Trust &rarr; Action</span>
+        <span class="tag">Gain</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Someone's in your corner</li>
+            <li><span>B.</span> Your advisor is ready</li>
+            <li><span>C.</span> Already assigned to you</li>
+            <li><span>D.</span> You're not doing this alone</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> a licensed advisor is already matched to you</li>
+            <li><span>Send</span> Monday April 28</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Make advisor relationship tangible</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>I'm [Advisor Name], your advisor here at Annuity Gator. I've been sending you these emails, and I wanted to say hello properly.</p>
+          <p>Retirement planning has a lot of moving pieces, and I know it can feel overwhelming when you're trying to figure it out on your own. That's what I'm here for. If you've been thinking about whether annuities fit your situation, <a href="#">let's talk through it together</a>.</p>
+          <p>No agenda on my end. Just a conversation about where you are, what you're trying to accomplish, and whether I can help.</p>
+          <p>Whenever the timing feels right, <a href="#">my calendar is here</a>.</p>
+          <p>Looking forward to meeting you.</p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast. This email leans hardest into the personalized sender model. The advisor name merge tag in the body AND the sender field makes this feel genuinely 1:1. A/B test A vs D.</p>
+      </div>
+    </div>
+
+    <!-- CAMPAIGN 4, EMAIL 2 (LOGIC) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 11 -LOGIC</div>
+      <div class="email-title">What Your Advisor Sees</div>
+      <div class="email-tags">
+        <span class="tag">Trust &rarr; Action</span>
+        <span class="tag">Logic</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> What I'd look at first</li>
+            <li><span>B.</span> Your plan, my perspective</li>
+            <li><span>C.</span> Here's what I check</li>
+            <li><span>D.</span> Three things I'd review</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> the 3 areas your advisor examines first</li>
+            <li><span>Send</span> Tuesday April 29</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Make the advisor's value concrete</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>When we sit down for your <a href="#">free evaluation call</a>, there are three things I look at first:</p>
+          <p><strong>1. Your income gap:</strong> the difference between what you need each month and what's guaranteed today.</p>
+          <p><strong>2. Your risk exposure:</strong> how much of your retirement depends on market performance.</p>
+          <p><strong>3. Your timeline:</strong> whether locking in rates now makes more sense than waiting.</p>
+          <p>15 minutes. You walk away knowing exactly where you stand.</p>
+          <p><a href="#">Schedule your call.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast. A/B test A vs D. The numbered list gives concrete substance to the evaluation without being overwhelming. Each point maps to a real concern the audience has.</p>
+      </div>
+    </div>
+
+    <!-- CAMPAIGN 4, EMAIL 3 (FEAR) -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 12 -FEAR</div>
+      <div class="email-title">Before Options Narrow</div>
+      <div class="email-tags">
+        <span class="tag">Trust &rarr; Action</span>
+        <span class="tag">Fear</span>
+        <span class="tag">Campaign</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Options narrow with time</li>
+            <li><span>B.</span> Sooner is better here</li>
+            <li><span>C.</span> A conversation, not a commitment</li>
+            <li><span>D.</span> While options are open</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> the best time to explore is before you need to</li>
+            <li><span>Send</span> Wednesday April 30</li>
+            <li><span>Audience</span> AG Weekly Cadence (full active)</li>
+            <li><span>Goal</span> Final month push with life-stage urgency</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>The best time to have this conversation is before you feel like you need to. If that's now, <a href="#">schedule your 15-minute evaluation</a>.</p>
+          <p>A year of waiting can change the numbers meaningfully. Options that work today may not be available later, especially as rates shift.</p>
+          <p>I'm here whenever you're ready.</p>
+          <p><a href="#">Pick a time that works for you.</a></p>
+          <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Keap Setup:</strong> Standard broadcast. A/B test A vs C. This is the final email of the month, so it's the most direct. The "I'm here when you're ready" line preserves the no-pressure tone while creating clear forward momentum.</p>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /section-campaigns -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- AUTOMATION FLOWS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-automations" id="automations">
+    <div class="section-intro">
+      <div class="section-label">Automation Flows</div>
+      <h2>Always-On Sequences</h2>
+      <p>These automations run 24/7 once activated in Keap. They trigger based on existing Keap tags. Flow 1 is the highest priority, as it directly targets the scheduling gap that's costing appointments.</p>
+    </div>
+
+    <!-- ============================== -->
+    <!-- FLOW 1: DIDN'T SCHEDULE        -->
+    <!-- ============================== -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 1 -PRIORITY</div>
+      <h3 class="flow-title">Didn't Schedule Recovery</h3>
+      <p class="flow-desc">Targets the highest-leverage segment: people who completed the quiz and requested an evaluation but never booked a call. This is the 37-41% conversion gap. Keap tag: <strong>"02. Requested Annuity Evaluation - Didn't Schedule"</strong>. 5 emails over 14 days.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">Tag: 02. Didn't Schedule</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Your Spot Is Waiting</td><td>+1 day</td></tr>
+            <tr><td>03</td><td>What the Call Looks Like</td><td>+3 days</td></tr>
+            <tr><td>04</td><td>Others Felt the Same Way</td><td>+6 days</td></tr>
+            <tr><td>05</td><td>Your Advisor Is Still Here</td><td>+10 days</td></tr>
+            <tr><td>06</td><td>Last Note from Me</td><td>+14 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FLOW 1, EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">BRIDGE 01</div>
+        <h3 class="email-title">Your Spot Is Waiting</h3>
+        <div class="email-tags">
+          <span class="tag">Interested &rarr; Engaged</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Quick follow-up</li>
+              <li><span>B.</span> Still thinking about it?</li>
+              <li><span>C.</span> Your evaluation</li>
+              <li><span>D.</span> Forgot to schedule?</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> takes 15 minutes, completely free</li>
+              <li><span>Trigger</span> 1 day after "Didn't Schedule" tag</li>
+              <li><span>Audience</span> Tag: 02. Didn't Schedule</li>
+              <li><span>Goal</span> Gentle reminder, remove friction</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>I noticed you started the evaluation process but didn't schedule a call yet.</p>
+            <p>Totally fine. Sometimes life gets in the way. Whenever you're ready, <a href="#">pick a time here</a>.</p>
+            <p>Your spot is still available.</p>
+            <p>The call takes about 15 minutes, it's completely free, and there's no obligation to do anything afterward.</p>
+            <p><a href="#">Pick a time that works for you here.</a></p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Create workflow. Trigger: Tag applied = "10. Marketing | Annuity Evaluation: 02. Requested Annuity Evaluation - Didn't Schedule". Wait 1 day. Send email. Add goal: if tag "03. Appointment Scheduled" is applied at any point, exit the sequence immediately.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 1, EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">BRIDGE 02</div>
+        <h3 class="email-title">What the Call Looks Like</h3>
+        <div class="email-tags">
+          <span class="tag">Engaged &rarr; Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Here's what happens</li>
+              <li><span>B.</span> 15 minutes, explained</li>
+              <li><span>C.</span> No surprises</li>
+              <li><span>D.</span> Your call, step by step</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> step by step, nothing hidden</li>
+              <li><span>Trigger</span> 3 days after Bridge 01</li>
+              <li><span>Audience</span> Tag: 02. Didn't Schedule</li>
+              <li><span>Goal</span> Remove ambiguity about the process</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>In case it helps to know what to expect:</p>
+            <p>We'll spend about <a href="#">15 minutes together on a free call</a>.</p>
+            <p>I'll ask about your current savings, income needs, and timeline. Then I'll show you which annuity options, if any, fit your specific situation.</p>
+            <p>If annuities aren't right for you, I'll tell you that directly.</p>
+            <p><a href="#">Schedule your call here.</a></p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same workflow, 3-day delay after Bridge 01. Exit goal remains: tag "03. Appointment Scheduled" applied = exit sequence.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 1, EMAIL 3 -->
+      <div class="email-block">
+        <div class="email-num">BRIDGE 03</div>
+        <h3 class="email-title">Others Felt the Same Way</h3>
+        <div class="email-tags">
+          <span class="tag">Engaged &rarr; Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> You're not the only one</li>
+              <li><span>B.</span> Most people hesitate</li>
+              <li><span>C.</span> They felt it too</li>
+              <li><span>D.</span> 533 people before you</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> they hesitated too, then they called</li>
+              <li><span>Trigger</span> 6 days after Bridge 01</li>
+              <li><span>Audience</span> Tag: 02. Didn't Schedule</li>
+              <li><span>Goal</span> Social proof to normalize hesitation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>If you're hesitating, you're in good company.</p>
+            <p>Most of the 533 people who've left reviews on Trustpilot say the same thing: they weren't sure at first either. Then they <a href="#">scheduled the call</a>.</p>
+            <p>Then they had the call and wished they'd done it sooner.</p>
+            <p>The evaluation is free, takes 15 minutes, and your advisor is already assigned to you.</p>
+            <p><a href="#">Pick a time here.</a></p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same workflow, 6-day delay. Exit goal same as above.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 1, EMAIL 4 -->
+      <div class="email-block">
+        <div class="email-num">BRIDGE 04</div>
+        <h3 class="email-title">Your Advisor Is Still Here</h3>
+        <div class="email-tags">
+          <span class="tag">Engaged &rarr; Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Still here for you</li>
+              <li><span>B.</span> Whenever you're ready</li>
+              <li><span>C.</span> No rush, no expiry</li>
+              <li><span>D.</span> Your call, your timing</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> your advisor hasn't gone anywhere</li>
+              <li><span>Trigger</span> 10 days after Bridge 01</li>
+              <li><span>Audience</span> Tag: 02. Didn't Schedule</li>
+              <li><span>Goal</span> Personal touch, reduce pressure</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Just wanted you to know I'm still here.</p>
+            <p>There's no expiration on your <a href="#">free evaluation</a>.</p>
+            <p>Whenever the timing feels right, I'm available to walk through your situation and help you figure out whether annuities make sense.</p>
+            <p><a href="#">My calendar is here when you're ready.</a></p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same workflow, 10-day delay. Exit goal same.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 1, EMAIL 5 -->
+      <div class="email-block">
+        <div class="email-num">BRIDGE 05</div>
+        <h3 class="email-title">Last Note from Me</h3>
+        <div class="email-tags">
+          <span class="tag">Engaged &rarr; Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> One last thing</li>
+              <li><span>B.</span> Before I stop reaching out</li>
+              <li><span>C.</span> Last note</li>
+              <li><span>D.</span> Closing the loop</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> after this, the ball is in your court</li>
+              <li><span>Trigger</span> 14 days after Bridge 01</li>
+              <li><span>Audience</span> Tag: 02. Didn't Schedule</li>
+              <li><span>Goal</span> Final touchpoint, respectful close</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>This is my last note about the evaluation.</p>
+            <p>I don't want to keep asking if you've already decided it's not the right time, but if you do want to talk, <a href="#">book your call here</a>.</p>
+            <p>So after this, the ball is in your court.</p>
+            <p>If you ever want to explore whether annuities fit your situation, I'm here.</p>
+            <p><a href="#">Schedule your 15-minute call anytime.</a></p>
+            <p>Talk soon.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same workflow, 14-day delay. This is the final email in the sequence. After this, the contact returns to the regular weekly cadence. Exit goal same. The "respectful close" pattern often generates the highest conversion of any email in a recovery sequence because it removes all pressure.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- FLOW 2: WELCOME                -->
+    <!-- ============================== -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 2</div>
+      <h3 class="flow-title">Welcome Sequence</h3>
+      <p class="flow-desc">Triggers when someone completes the quiz (tag: "01. Requested Annuity Evaluation"). 4 emails over 7 days. Introduces the advisor, builds credibility, and bridges to scheduling. Replaces the current minimal post-quiz follow-up.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">Tag: 01. Requested Evaluation</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Welcome from Your Advisor</td><td>Immediate</td></tr>
+            <tr><td>03</td><td>Why We Do This Differently</td><td>+2 days</td></tr>
+            <tr><td>04</td><td>What the Call Covers</td><td>+4 days</td></tr>
+            <tr><td>05</td><td>Ready When You Are</td><td>+7 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FLOW 2, EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 01</div>
+        <h3 class="email-title">Welcome from Your Advisor</h3>
+        <div class="email-tags">
+          <span class="tag">Interested &rarr; Engaged</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Welcome, quick intro</li>
+              <li><span>B.</span> Thanks for taking the quiz</li>
+              <li><span>C.</span> Your advisor here</li>
+              <li><span>D.</span> Got your quiz results</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> here's what happens next</li>
+              <li><span>Trigger</span> Immediately on quiz completion</li>
+              <li><span>Audience</span> Tag: 01. Requested Evaluation</li>
+              <li><span>Goal</span> Introduce advisor, set expectations</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Thanks for completing the annuity evaluation quiz.</p>
+            <p>I'm [Advisor Name], a licensed advisor here at Annuity Gator. I've been assigned to your case and I'll be your point of contact going forward.</p>
+            <p>Here's what happens next: <a href="#">schedule a free 15-minute call with me</a> and we'll review your situation together.</p>
+            <p>I'll tell you whether annuities fit your plan or not. That simple.</p>
+            <p>You'll also receive helpful emails from me going forward with retirement income insights and strategies.</p>
+            <p>If you ever have a question, just reply to any email. I'm here to help.</p>
+            <p><a href="#">Schedule your call here.</a></p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Create workflow. Trigger: Tag applied = "10. Marketing | Annuity Evaluation: 01. Requested Annuity Evaluation". Send immediately. Add goal: if tag "03. Appointment Scheduled" is applied, exit sequence. Personalize sender to assigned advisor.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 2, EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 02</div>
+        <h3 class="email-title">Why We Do This Differently</h3>
+        <div class="email-tags">
+          <span class="tag">Engaged</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> We don't sell annuities</li>
+              <li><span>B.</span> Why we're different</li>
+              <li><span>C.</span> Not what you'd expect</li>
+              <li><span>D.</span> Our approach</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> if annuities aren't right, we say so</li>
+              <li><span>Trigger</span> 2 days after Welcome 01</li>
+              <li><span>Audience</span> Tag: 01. Requested Evaluation</li>
+              <li><span>Goal</span> Build credibility, differentiate</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Most financial services push you toward a product.</p>
+            <p>We do something different at Annuity Gator, and you can experience it firsthand in a <a href="#">free 15-minute evaluation</a>.</p>
+            <p>The evaluation starts with your situation, not a product. If annuities don't fit what you need, your advisor tells you directly.</p>
+            <p>We'd rather lose a sale than push something that doesn't work for you.</p>
+            <p>That's why we have 533 five-star reviews on Trustpilot. People appreciate honesty over salesmanship.</p>
+            <p><a href="#">Schedule your free evaluation.</a></p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same workflow, 2-day delay. Exit goal same.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 2, EMAIL 3 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 03</div>
+        <h3 class="email-title">What the Call Covers</h3>
+        <div class="email-tags">
+          <span class="tag">Engaged &rarr; Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Here's what we cover</li>
+              <li><span>B.</span> 15 minutes, 3 answers</li>
+              <li><span>C.</span> Your call, explained</li>
+              <li><span>D.</span> What to expect</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> income gap, risk exposure, timeline</li>
+              <li><span>Trigger</span> 4 days after Welcome 01</li>
+              <li><span>Audience</span> Tag: 01. Requested Evaluation</li>
+              <li><span>Goal</span> Remove ambiguity, drive scheduling</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>On our <a href="#">free evaluation call</a>, I'll look at three things:</p>
+            <p><strong>1.</strong> Your income gap: guaranteed income today vs. what you need monthly.</p>
+            <p><strong>2.</strong> Your risk exposure: how much of your retirement depends on market performance.</p>
+            <p><strong>3.</strong> Your timeline: whether acting now makes better financial sense than waiting.</p>
+            <p>You'll walk away with a clear picture and a recommendation, whether that includes an annuity or not.</p>
+            <p><a href="#">Schedule your 15-minute call.</a></p>
+            <p>Just reply if you have questions.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same workflow, 4-day delay. Exit goal same.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 2, EMAIL 4 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 04</div>
+        <h3 class="email-title">Ready When You Are</h3>
+        <div class="email-tags">
+          <span class="tag">Engaged &rarr; Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Whenever you're ready</li>
+              <li><span>B.</span> Your timing, your call</li>
+              <li><span>C.</span> I'm here</li>
+              <li><span>D.</span> No rush</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> the door's always open</li>
+              <li><span>Trigger</span> 7 days after Welcome 01</li>
+              <li><span>Audience</span> Tag: 01. Requested Evaluation</li>
+              <li><span>Goal</span> Final welcome touch, respectful close</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>No hard sell from me today.</p>
+            <p>Just a note to say I'm here when you're ready to <a href="#">schedule your free call</a>.</p>
+            <p>Going forward, you'll receive regular emails with retirement income insights.</p>
+            <p>If anything resonates, or if you just want to talk through your situation, reply to any email or <a href="#">schedule a call directly</a>.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same workflow, 7-day delay. After this email, the contact transitions to the regular AG Weekly Cadence. Exit goal same. If they don't schedule during this 7-day sequence, they'll receive the "Didn't Schedule" tag and enter Flow 1 automatically.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- FLOW 3: RE-ENGAGEMENT          -->
+    <!-- ============================== -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 3</div>
+      <h3 class="flow-title">Re-engagement</h3>
+      <p class="flow-desc">Win-back campaign for contacts who haven't opened emails in 30+ days. 3 emails over 10 days with new subject line patterns and fresh angles. Goal: re-activate silent subscribers or confirm they should be suppressed.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">No opens 30+ days</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Still Interested?</td><td>Immediate</td></tr>
+            <tr><td>03</td><td>One Question</td><td>+4 days</td></tr>
+            <tr><td>04</td><td>Last Email Unless...</td><td>+10 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FLOW 3, EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">RE-ENGAGE 01</div>
+        <h3 class="email-title">Still Interested?</h3>
+        <div class="email-tags">
+          <span class="tag">Re-engagement</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Still there?</li>
+              <li><span>B.</span> Quick check-in</li>
+              <li><span>C.</span> Should I keep writing?</li>
+              <li><span>D.</span> Miss you (not really)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> let me know if you want to keep hearing from me</li>
+              <li><span>Trigger</span> No opens for 30+ days</li>
+              <li><span>Audience</span> Inactive 30+ days</li>
+              <li><span>Goal</span> Re-activate or confirm disinterest</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>I noticed it's been a while since you opened one of my emails, and that's completely fine.</p>
+            <p>Retirement planning isn't always top of mind, but if it is right now, <a href="#">schedule your free evaluation</a>.</p>
+            <p>If you'd still like to receive insights about retirement income strategies, no action needed. I'll keep sending.</p>
+            <p>If you'd prefer I stop, just <a href="#">unsubscribe here</a> and I'll respect that immediately.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> This requires a manual or engagement-scoring trigger in Keap. Create a saved search for contacts with no email opens in last 30 days who are in the AG Weekly Cadence. Run this flow monthly. Important: if they open this email, remove them from the re-engagement sequence immediately (they're re-activated).</p>
+        </div>
+      </div>
+
+      <!-- FLOW 3, EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">RE-ENGAGE 02</div>
+        <h3 class="email-title">One Question</h3>
+        <div class="email-tags">
+          <span class="tag">Re-engagement</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> One question for you</li>
+              <li><span>B.</span> Curious about something</li>
+              <li><span>C.</span> Quick thought</li>
+              <li><span>D.</span> Before I go quiet</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> is retirement income still on your mind?</li>
+              <li><span>Trigger</span> 4 days after Re-engage 01</li>
+              <li><span>Audience</span> Inactive 30+ days (still inactive)</li>
+              <li><span>Goal</span> Pattern interrupt with direct question</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Is retirement income still something you're thinking about?</p>
+            <p>If yes, <a href="#">schedule your free 15-minute call</a>. Your assigned advisor can give you the clarity you need, free of charge.</p>
+            <p>Either way, no hard feelings. I'd rather respect your time than fill your inbox with things you don't need.</p>
+            <p>If you'd prefer I stop emailing, you can <a href="#">unsubscribe anytime</a>.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same flow, 4-day delay. If they open this email, exit sequence (re-activated). Only send to contacts who didn't open Re-engage 01.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 3, EMAIL 3 -->
+      <div class="email-block">
+        <div class="email-num">RE-ENGAGE 03</div>
+        <h3 class="email-title">Last Email Unless You Want More</h3>
+        <div class="email-tags">
+          <span class="tag">Re-engagement</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> This is my last one</li>
+              <li><span>B.</span> Saying goodbye (maybe)</li>
+              <li><span>C.</span> Last email from me</li>
+              <li><span>D.</span> Should I stay or go?</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> open this if you want to keep hearing from me</li>
+              <li><span>Trigger</span> 10 days after Re-engage 01</li>
+              <li><span>Audience</span> Inactive 30+ days (still inactive)</li>
+              <li><span>Goal</span> Final chance to re-engage before suppression</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>This will be my last email unless you'd like to keep receiving them.</p>
+            <p>If you open this email, I'll know you're still interested, and I'll keep sending retirement income insights your way.</p>
+            <p>If not, I'll remove you from future emails. No hard feelings.</p>
+            <p>The free evaluation offer stays open either way. Whenever you're ready, <a href="#">schedule your call here</a>.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same flow, 10-day delay. After this email: if no open within 7 days, apply the "Unengaged NonMarketable" tag to suppress from future campaign sends. This protects deliverability for engaged contacts. Contacts can always re-engage later by visiting the site or clicking a future email if one reaches them through a re-activation campaign (Month 3+).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- FLOW 4: POST-APPOINTMENT       -->
+    <!-- ============================== -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 4</div>
+      <h3 class="flow-title">Post-Appointment Confirmation</h3>
+      <p class="flow-desc">Triggers when someone books an appointment (tag: "03. Appointment Scheduled"). 3 emails designed to reduce no-shows and prepare them for a productive call with their advisor.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">Tag: 03. Appointment Scheduled</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>You're Booked</td><td>Immediate</td></tr>
+            <tr><td>03</td><td>Get the Most from Your Call</td><td>+1 day (or day before)</td></tr>
+            <tr><td>04</td><td>How Did It Go?</td><td>+1 day after call</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FLOW 4, EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">CONFIRM 01</div>
+        <h3 class="email-title">You're Booked</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> You're confirmed</li>
+              <li><span>B.</span> Call booked, here's what's next</li>
+              <li><span>C.</span> Looking forward to it</li>
+              <li><span>D.</span> Your evaluation is set</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> here's what to expect on the call</li>
+              <li><span>Trigger</span> Immediately on booking</li>
+              <li><span>Audience</span> Tag: 03. Appointment Scheduled</li>
+              <li><span>Goal</span> Confirm and set expectations</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Great news: your evaluation call is booked.</p>
+            <p>Here's what to expect:</p>
+            <p>We'll spend about 15 minutes reviewing your current situation, including your savings, income needs, and timeline.</p>
+            <p>I'll walk you through which annuity options, if any, make sense for you specifically.</p>
+            <p>It's just a conversation. You're not obligated to do anything afterward.</p>
+            <p>Looking forward to speaking with you.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Create workflow. Trigger: Tag applied = "10. Marketing | Annuity Evaluation: 03. Requested Annuity Evaluation - Appointment Scheduled". Send immediately. This replaces or enhances the existing "Scheduled Appt Follow-Up" automation which has 25 active contacts and 44.9% open rate.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 4, EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">CONFIRM 02</div>
+        <h3 class="email-title">Get the Most from Your Call</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer &rarr; Repeat Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Quick prep for your call</li>
+              <li><span>B.</span> Have these 3 things ready</li>
+              <li><span>C.</span> Tomorrow's call</li>
+              <li><span>D.</span> Make our call count</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> 3 things to have handy for our conversation</li>
+              <li><span>Trigger</span> 1 day after confirmation</li>
+              <li><span>Audience</span> Tag: 03. Appointment Scheduled</li>
+              <li><span>Goal</span> Reduce no-shows, improve call quality</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Looking forward to our call.</p>
+            <p>To make the most of our 15 minutes together, it helps to have a rough idea of:</p>
+            <p><strong>1.</strong> Your total retirement savings (approximate is fine)</p>
+            <p><strong>2.</strong> Your monthly income needs (what you need to cover expenses)</p>
+            <p><strong>3.</strong> Your timeline (when you plan to start drawing income)</p>
+            <p>No paperwork or anything like that. Just those three rough numbers and we can have a really productive conversation.</p>
+            <p>Talk soon.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> Same workflow, 1-day delay. Ideally this would send the day before the appointment using Keap's date-based triggers if available. If not, sending 1 day after booking is the fallback and still effective.</p>
+        </div>
+      </div>
+
+      <!-- FLOW 4, EMAIL 3 -->
+      <div class="email-block">
+        <div class="email-num">CONFIRM 03</div>
+        <h3 class="email-title">How Did It Go?</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer &rarr; Repeat Buyer</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> How was your call?</li>
+              <li><span>B.</span> Any questions after?</li>
+              <li><span>C.</span> Following up</li>
+              <li><span>D.</span> Thoughts after our talk?</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> reply with any follow-up questions</li>
+              <li><span>Trigger</span> 1 day after scheduled call</li>
+              <li><span>Audience</span> Tag: 03. Appointment Scheduled</li>
+              <li><span>Goal</span> Follow up, answer questions, drive next step</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hope our conversation was helpful.</p>
+            <p>If any questions came up after the call, or if you want to go deeper on anything we talked about, just reply here. Happy to clarify anything.</p>
+            <p>And if there's more to discuss down the road, I'm not going anywhere.</p>
+            <div class="sig">Sincerely,<br>[Advisor Name], [Credentials]<br>Licensed Annuity Investigator<br>Annuity Gator<br>P: [Phone] | W: annuitygator.com</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Keap Setup:</strong> This is tricky because Keap may not have an exact "call completed" trigger. Two options: (1) Send 3 days after the "03. Appointment Scheduled" tag as a time-based approximation. (2) Ask Francisco to apply a manual tag after each completed call. Option 1 is the practical starting point.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /section-automations -->
+
+  <!-- NEXT MONTH -->
+  <div class="section" id="next-month">
+    <div class="section-label">Looking Ahead</div>
+    <h2>May 2026 Preview</h2>
+    <p>Month 2 builds on the automation foundation laid in April. Once we have data from the first month's flows and campaigns, we'll optimize and expand.</p>
+    <div class="next-month-box">
+      <h4>Month 2 Priorities</h4>
+      <ul>
+        <li><strong>Quiz Result Nurture:</strong> Segment-specific sequences for Income Now, Income Later, and Safe Growth. Requires adding quiz result delivery to the Annuity Evaluation funnel.</li>
+        <li><strong>Post-Call Nurture:</strong> Follow-up sequence for people who had a consultation but didn't move forward. Needs advisor feedback loop to identify these contacts.</li>
+        <li><strong>Sending Frequency Test:</strong> Test 4x/week vs daily based on April engagement data. March showed declining opens toward month end, suggesting potential list fatigue.</li>
+        <li><strong>Subject Line Optimization:</strong> Review A/B test data from April campaigns. Double down on winning patterns.</li>
+        <li><strong>VSL Integration:</strong> Test VSL-style approach Fernando mentioned, potentially as a landing page between email click and scheduling.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-brand">The Email Blueprint</div>
+    <p style="margin-top:8px;font-size:13px;color:var(--text-caption);">Annuity Gator -Nationwide Annuity Evaluation & Advisor Matching</p>
+  </footer>
+</div>
+
+<script>
+function copyEmail(btn) {
+  const wrapper = btn.closest('.email-body-wrapper');
+  const body = wrapper.querySelector('.email-body');
+  const text = body.innerText || body.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+    btn.style.color = '#4ADE80';
+    setTimeout(() => {
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
