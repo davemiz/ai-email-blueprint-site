@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estate Agent Outreach Playbook — Anyclean</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-subtle: #F8F9FB;
+    --bg-muted: #F3F4F6;
+    --text-primary: #171717;
+    --text-body: #374151;
+    --text-secondary: #6B7280;
+    --text-caption: #9CA3AF;
+    --border: #E5E7EB;
+    --border-subtle: #F3F4F6;
+    --font-heading: 'Geist', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%); background-attachment: fixed; color: var(--text-body); font-family: var(--font-body); font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .brand-label { font-family: var(--font-body); font-size: 12px; font-weight: 500; letter-spacing: 5px; text-transform: uppercase; color: var(--text-secondary); display: flex; flex-direction: column; gap: 2px; }
+  .powered-by { font-family: var(--font-body); font-size: 11px; font-weight: 400; letter-spacing: 0.5px; text-transform: none; color: var(--text-secondary); }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--text-secondary); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: var(--font-heading); font-size: 56px; font-weight: 400; color: var(--text-primary); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .header h1 span { color: var(--text-secondary); display: block; font-weight: 400; }
+  .header-sub { font-size: 15px; color: var(--text-secondary); margin-bottom: 40px; font-weight: 400; letter-spacing: 0.5px; }
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 48px; background: var(--bg); border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; overflow: hidden; }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; padding: 32px 36px; border-right: 1px solid var(--border); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-secondary); }
+  .meta-value { font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em; }
+  .section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); margin-bottom: 16px; display: inline-block; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .section h2 { font-family: var(--font-heading); font-size: 36px; font-weight: 400; color: var(--text-primary); letter-spacing: -0.8px; line-height: 1.1; margin-bottom: 24px; }
+  .section h3 { font-family: var(--font-heading); font-size: 24px; font-weight: 500; color: var(--text-primary); letter-spacing: -0.22px; line-height: 1.2; margin-bottom: 16px; margin-top: 48px; }
+  .section p { font-size: 15px; color: var(--text-body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--text-primary); font-weight: 600; }
+  .snapshot-box { background: var(--bg-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 48px; margin-top: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-primary); }
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: var(--font-body); font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--bg-muted); border-radius: 6px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: var(--font-heading); font-size: 22px; font-weight: 500; color: var(--text-primary); margin: 0 0 8px 0; letter-spacing: -0.22px; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+  .step-content ul { margin: 8px 0 0; padding-left: 20px; }
+  .step-content li { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 6px; }
+  .strategy-note { background: var(--bg-muted); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 32px 36px; margin-top: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .strategy-note p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--text-primary); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+  .section-grey-band { background: var(--bg-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 80px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .strategy-note { background: var(--bg); border-color: rgba(0,0,0,0.06); }
+
+  /* Email Template Blocks */
+  .email-template { background: var(--bg); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 40px; margin-top: 32px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); position: relative; }
+  .email-template-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .email-template-subject { font-family: var(--font-heading); font-size: 18px; font-weight: 500; color: var(--text-primary); margin-bottom: 20px; }
+  .email-template-body { font-size: 15px; color: var(--text-body); line-height: 1.8; max-width: 600px; }
+  .email-template-body p { color: var(--text-body); font-size: 15px; line-height: 1.8; margin-bottom: 16px; max-width: 100%; }
+  .email-template-body p:last-child { margin-bottom: 0; }
+  .email-template-body strong { color: var(--text-primary) !important; font-weight: 600; }
+  .email-template-body ul { margin: 12px 0; padding-left: 20px; }
+  .email-template-body li { margin-bottom: 8px; font-size: 15px; line-height: 1.7; color: var(--text-body); }
+  .email-template-body .sig { margin-top: 24px; color: var(--text-secondary); font-size: 14px; }
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); color: var(--text-secondary); font-family: var(--font-body); font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; border-radius: 6px; }
+  .copy-btn:hover { background: rgba(0,0,0,0.1); color: var(--text-body); }
+  .copy-btn.copied { background: var(--bg-subtle); border-color: var(--border); color: var(--text-body); }
+  .copy-btn svg { width: 16px; height: 16px; }
+
+  /* Rate Card */
+  .rate-card { background: var(--bg-muted); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; margin-top: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .rate-card-header { padding: 32px 36px; border-bottom: 1px solid var(--border); }
+  .rate-card-header h4 { font-family: var(--font-heading); font-size: 20px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+  .rate-card-header p { font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 100%; }
+  .rate-card-body { padding: 0; }
+  .rate-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 0; border-bottom: 1px solid var(--border-subtle); }
+  .rate-row:last-child { border-bottom: none; }
+  .rate-row.rate-header { background: var(--bg-subtle); }
+  .rate-cell { padding: 16px 24px; font-size: 14px; color: var(--text-body); border-right: 1px solid var(--border-subtle); }
+  .rate-cell:last-child { border-right: none; }
+  .rate-header .rate-cell { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption); }
+  .rate-cell strong { color: var(--text-primary); font-weight: 600; }
+
+  .flow-table-wrap { background: var(--bg); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.5px; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .flow-table tbody td { font-size: 13px; color: var(--text-caption); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--bg-subtle); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-primary); font-weight: 500; }
+
+  .footer { padding: 80px 0 80px; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--text-secondary); font-style: italic; }
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+    .copy-btn { display: none; }
+    :root { --text-primary: #000; --text-body: #222; --text-secondary: #666; --bg-subtle: #f9f9f9; --bg-muted: #f5f5f5; --border: #e0e0e0; --bg: #fff; }
+  }
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .header-meta-row { grid-template-columns: 1fr; }
+    .rate-row { grid-template-columns: 1fr; }
+    .rate-cell { border-right: none; border-bottom: 1px solid var(--border-subtle); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">Growth Systems<span class="powered-by">powered by: Email Trust Architecture AI</span></div>
+      <div class="header-meta">
+        <p>March 2026</p>
+        <p>v1.0</p>
+      </div>
+    </div>
+    <h1>Estate Agent<span>Outreach Playbook</span></h1>
+    <p class="header-sub">Build systematic referral partnerships with London estate agents and letting agents.</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><div class="meta-label">Target</div><div class="meta-value">Estate + Letting Agents</div></div>
+      <div class="meta-item"><div class="meta-label">Geography</div><div class="meta-value">Greater London</div></div>
+      <div class="meta-item"><div class="meta-label">Revenue Driver</div><div class="meta-value">End of Tenancy Cleans</div></div>
+      <div class="meta-item"><div class="meta-label">Outreach Emails</div><div class="meta-value">3 Templates</div></div>
+      <div class="meta-item"><div class="meta-label">Follow-Up</div><div class="meta-value">Monthly Check-in</div></div>
+      <div class="meta-item"><div class="meta-label">System Type</div><div class="meta-value">Partner Referral</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- WHY THIS MATTERS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Why This Matters</div>
+    <h2>End of Tenancy Is Your Top Revenue Driver</h2>
+    <p>End of tenancy cleaning is Anyclean's highest-value service. And the people who control the flow of that work? Estate agents and letting agents. They manage hundreds of tenancies across London. When a tenant moves out, the agent needs a reliable cleaning company. If you're their go-to, that's a recurring stream of high-value bookings you never have to advertise for.</p>
+    <p>Right now, these partnerships aren't being built systematically. This playbook gives your office team a repeatable process for reaching out, converting, and maintaining agent relationships.</p>
+
+    <div class="snapshot-box">
+      <p>This is a <strong>manual outreach system</strong>, not a MailerLite automation. Your office team sends these emails directly from your business email. The templates are ready to copy, personalise, and send. Focus on <strong>independent agencies</strong> first. The chains (Foxtons, Savills) have national contracts. Independent agents are more likely to partner with a local, trusted cleaning company.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- BUILD YOUR LIST                                     -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Step 1</div>
+    <h2>Build Your Target List</h2>
+    <p>Start with 20-30 agents. Quality over quantity. Focus on agents in boroughs where Anyclean already operates and has strong reviews.</p>
+
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Search Google Maps</h4>
+          <p>Search "estate agents [borough name]" or "letting agents [borough name]" for each area you serve. Look for independent agencies with decent Google reviews. Copy their name, email, phone, and the contact person's name (usually on their website's "About" or "Team" page).</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Check Rightmove and Zoopla agent directories</h4>
+          <p>Both platforms list agents by area. Filter by "letting agents" since they handle end of tenancy more directly. Cross-reference with your Google Maps list to fill gaps.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Prioritise boroughs with high tenant turnover</h4>
+          <p>Focus on areas with lots of rental properties and frequent moves. Central and inner London boroughs tend to have higher turnover. Start with areas you're already cleaning in regularly.</p>
+          <ul>
+            <li>High priority: Islington, Camden, Hackney, Southwark, Lambeth, Tower Hamlets, Wandsworth</li>
+            <li>Medium priority: Hammersmith, Kensington, Westminster, Lewisham, Greenwich</li>
+            <li>Expand from there based on results</li>
+          </ul>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Track in a simple spreadsheet</h4>
+          <p>Columns: Agency Name, Contact Person, Email, Phone, Borough, Date Contacted, Response, Status (Not Contacted / Contacted / Interested / Active Partner). Review weekly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- OUTREACH TEMPLATES                                  -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-grey-band">
+    <div class="section" style="padding-top: 0; border-bottom: none;">
+      <div class="section-label">Step 2</div>
+      <h2>The Outreach Emails</h2>
+      <p>Three emails, sent manually from your business email (not MailerLite). Personalise each one with the agent's name and borough. Space them 5-7 days apart.</p>
+
+      <!-- EMAIL 1 -->
+      <div class="email-template">
+        <button class="copy-btn" onclick="copyTemplate(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+        <div class="email-template-label">Email 1 · Introduction (Day 1)</div>
+        <div class="email-template-subject">Subject: end of tenancy cleans</div>
+        <div class="email-template-body">
+          <p>Hi [Name],</p>
+          <p>You manage rental properties in [borough], so you probably need end of tenancy cleans sorted quickly and done right.</p>
+          <p>We've handled them across London since 1998. 355 Google reviews, 4.7 stars, re-clean guarantee on every job.</p>
+          <p>Worth a look at our partner rates?</p>
+          <p class="sig">[Your name]<br>Anyclean<br>anyclean.co.uk<br>[Phone number]</p>
+        </div>
+      </div>
+
+      <!-- EMAIL 2 -->
+      <div class="email-template" style="margin-top: 40px;">
+        <button class="copy-btn" onclick="copyTemplate(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+        <div class="email-template-label">Email 2 · New angle (Day 5-7)</div>
+        <div class="email-template-subject">Subject: inventory check headaches</div>
+        <div class="email-template-body">
+          <p>Hi [Name],</p>
+          <p>The worst part of a tenancy changeover isn't finding a cleaner. It's when the clean doesn't pass inventory and you're chasing someone to come back.</p>
+          <p>We run dedicated end of tenancy teams. Every job comes with a re-clean guarantee, same-day availability if needed, and full insurance.</p>
+          <p>Do you have a preferred cleaning partner already?</p>
+          <p class="sig">[Your name]<br>Anyclean</p>
+        </div>
+      </div>
+
+      <!-- EMAIL 3 -->
+      <div class="email-template" style="margin-top: 40px;">
+        <button class="copy-btn" onclick="copyTemplate(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+        <div class="email-template-label">Email 3 · Breakup (Day 10-14)</div>
+        <div class="email-template-subject">Subject: happy to be the backup</div>
+        <div class="email-template-body">
+          <p>Hi [Name],</p>
+          <p>Last note from me. If you've got a cleaning company you're happy with, brilliant.</p>
+          <p>But if they ever cancel last minute or a clean doesn't pass checkout, we can usually turn it around same-day. 27 years in London, fully insured.</p>
+          <p>Worth keeping our number on file?</p>
+          <p class="sig">[Your name]<br>Anyclean<br>[Phone number]</p>
+        </div>
+      </div>
+
+      <div class="strategy-note" style="margin-top: 32px;">
+        <p><strong>Why these work:</strong> Each email is under 65 words. Estate agents get hundreds of cold emails. Short, specific, credible emails get read. Each touch uses a different angle (direct intro, pain point, backup positioning) so you're never repeating yourself. The low-case subject lines feel like a real person wrote them, not a marketing team.</p>
+        <p><strong>Sending rules:</strong> Plain text from your business email. No MailerLite. No images or logos. Space 5-7 days apart. Stop after 3. If they don't reply after 3 touches, move on. Never chase.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PARTNER RATE CARD                                   -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Step 3</div>
+    <h2>Partner Rate Card</h2>
+    <p>A simple rate card to attach to your outreach emails or hand to agents in person. Prices below are indicative, adjust to your actual rates. The point is having something professional to send.</p>
+
+    <div class="rate-card">
+      <div class="rate-card-header">
+        <h4>Anyclean Partner Rates</h4>
+        <p>Exclusive pricing for estate agent and letting agent partners</p>
+      </div>
+      <div class="rate-card-body">
+        <div class="rate-row rate-header">
+          <div class="rate-cell">Service</div>
+          <div class="rate-cell">Standard Rate</div>
+          <div class="rate-cell">Partner Rate</div>
+        </div>
+        <div class="rate-row">
+          <div class="rate-cell"><strong>End of Tenancy: Studio/1-bed</strong></div>
+          <div class="rate-cell">From ~£180</div>
+          <div class="rate-cell"><strong>Confirm with client</strong></div>
+        </div>
+        <div class="rate-row">
+          <div class="rate-cell"><strong>End of Tenancy: 2-bed</strong></div>
+          <div class="rate-cell">From ~£250</div>
+          <div class="rate-cell"><strong>Confirm with client</strong></div>
+        </div>
+        <div class="rate-row">
+          <div class="rate-cell"><strong>End of Tenancy: 3-bed</strong></div>
+          <div class="rate-cell">From ~£320</div>
+          <div class="rate-cell"><strong>Confirm with client</strong></div>
+        </div>
+        <div class="rate-row">
+          <div class="rate-cell"><strong>Carpet Cleaning (add-on)</strong></div>
+          <div class="rate-cell">~£3.50-£4/sq.m.</div>
+          <div class="rate-cell"><strong>Confirm with client</strong></div>
+        </div>
+        <div class="rate-row">
+          <div class="rate-cell"><strong>Oven Cleaning (add-on)</strong></div>
+          <div class="rate-cell">Quoted per unit</div>
+          <div class="rate-cell"><strong>Confirm with client</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-note">
+      <p><strong>Note:</strong> Partner rates need to be confirmed with Anyclean. Typically a 5-10% discount off standard rates for volume partners is enough to make the relationship attractive without cutting into margins. The partner rate only activates once the agent has referred 3+ jobs.</p>
+      <p><strong>SLA commitments to include:</strong> 48-hour turnaround (standard), same-day available at premium, photo documentation of completed work, re-clean guarantee if inventory check raises issues.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- RELATIONSHIP MANAGEMENT                             -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Step 4</div>
+    <h2>Keeping Partnerships Alive</h2>
+    <p>Getting the first referral is the hard part. Keeping the relationship active is where the real revenue compounds.</p>
+
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>After the first job: send a quality report</h4>
+          <p>Email the agent after completing the first clean: "Hi [Name], just letting you know we've completed the end of tenancy clean at [address]. Everything looked great. Let me know if the tenant or landlord has any questions." This builds confidence that you're professional and communicative.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Monthly check-in (keep it brief)</h4>
+          <p>Once a month, send a 2-line email: "Hi [Name], just checking in. Any properties coming up that need a clean? We've got availability this month and can usually turn things around in 48 hours. Let me know." No fluff. Just presence.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Quarterly review (for active partners)</h4>
+          <p>For agents sending regular work, do a quick quarterly email: "Hi [Name], just wanted to say thanks for the continued work. We've done [X] cleans for your properties this quarter. Everything's gone smoothly. If there's anything we can improve, I'm all ears." This is about retention, not selling.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Seasonal push before peak months</h4>
+          <p>In February and August (before the March-June and September-October peak moving seasons), send a heads-up: "Hi [Name], moving season is about to kick off. Just confirming we've got capacity for your properties. If you'd like priority scheduling, let me know and I'll block time." This positions Anyclean as proactive, not reactive.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SUCCESS METRICS                                     -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" style="border-bottom: none;">
+    <div class="section-label">Measuring Success</div>
+    <h2>What Good Looks Like</h2>
+
+    <div class="flow-table-wrap">
+      <table class="flow-table">
+        <thead><tr><th>Metric</th><th>3-Month Target</th><th>12-Month Target</th></tr></thead>
+        <tbody>
+          <tr><td>Agents contacted</td><td>20-30</td><td>50+</td></tr>
+          <tr><td>Active partnerships</td><td>3-5</td><td>10-15</td></tr>
+          <tr><td>Referrals per month</td><td>2-4 jobs</td><td>8-12 jobs</td></tr>
+          <tr><td>Revenue from agent referrals</td><td>Track from month 1</td><td>Meaningful % of end of tenancy revenue</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="strategy-note" style="margin-top: 36px;">
+      <p><strong>The compounding effect:</strong> Each active agent partnership is a recurring revenue channel. An agent managing 50 rental properties might send you 2-3 end of tenancy cleans per month. At ~£250 per clean, that's £500-750/month from a single partnership. Ten active partnerships could generate £5,000-7,500/month in end of tenancy work alone, with zero advertising spend.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">The Email Blueprint · Growth Systems</div>
+    <p class="footer-note">Built for Anyclean by The Email Blueprint. This document contains proprietary strategy.</p>
+  </div>
+
+</div>
+
+<script>
+function copyTemplate(btn) {
+  const template = btn.closest('.email-template');
+  const body = template.querySelector('.email-template-body');
+  const subject = template.querySelector('.email-template-subject');
+  const text = subject.innerText + '\n\n' + body.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

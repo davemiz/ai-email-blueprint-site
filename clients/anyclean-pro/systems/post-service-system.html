@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post-Service System — Anyclean</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-subtle: #F8F9FB;
+    --bg-muted: #F3F4F6;
+    --text-primary: #171717;
+    --text-body: #374151;
+    --text-secondary: #6B7280;
+    --text-caption: #9CA3AF;
+    --border: #E5E7EB;
+    --border-subtle: #F3F4F6;
+    --font-heading: 'Geist', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.05);
+    --red-border: rgba(220,38,38,0.20);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%); background-attachment: fixed; color: var(--text-body); font-family: var(--font-body); font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .brand-label { font-family: var(--font-body); font-size: 12px; font-weight: 500; letter-spacing: 5px; text-transform: uppercase; color: var(--text-secondary); display: flex; flex-direction: column; gap: 2px; }
+  .powered-by { font-family: var(--font-body); font-size: 11px; font-weight: 400; letter-spacing: 0.5px; text-transform: none; color: var(--text-secondary); }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--text-secondary); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: var(--font-heading); font-size: 56px; font-weight: 400; color: var(--text-primary); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .header h1 span { color: var(--text-secondary); display: block; font-weight: 400; }
+  .header-sub { font-size: 15px; color: var(--text-secondary); margin-bottom: 40px; font-weight: 400; letter-spacing: 0.5px; }
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 48px; background: var(--bg); border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; overflow: hidden; }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; padding: 32px 36px; border-right: 1px solid var(--border); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-secondary); }
+  .meta-value { font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em; }
+  .section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); margin-bottom: 16px; display: inline-block; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .section h2 { font-family: var(--font-heading); font-size: 36px; font-weight: 400; color: var(--text-primary); letter-spacing: -0.8px; line-height: 1.1; margin-bottom: 24px; }
+  .section p { font-size: 15px; color: var(--text-body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--text-primary); font-weight: 600; }
+  .snapshot-box { background: var(--bg-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 48px; margin-top: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-primary); }
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: var(--font-body); font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--bg-muted); border-radius: 6px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: var(--font-heading); font-size: 22px; font-weight: 500; color: var(--text-primary); margin: 0 0 8px 0; letter-spacing: -0.22px; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+  .flow-table-wrap { background: var(--bg); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.5px; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .flow-table tbody td { font-size: 13px; color: var(--text-caption); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--bg-subtle); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-caption); font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 1px; width: 60px; }
+  .flow-table tbody td:nth-child(2) { color: var(--text-primary); font-weight: 500; }
+  .flow-table tbody td:nth-child(3) { color: var(--text-caption); }
+  .flow-table .existing-row td { color: var(--text-caption) !important; font-style: italic; }
+  .flow-trigger-badge { display: inline-block; padding: 4px 12px; background: var(--bg-muted); border-radius: 100px; font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--text-primary); }
+  .email-block { margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .email-block:first-child { margin-top: 24px; padding-top: 0; border-top: none; }
+  .email-num { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .email-title { font-family: var(--font-heading); font-size: 20px; font-weight: 500; color: var(--text-secondary); letter-spacing: -0.22px; margin-bottom: 12px; }
+  .email-tags { margin-bottom: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 3px 10px; border: 1px solid rgba(0,0,0,0.06); border-radius: 100px; font-family: var(--font-body); font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-caption); }
+  .email-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; background: var(--bg-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .email-meta > div { padding: 20px 24px; }
+  .email-meta > div:first-child { border-right: 1px solid var(--border-subtle); }
+  .email-meta-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .email-meta-value { font-size: 13px; color: var(--text-body); line-height: 1.8; }
+  .email-meta-value strong { color: var(--text-primary); font-weight: 500; }
+  .sl-list { list-style: none; padding: 0; margin: 0; }
+  .sl-list li { font-size: 13px; color: var(--text-body); padding: 7px 0; border-bottom: 1px solid var(--border-subtle); }
+  .sl-list li:last-child { border-bottom: none; }
+  .sl-list li span { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li { font-size: 13px; color: var(--text-body); padding: 7px 0; border-bottom: 1px solid var(--border-subtle); line-height: 1.5; }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-list li span { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption); width: 80px; margin-right: 4px; vertical-align: baseline; }
+  .email-body-wrapper { position: relative; margin-top: 20px; background: var(--bg); border-radius: 16px; padding: 48px 0; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .email-body { color: #333333; padding: 0 40px; font-size: 15px; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+  .email-body p { color: #333333; font-size: 15px; line-height: 1.8; margin-bottom: 16px; max-width: 100%; }
+  .email-body p:last-child { margin-bottom: 0; }
+  .email-body a { color: #2563EB; text-decoration: underline; }
+  .email-body .sig { margin-top: 24px; color: #666; font-size: 14px; }
+  .email-body .ps { margin-top: 20px; font-size: 14px; color: #555; font-style: italic; }
+  .email-body ul, .email-body ol { margin: 12px 0; padding-left: 20px; color: #333; }
+  .email-body li { margin-bottom: 8px; font-size: 15px; line-height: 1.7; }
+  .email-body .cta-button { display: inline-block; background: #2563EB; color: #FFFFFF !important; padding: 14px 32px; text-decoration: none; font-weight: 600; font-size: 16px; border-radius: 4px; margin: 16px 0; }
+  .email-body h3 { color: #111; font-size: 18px; margin-bottom: 12px; }
+  .email-body strong, .email-body b, .email-body p strong, .email-body p b { color: #222 !important; font-weight: 600; }
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); color: #666; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; border-radius: 6px; }
+  .copy-btn:hover { background: rgba(0,0,0,0.1); color: #333; }
+  .copy-btn.copied { background: var(--bg-subtle); border-color: var(--border); color: var(--text-body); }
+  .copy-btn svg { width: 16px; height: 16px; }
+  .strategy-note { background: var(--bg-muted); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 32px 36px; margin-top: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .strategy-note p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--text-primary); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+  .section-grey-band { background: var(--bg-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 80px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .strategy-note { background: var(--bg); border-color: rgba(0,0,0,0.06); }
+  .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-top: 36px; background: var(--bg); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .metric-item { padding: 32px 28px; border-right: 1px solid var(--border); }
+  .metric-item:last-child { border-right: none; }
+  .metric-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .metric-value { font-family: var(--font-heading); font-size: 28px; font-weight: 400; color: var(--text-primary); margin-bottom: 4px; }
+  .metric-note { font-size: 12px; color: var(--text-caption); }
+  .footer { padding: 80px 0 80px; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--text-secondary); font-style: italic; }
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+    .copy-btn { display: none; }
+    .email-body { border: 1px solid #ddd; }
+    .section, .header { border-color: #eee; }
+    :root { --text-primary: #000; --text-body: #222; --text-secondary: #666; --bg-subtle: #f9f9f9; --bg-muted: #f5f5f5; --border: #e0e0e0; --text-caption: #999; --bg: #fff; }
+  }
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .email-meta, .metrics-grid { grid-template-columns: 1fr; }
+    .header-meta-row { grid-template-columns: 1fr; }
+    .metric-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .metric-item:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">Growth Systems<span class="powered-by">powered by: Email Trust Architecture AI</span></div>
+      <div class="header-meta">
+        <p>March 2026</p>
+        <p>v1.0</p>
+      </div>
+    </div>
+    <h1>Post-Service<span>System</span></h1>
+    <p class="header-sub">Referrals, repeat bookings, and reviews from every completed job.</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><div class="meta-label">Platform</div><div class="meta-value">MailerLite</div></div>
+      <div class="meta-item"><div class="meta-label">New Emails</div><div class="meta-value">5 Emails</div></div>
+      <div class="meta-item"><div class="meta-label">Trigger</div><div class="meta-value">Job Completed</div></div>
+      <div class="meta-item"><div class="meta-label">Total Flow</div><div class="meta-value">7 Emails (2 existing + 5 new)</div></div>
+      <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">90 Days</div></div>
+      <div class="meta-item"><div class="meta-label">System Type</div><div class="meta-value">Retention + Referral</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- WHY THIS MATTERS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Why This Matters</div>
+    <h2>Every Job Should Lead to the Next One</h2>
+    <p>Right now, when Anyclean finishes a job, nothing happens. The customer is happy, the home is clean, and then... silence. No prompt to rebook. No referral ask. No reminder that you exist.</p>
+    <p>Word of mouth is already your best channel. Your repeat customers are your most profitable ones. This system turns every completed job into a machine that generates reviews, referrals, and repeat bookings automatically.</p>
+
+    <div class="snapshot-box">
+      <p>This extends the <strong>existing Review Request automation</strong> (2 emails, already live) by adding 5 more emails to the same "Job Completed" trigger. The full flow becomes: feedback check (Day 1), review ask (Day 4), referral ask (Day 7), rebook seed (Day 10), second referral touch (Day 21), regular service pitch (Day 30), and seasonal rebook (Day 90). One automation, seven emails, running continuously after every job.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- COMPLETE FLOW                                       -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Complete Automation Flow</div>
+    <h2>The Full Timeline</h2>
+    <p>The first 2 emails are already live. We're adding 5 more to extend the automation into a full post-service lifecycle system.</p>
+
+    <div class="flow-table-wrap">
+      <table class="flow-table">
+        <thead><tr><th>Day</th><th>Email</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr class="existing-row"><td>DAY 1</td><td>How Was Your Clean? (existing)</td><td>Feedback check, catch complaints early</td></tr>
+          <tr class="existing-row"><td>DAY 4</td><td>Quick Favour? (existing)</td><td>Google review request</td></tr>
+          <tr><td>DAY 7</td><td>Know Someone Who Needs a Clean?</td><td>Referral ask with incentive</td></tr>
+          <tr><td>DAY 10</td><td>Hope Everything's Still Sparkling</td><td>Rebook seed, plant the idea</td></tr>
+          <tr><td>DAY 21</td><td>Your Friends Would Thank You</td><td>Second referral touch, lighter</td></tr>
+          <tr><td>DAY 30</td><td>One Month Since Your Clean</td><td>Regular service pitch</td></tr>
+          <tr><td>DAY 90</td><td>It's Been a While</td><td>Seasonal rebook nudge</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="strategy-note">
+      <p><strong>Trigger:</strong> Subscriber added to "Job Completed" group (already exists in MailerLite). Same trigger as the existing review automation. These 5 new emails get added to the end of that existing automation.</p>
+      <p><strong>Important:</strong> The "Job Completed" group currently requires manual addition (or Zapier from ServiceCEO). Confirm with client which method they prefer. Each time a job finishes, someone adds the customer to this group.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- NEW EMAIL COPY                                      -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-grey-band">
+    <div class="section" style="padding-top: 0; border-bottom: none;">
+      <div class="section-label">New Email Copy</div>
+      <h2>The 5 New Emails</h2>
+
+      <!-- EMAIL 03 (new) - REFERRAL -->
+      <div class="email-block">
+        <div class="email-num">Email 03 · Day 7 (new)</div>
+        <div class="email-title">Know Someone Who Needs a Clean?</div>
+        <div class="email-tags">
+          <span class="tag">Referral</span>
+          <span class="tag">Incentive</span>
+          <span class="tag">Day 7</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <div class="email-meta-value">
+              <ul class="sl-list">
+                <li><span>A</span> Know someone who could use a good clean?</li>
+                <li><span>B</span> A little thank you for spreading the word</li>
+                <li><span>C</span> {$name}, quick favour?</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <div class="email-meta-value">
+              <ul class="detail-list">
+                <li><span>Preview</span> 10% off for you and them</li>
+                <li><span>CTA</span> Reply with their name</li>
+                <li><span>Tone</span> Casual, grateful, easy ask</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hi {$name},</p>
+            <p>Hope you're still enjoying the clean home. We certainly enjoyed doing it.</p>
+            <p>Quick question: do you know anyone who could use a good clean? A friend, a neighbour, a colleague who's always complaining about their messy flat?</p>
+            <p>If you send them our way, here's what happens:</p>
+            <ul>
+              <li><strong>They get 10% off their first clean.</strong></li>
+              <li><strong>You get 10% off your next booking with us.</strong></li>
+            </ul>
+            <p>No codes, no complicated steps. Just have them mention your name when they get in touch, and we'll sort the rest.</p>
+            <p>We've been doing this for 27 years, and most of our best customers came through someone like you. Word of mouth is how we've grown, and we genuinely appreciate it.</p>
+            <p class="sig">Thanks,<br>The Anyclean Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Day 7 is the sweet spot. The clean is still fresh in their mind, they've had time to enjoy it, and they've already been asked for feedback and a review. Now we ask for the referral. The incentive is simple and doesn't require tracking codes. Keep the friction as low as possible.</p>
+        </div>
+      </div>
+
+      <!-- EMAIL 04 (new) - REBOOK SEED -->
+      <div class="email-block">
+        <div class="email-num">Email 04 · Day 10 (new)</div>
+        <div class="email-title">Hope Everything's Still Sparkling</div>
+        <div class="email-tags">
+          <span class="tag">Rebook</span>
+          <span class="tag">Seed Planting</span>
+          <span class="tag">Day 10</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <div class="email-meta-value">
+              <ul class="sl-list">
+                <li><span>A</span> Hope everything's still sparkling</li>
+                <li><span>B</span> How's the place looking?</li>
+                <li><span>C</span> The clean never lasts long enough, does it?</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <div class="email-meta-value">
+              <ul class="detail-list">
+                <li><span>Preview</span> a thought on keeping it that way</li>
+                <li><span>CTA</span> Soft, link to quote page</li>
+                <li><span>Tone</span> Light, relatable, no pressure</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hi {$name},</p>
+            <p>It's been about 10 days since your clean. How's the place holding up?</p>
+            <p>If you're anything like most of our customers, you're probably noticing the difference already. The kitchen doesn't quite sparkle the way it did. The bathroom's starting to creep back. The floors are collecting dust again.</p>
+            <p>That's just life. Homes get messy. It's what they do.</p>
+            <p>A lot of our customers end up going regular after their first clean. Weekly or fortnightly, depending on the household. It keeps things consistently clean without ever having to do a massive deep clean again.</p>
+            <p>If that sounds appealing, we'd be happy to set something up. Same cleaner each time, same day, same routine. You barely have to think about it.</p>
+            <p>No commitment. You can pause or cancel anytime.</p>
+            <p><a href="https://anyclean.co.uk/get-a-quote" class="cta-button">Get a Regular Clean Quote</a></p>
+            <p class="sig">Best,<br>The Anyclean Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> This is the most important email in the post-service system. It's where one-off customers become recurring revenue. Don't sell hard. Paint the picture of what regular cleaning actually feels like. The "same cleaner each time" line addresses trust. The "no commitment" line removes risk.</p>
+        </div>
+      </div>
+
+      <!-- EMAIL 05 (new) - SECOND REFERRAL -->
+      <div class="email-block">
+        <div class="email-num">Email 05 · Day 21 (new)</div>
+        <div class="email-title">Your Friends Would Thank You</div>
+        <div class="email-tags">
+          <span class="tag">Referral</span>
+          <span class="tag">Second Touch</span>
+          <span class="tag">Day 21</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <div class="email-meta-value">
+              <ul class="sl-list">
+                <li><span>A</span> Your friends would thank you</li>
+                <li><span>B</span> Still got that 10% waiting for you</li>
+                <li><span>C</span> The easiest way to help a friend</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <div class="email-meta-value">
+              <ul class="detail-list">
+                <li><span>Preview</span> share the clean, keep the discount</li>
+                <li><span>CTA</span> Reply or forward this email</li>
+                <li><span>Tone</span> Light, brief, no heavy sell</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hi {$name},</p>
+            <p>Just a gentle reminder that your referral offer is still live.</p>
+            <p>If someone you know could use a professional clean, send them our way. They'll get 10% off their first booking, and you'll get 10% off your next one.</p>
+            <p>You can reply with their details, or just forward this email to them directly. Easy.</p>
+            <p class="sig">Cheers,<br>The Anyclean Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Shorter and lighter than the first referral email. Different angle: "forward this email" makes it dead simple to act. Some people needed time to think of someone. This catches the ones who meant to refer but forgot.</p>
+        </div>
+      </div>
+
+      <!-- EMAIL 06 (new) - REGULAR SERVICE PITCH -->
+      <div class="email-block">
+        <div class="email-num">Email 06 · Day 30 (new)</div>
+        <div class="email-title">One Month Since Your Clean</div>
+        <div class="email-tags">
+          <span class="tag">Rebook</span>
+          <span class="tag">Conversion</span>
+          <span class="tag">Day 30</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <div class="email-meta-value">
+              <ul class="sl-list">
+                <li><span>A</span> It's been a month</li>
+                <li><span>B</span> Time for another clean?</li>
+                <li><span>C</span> {$name}, your home misses us</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <div class="email-meta-value">
+              <ul class="detail-list">
+                <li><span>Preview</span> might be time to book in again</li>
+                <li><span>CTA</span> Book another clean</li>
+                <li><span>Tone</span> Direct but warm</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hi {$name},</p>
+            <p>It's been about a month since we cleaned your place. Time flies.</p>
+            <p>If you booked a one-off deep clean, end of tenancy, or carpet clean, now's usually when things start to feel like they need another go. Dust builds up. The kitchen loses its shine. The bathroom... well, you know.</p>
+            <p>Two options, depending on what works for you:</p>
+            <ul>
+              <li><strong>Book another one-off.</strong> Same quality, same team, whenever suits you.</li>
+              <li><strong>Set up a regular clean.</strong> Weekly or fortnightly. Same cleaner, same day. Less hassle, consistently clean home.</li>
+            </ul>
+            <p>Either way, we'd love to have you back.</p>
+            <p><a href="https://anyclean.co.uk/get-a-quote" class="cta-button">Book Your Next Clean</a></p>
+            <p class="sig">All the best,<br>The Anyclean Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> A month is the natural rebook point for most one-off services. Give them two clear paths: another one-off or upgrade to regular. The regular service pitch is the revenue play, but don't force it. Let them choose.</p>
+        </div>
+      </div>
+
+      <!-- EMAIL 07 (new) - SEASONAL REBOOK -->
+      <div class="email-block">
+        <div class="email-num">Email 07 · Day 90 (new)</div>
+        <div class="email-title">It's Been a While</div>
+        <div class="email-tags">
+          <span class="tag">Rebook</span>
+          <span class="tag">Seasonal</span>
+          <span class="tag">Day 90</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <div class="email-meta-value">
+              <ul class="sl-list">
+                <li><span>A</span> It's been a while, {$name}</li>
+                <li><span>B</span> Your home could probably use some love</li>
+                <li><span>C</span> Remember how good it felt?</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <div class="email-meta-value">
+              <ul class="detail-list">
+                <li><span>Preview</span> we'd love to see you again</li>
+                <li><span>CTA</span> Book a clean</li>
+                <li><span>Tone</span> Warm, nostalgic, final touch</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hi {$name},</p>
+            <p>It's been about three months since your last clean with us, and we just wanted to check in.</p>
+            <p>Remember that feeling when you walked in after we'd finished? Everything smelled fresh, surfaces were gleaming, the floors were spotless. That feeling.</p>
+            <p>If your home could use some love again, we're here. Same team, same standards, same attention to detail.</p>
+            <p>Whether it's a deep clean, a regular service, or something specific like carpets or windows, we've got you covered across all of London.</p>
+            <p><a href="https://anyclean.co.uk/get-a-quote" class="cta-button">Book a Clean</a></p>
+            <p class="sig">We'd love to see you again,<br>The Anyclean Team</p>
+            <p class="ps">P.S. This is the last email in this sequence. We won't keep emailing unless you'd like to hear from us. But whenever you need us, we're here.</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> 90 days out, this is the last automated touchpoint. Use sensory language to trigger the memory of a clean home. The P.S. sets a respectful boundary. If they don't convert here, they'll still get regular campaign emails. This automation has done its job.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- REFERRAL INCENTIVE STRUCTURE                        -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Referral Programme</div>
+    <h2>How the Referral Incentive Works</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Keep it dead simple</h4>
+          <p>No referral codes, no apps, no tracking links. The customer just tells their friend to mention their name when booking. Anyclean's office team notes the referral and applies the discounts manually. Friction kills referrals. The simpler the process, the more people do it.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>10% off for both parties</h4>
+          <p>The referred friend gets 10% off their first booking. The referrer gets 10% off their next booking. Both sides benefit. The discount is modest enough to protect margins but meaningful enough to motivate action.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Track referrals in a simple spreadsheet</h4>
+          <p>Create a shared Google Sheet with columns: Referrer Name, Referrer Email, Referred Name, Date, Booking Value, Discount Applied. Review monthly. This gives you data on which customers refer most (your best advocates) and the revenue generated from referrals.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- MAILERLITE SETUP                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">MailerLite Setup</div>
+    <h2>How to Build This</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Open the existing Review Request automation</h4>
+          <p>In MailerLite, find the automation triggered by the "Job Completed" group. It currently has 2 emails: "How Was Your Clean?" (Day 1) and "Quick Favour?" (Day 4). We're adding 5 more emails to the end of this flow.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Add the 5 new emails with delays</h4>
+          <p>After the existing Email 02 (Day 4): add a 3-day delay, then Email 03 (referral). Add a 3-day delay, then Email 04 (rebook seed). Add an 11-day delay, then Email 05 (second referral). Add a 9-day delay, then Email 06 (one-month pitch). Add a 60-day delay, then Email 07 (seasonal rebook).</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Copy in the email content</h4>
+          <p>Use the copy buttons above to grab each email's content. Paste into MailerLite's rich text editor. All emails use the <strong>{$name}</strong> merge tag. Make sure CTA buttons link to <strong>https://anyclean.co.uk/get-a-quote</strong>.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Activate and confirm the trigger method</h4>
+          <p>The automation is already triggered by the "Job Completed" group. Confirm with the client: are they manually adding customers to this group after each job, or using a Zapier integration from ServiceCEO? Either works, but consistency matters. Every completed job should trigger this flow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SUCCESS METRICS                                     -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" style="border-bottom: none;">
+    <div class="section-label">Success Metrics</div>
+    <h2>How to Measure This</h2>
+    <p>Track monthly. The numbers that matter are referrals generated and customers who rebook.</p>
+
+    <div class="metrics-grid">
+      <div class="metric-item">
+        <div class="metric-label">Referrals per Month</div>
+        <div class="metric-value">5+</div>
+        <div class="metric-note">From the referral emails</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">Rebook Rate</div>
+        <div class="metric-value">20%+</div>
+        <div class="metric-note">One-off to repeat conversion</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">Regular Upgrades</div>
+        <div class="metric-value">10%+</div>
+        <div class="metric-note">One-off to weekly/fortnightly</div>
+      </div>
+    </div>
+
+    <div class="strategy-note" style="margin-top: 36px;">
+      <p><strong>The compounding effect:</strong> Each converted regular customer is worth hundreds of pounds per year in recurring revenue. If this system converts just 2-3 one-off customers per month into regulars, it pays for itself many times over. And every referral that converts starts a new customer through the same system.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">The Email Blueprint · Growth Systems</div>
+    <p class="footer-note">Built for Anyclean by The Email Blueprint. This document contains proprietary email strategy and copy.</p>
+  </div>
+
+</div>
+
+<script>
+function copyEmail(btn) {
+  const wrapper = btn.closest('.email-body-wrapper');
+  const body = wrapper.querySelector('.email-body');
+  const text = body.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Email Blueprint — Anyclean · April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     DESIGN SYSTEM — Email Blueprint (White/Light)
+     ═══════════════════════════════════════════════════════════
+     Fonts:    Inter (body/labels) + Instrument Sans (display)
+     Palette:  Zinc-based, inverted naming (--white = darkest)
+
+     TYPOGRAPHY HIERARCHY
+     ─────────────────────────────────────────────────────────
+     h1    56px  Instrument Sans 700  uppercase   (page title)
+     h2    48px  Instrument Sans 700  uppercase   (section-intro)
+     h2    36px  Instrument Sans 700  uppercase   (section title)
+     h2    30px  Instrument Sans 700  uppercase   (campaign/flow)
+     h3    24px  Instrument Sans 700  title case  (subsection)
+     h4    22px  Instrument Sans 700  title case  (numbered step)
+     h4    17px  Instrument Sans 700  title case  (test card)
+     h4    16px  Instrument Sans 700  uppercase   (strategy card)
+     body  15px  Inter 400                        (paragraph)
+     meta  13-14px Inter 400-500                  (tables, details)
+     label 10-11px Inter 500-600     uppercase    (section labels)
+
+     BORDER TIERS
+     ─────────────────────────────────────────────────────────
+     --border           primary dividers, section borders
+     --border-subtle    faint: table rows, inner separators
+
+     TEXT TIERS (dark → light)
+     ─────────────────────────────────────────────────────────
+     --white            strongest: headings, page title
+     --text-strong      emphasis: bold values, active states
+     --body             body text
+     --muted            muted body, strategy notes
+     --text-secondary   secondary: snapshot copy, table cells
+     --text-tertiary    tertiary: nav links, table headers
+     --text-caption     captions: labels, meta, step numbers
+
+     SURFACE TIERS (light → dark)
+     ─────────────────────────────────────────────────────────
+     --black            page background (#FFF)
+     --surface-hover    table hover (var(--surface-hover))
+     --surface-subtle   snapshot, grey bands (var(--surface-subtle))
+     --dark             alt surface (#F7F8FA)
+     --surface-pill     pills, badges, hover bg (#F4F4F5)
+     --card             cards, strategy notes (#F3F4F6)
+     ═══════════════════════════════════════════════════════════ */
+
+  :root {
+    /* ── Surfaces ── */
+    --black: #FFFFFF;
+    --surface-hover: #FAFAFA;
+    --surface-subtle: #F8F9FB;
+    --dark: #F7F8FA;
+    --surface-pill: #F4F4F5;
+    --card: #F3F4F6;
+
+    /* ── Borders ── */
+    --border: #EBEBEB;
+    --border-subtle: #F4F4F5;
+
+    /* ── Text (dark → light) ── */
+    --white: #000000;
+    --text-strong: #18181b;
+    --light: #111827;
+    --accent: #111827;
+    --body: #1F2937;
+    --muted: #4B5563;
+    --text-secondary: #52525b;
+    --text-tertiary: #71717a;
+    --text-caption: #a1a1aa;
+
+    /* ── Semantic ── */
+    --accent-dim: rgba(17,24,39,0.04);
+    --accent-border: rgba(17,24,39,0.12);
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.05);
+    --red-border: rgba(220,38,38,0.20);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--body); font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* Header */
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .brand-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 5px; text-transform: uppercase; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+  .powered-by { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.5px; text-transform: none; color: var(--muted); }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--muted); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: 'Instrument Sans', sans-serif; font-size: 56px; font-weight: 700; color: var(--white); line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 16px; }
+  .header h1 span { color: var(--muted); display: block; font-weight: 500; }
+  .header-sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; font-weight: 400; letter-spacing: 0.5px; }
+  .header-tags { display: flex; gap: 24px; flex-wrap: wrap; }
+  .header-tag { font-family: 'Instrument Sans', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); padding: 8px 0; border-bottom: 1px solid var(--border); }
+
+  /* Sections */
+  .section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; display: block; }
+  .section-month-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .section h2 { font-family: 'Instrument Sans', sans-serif; font-size: 36px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.1; margin-bottom: 24px; }
+  .section .section-intro { font-size: 17px; color: var(--muted); max-width: 600px; margin-bottom: 12px; line-height: 1.7; font-weight: 400; }
+  .section p { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--white); font-weight: 600; }
+
+  /* Trust Strategy Snapshot */
+  .snapshot-box { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 48px; margin-top: 40px; }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-strong); }
+  .snapshot-box p span { color: var(--red); font-weight: 500; }
+  .snapshot-box .trust-snapshot-stats { border-top-color: var(--border); }
+  .snapshot-box .mini-stat { color: var(--text-tertiary); }
+  .snapshot-box .mini-stat-num { color: var(--text-strong); }
+
+  /* Strategy Grid */
+  .strategy-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 40px; }
+  .strategy-card { background: var(--card); padding: 36px 40px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .strategy-card h4 { font-family: 'Instrument Sans', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0; text-transform: uppercase; color: var(--white); margin-bottom: 10px; }
+  .strategy-card p { font-size: 14px; color: var(--body); max-width: 100%; margin-bottom: 0; line-height: 1.75; }
+  /* Campaign-group strategy grids stay 2-column */
+  .campaign-group .strategy-grid { grid-template-columns: 1fr 1fr; }
+  /* Implementation roadmap inside next-month-box stays 2-column, cards go white on grey parent */
+  .next-month-box .strategy-grid { grid-template-columns: 1fr 1fr; }
+  .next-month-box .strategy-card { background: var(--black); border-color: var(--border); }
+
+  /* Numbered Steps */
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--card); border-radius: 6px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: 'Instrument Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--text-strong); margin: 0 0 8px 0; letter-spacing: -0.01em; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+
+  /* Section Intro Box */
+  .section-intro { border-top: none; border-bottom: 1px solid var(--border); padding: 36px 0; margin-bottom: 48px; }
+  .section-intro .section-label { margin-bottom: 8px; }
+  .section-intro h2 { font-size: 48px; margin-bottom: 12px; }
+  .section-intro p { margin-bottom: 0; }
+
+  /* Campaign Calendar */
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table-wrap { background: var(--black); border: 1px solid var(--border); border-radius: 8px; padding: 0; margin-top: 36px; overflow: hidden; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); color: #333; }
+  .cal-table-wrap *, .cal-table-wrap strong, .cal-table-wrap b { color: inherit; }
+  .cal-table-wrap strong, .cal-table-wrap b { color: var(--text-strong) !important; }
+  .cal-table thead th { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 16px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .cal-table tbody tr:hover { background: var(--surface-hover); }
+  .cal-table tbody td { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); padding: 16px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: top; line-height: 1.5; }
+  .cal-table tbody td:first-child { color: var(--text-strong); font-weight: 500; }
+  .cal-table tbody td:nth-child(2) { color: var(--text-secondary); }
+  .cal-table tbody td:nth-child(3) { color: var(--text-secondary); }
+  .cal-table .tag { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; padding: 0; border: none; color: var(--text-caption); display: inline-block; border-radius: 0; }
+  .cal-table .tag-accent { border: none; color: var(--text-strong); background: none; font-weight: 500; }
+
+  /* Email Copy Sections */
+  .email-block { margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .email-block:first-child { margin-top: 24px; padding-top: 0; border-top: none; }
+  .email-num { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .email-title { font-family: 'Instrument Sans', sans-serif; font-size: 20px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .email-tags { margin-bottom: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 3px 10px; border: 1px solid var(--border); border-radius: 100px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-caption); }
+  .email-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: 2px; overflow: hidden; }
+  .email-meta > div { padding: 20px 24px; }
+  .email-meta > div:first-child { border-right: 1px solid var(--border-subtle); }
+  .email-meta-item { }
+  .email-meta-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .email-meta-value { font-size: 13px; color: var(--body); line-height: 1.8; }
+  .email-meta-value strong { color: var(--white); font-weight: 500; }
+  .sl-list { list-style: none; padding: 0; margin: 0; }
+  .sl-list li { font-size: 13px; color: var(--body); padding: 7px 0; border-bottom: 1px solid var(--border-subtle); }
+  .sl-list li:last-child { border-bottom: none; }
+  .sl-list li span { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li { font-size: 13px; color: var(--body); padding: 7px 0; border-bottom: 1px solid var(--border-subtle); line-height: 1.5; }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-list li span { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption); width: 80px; margin-right: 4px; vertical-align: baseline; }
+  .flow-group .email-meta { background: var(--black); border-color: var(--border); }
+  .flow-group .email-meta > div:first-child { border-right-color: var(--border); }
+  .flow-group .sl-list li { border-bottom-color: var(--border-subtle); }
+  .flow-group .detail-list li { border-bottom-color: var(--border-subtle); }
+
+  /* Email Body (white boxes) */
+  .email-body-wrapper { position: relative; margin-top: 20px; background: var(--black); border-radius: 8px; padding: 48px 0; border: 1px solid var(--border); box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .email-body { color: #333333; padding: 0 40px; font-size: 15px; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+  .email-body p { color: #333333; font-size: 15px; line-height: 1.8; margin-bottom: 16px; max-width: 100%; }
+  .email-body p:last-child { margin-bottom: 0; }
+  .email-body a { color: #2563EB; text-decoration: underline; }
+  .email-body .sig { margin-top: 24px; color: #666; font-size: 14px; }
+  .email-body .ps { margin-top: 20px; font-size: 14px; color: #555; font-style: italic; }
+  .email-body ul, .email-body ol { margin: 12px 0; padding-left: 20px; color: #333; }
+  .email-body li { margin-bottom: 8px; font-size: 15px; line-height: 1.7; }
+  .email-body .cta-button { display: inline-block; background: #2563EB; color: #FFFFFF !important; padding: 14px 32px; text-decoration: none; font-weight: 600; font-size: 16px; border-radius: 4px; margin: 16px 0; }
+  .email-body h3 { color: #111; font-size: 18px; margin-bottom: 12px; }
+  .email-body strong, .email-body b, .email-body p strong, .email-body p b { color: #222 !important; font-weight: 600; }
+
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); color: #666; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; border-radius: 6px; }
+  .copy-btn:hover { background: rgba(0,0,0,0.1); color: #333; }
+  .copy-btn.copied { background: var(--dark); border-color: var(--border); color: var(--body); }
+  .copy-btn svg { width: 16px; height: 16px; }
+
+  /* Strategy Note */
+  .strategy-note { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 32px 36px; margin-top: 24px; }
+  .strategy-note p { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--accent); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+
+  /* Major Section Divider */
+  .section-break { padding: 0; margin: 0 -40px; border: none; position: relative; background: var(--surface-hover); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-break-inner { display: flex; align-items: center; gap: 24px; padding: 36px 40px; }
+  .section-break-line { flex: 1; height: 1px; background: var(--border); }
+  .section-break-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-caption); white-space: nowrap; }
+
+  /* Grey Band Sections (full viewport width) */
+  .section-grey-band { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 80px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .section + .section { padding-top: 60px; border-top: 1px solid var(--border); }
+  .section-grey-band .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-grey-band .cal-table-wrap { background: var(--black); }
+  .section-grey-band .signal-card { background: var(--black); }
+
+  /* Automations Section (grey wrapper — full viewport width) */
+  .section-automations { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 80px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  /* Sticky Nav */
+  .sticky-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); margin: 0 -40px; padding: 0 40px; }
+  .sticky-nav-inner { display: flex; justify-content: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 10px 0; }
+  .sticky-nav-inner::-webkit-scrollbar { display: none; }
+  .sticky-nav a { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-tertiary); text-decoration: none; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: all 0.15s ease; letter-spacing: -0.01em; }
+  .sticky-nav a:hover { color: var(--text-strong); background: var(--surface-pill); }
+  .section-automations .flow-group { background: transparent; margin: 0 -40px; padding: 80px 40px; border-top: 1px solid var(--border); }
+  .section-campaigns { border-bottom: none; }
+  .section-campaigns .campaign-group:last-child { border-bottom: none; }
+  .section-automations .flow-group:first-of-type { border-top: none; }
+  .section-automations .section-intro { border-bottom: none; margin-bottom: 0; }
+  .section-automations .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-automations + .section { padding-top: 80px; }
+
+  /* Flow Diagrams */
+  .flow-group { padding: 80px 40px; border-bottom: none; background: var(--surface-subtle); margin: 0 -40px; border-top: 1px solid var(--border); }
+  .flow-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .flow-title { font-family: 'Instrument Sans', sans-serif; font-size: 30px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.1; margin-bottom: 16px; }
+  .flow-desc { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Flow Table (ShadCN style) */
+  .flow-table-wrap { background: var(--black); border: 1px solid var(--border); border-radius: 8px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; text-transform: none; color: var(--text-tertiary); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .flow-table tbody td { font-size: 13px; color: var(--text-tertiary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--surface-hover); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-caption); font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 1px; width: 60px; }
+  .flow-table tbody td:nth-child(2) { color: var(--text-strong); font-weight: 500; }
+  .flow-table tbody td:nth-child(3) { color: var(--text-tertiary); }
+  .flow-table .flow-trigger-badge { display: inline-block; padding: 4px 12px; background: var(--surface-pill); border-radius: 100px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-strong); }
+
+  /* Testing & Optimization */
+  .test-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 32px; }
+  .test-card { background: var(--card); border: 1px solid var(--border); padding: 36px 40px; border-radius: 8px; }
+  .test-card h4 { font-family: 'Instrument Sans', sans-serif; font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+  .test-card .test-type { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .test-card p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+
+  /* Signal Cards */
+  .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  .signal-card { padding: 36px; }
+  .signal-card h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+  .signal-card ul { list-style: none; margin: 0; padding: 0; }
+  .signal-card li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 28px; position: relative; }
+  .signal-card li:last-child { border-bottom: none; }
+  .signal-card li::before { position: absolute; left: 0; font-weight: 700; font-size: 14px; }
+  .signal-card-green { background: var(--black); border: 1px solid var(--border); border-radius: 8px; }
+  .signal-card-green h4 { color: var(--body); }
+  .signal-card-green li::before { content: "\2713"; color: var(--body); }
+  .signal-card-red { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; }
+  .signal-card-red h4 { color: var(--red); }
+  .signal-card-red li::before { content: "\26A0"; color: var(--red); }
+
+  /* Playbook Subsection (inside a .section — uses h3 for subsection title) */
+  .playbook-subsection { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--border); }
+  .playbook-subsection .section-label { margin-bottom: 16px; }
+  .playbook-subsection h3 { font-family: 'Instrument Sans', sans-serif; font-size: 24px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 16px; }
+  .playbook-subsection > p { margin-bottom: 40px; }
+  .playbook-subsection .numbered-steps { margin-top: 32px; }
+  .playbook-subsection .numbered-step { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .playbook-subsection .numbered-step:last-child { border-bottom: none; }
+  .playbook-subsection .step-num { font-family: 'Instrument Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--muted); min-width: 28px; padding-top: 2px; }
+  .playbook-subsection .numbered-step h4 { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .playbook-subsection .numbered-step p { font-size: 14px; color: var(--body); line-height: 1.7; margin-bottom: 0; }
+
+  /* Segment Cards */
+  .seg-group-row td { font-family: 'Inter', sans-serif; font-size: 11px !important; font-weight: 500 !important; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption) !important; background: var(--surface-hover); padding: 14px 20px !important; border-bottom: 1px solid var(--border) !important; border-top: 1px solid var(--border) !important; }
+  .seg-warn-row { background: #FFFBFB !important; }
+  .seg-warn-row:hover { background: #FFF5F5 !important; }
+  .seg-warn-row td:first-child { color: #991B1B !important; }
+
+  /* Header Meta */
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 48px; background: var(--black); border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; overflow: hidden; }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; padding: 32px 36px; border-right: 1px solid var(--border); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .meta-value { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; color: var(--white); letter-spacing: -0.01em; }
+
+  /* Mini Stats */
+  .trust-snapshot-stats { display: flex; gap: 16px; padding-top: 24px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; margin-top: 24px; align-items: center; }
+  .mini-stat { font-size: 13px; color: var(--text-caption); font-weight: 400; }
+  .mini-stat + .mini-stat::before { content: "|"; margin-right: 16px; color: var(--border); font-weight: 300; }
+  .mini-stat-num { font-family: 'Instrument Sans', sans-serif; font-size: 20px; font-weight: 700; color: var(--white); margin-right: 4px; }
+
+  /* Next Month Boxes */
+  .next-month-box { background: var(--card); border: 1px solid var(--border); padding: 44px; margin-top: 32px; border-radius: 8px; }
+  .next-month-box h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .next-month-box ul { list-style: none; margin: 0; padding: 0; }
+  .next-month-box li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 32px; position: relative; }
+  .next-month-box li:last-child { border-bottom: none; }
+  .next-month-box li::before { content: "\25A1"; color: var(--muted); position: absolute; left: 4px; font-size: 14px; }
+
+  /* Campaign Group Header */
+  .campaign-group { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .campaign-group h2 { font-family: 'Instrument Sans', sans-serif; font-size: 30px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.1; margin-bottom: 20px; }
+  .campaign-desc { font-size: 14px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Subject Line (ShadCN normalized) */
+  .subject-line { font-size: 14px; color: var(--body); padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+  .subject-line:last-child { border-bottom: none; }
+  .sl-letter { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+
+  /* Footer */
+  .footer { padding: 80px 0 80px; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--muted); font-style: italic; }
+
+  /* Accordion (shadcn style) */
+  .accordion { margin-top: 40px; }
+  .accordion-item { border-bottom: 1px solid var(--border); }
+  .accordion-item:first-child { border-top: 1px solid var(--border); }
+  .accordion-item summary { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; cursor: pointer; list-style: none; font-family: 'Instrument Sans', sans-serif; font-size: 17px; font-weight: 600; color: var(--text-tertiary); transition: color 0.2s; }
+  .accordion-item summary:hover { color: var(--text-strong); }
+  .accordion-item[open] summary { color: var(--white); }
+  .accordion-item summary::-webkit-details-marker { display: none; }
+  .accordion-item summary::marker { display: none; content: ''; }
+  .accordion-item summary::after { content: ''; display: inline-block; width: 16px; height: 16px; flex-shrink: 0; margin-left: 16px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; transition: transform 0.2s ease; }
+  .accordion-item[open] summary::after { transform: rotate(180deg); }
+  .accordion-content { padding: 0 0 24px 0; }
+  .accordion-content p { font-size: 15px; color: var(--text-tertiary); line-height: 1.75; max-width: 700px; margin-bottom: 0; }
+  .accordion-content p strong { color: var(--white); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+    .copy-btn { display: none; }
+    .email-body { border: 1px solid #ddd; }
+    .section, .header { border-color: #eee; }
+    :root { --white: #000; --body: #222; --muted: #666; --dark: #f9f9f9; --card: #f5f5f5; --border: #e0e0e0; --accent: #222; --black: #fff; }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .strategy-grid, .email-meta, .test-grid, .signal-grid, .campaign-group .strategy-grid, .next-month-box .strategy-grid { grid-template-columns: 1fr; }
+    .header-meta-row { gap: 24px; }
+    .signal-card { padding: 24px; }
+    .signal-card li { font-size: 15px; }
+    .cal-table thead th, .cal-table tbody td { padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">The Email Blueprint<span class="powered-by">powered by: Email Trust Architecture AI</span></div>
+      <div class="header-meta">
+        <p>April 2026</p>
+        <p>v1.0</p>
+      </div>
+    </div>
+    <h1>ANYCLEAN<span>April 2026</span></h1>
+    <p class="header-sub">Monthly email strategy, campaigns, and automations ... built on trust architecture principles.</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><div class="meta-label">Platform</div><div class="meta-value">MailerLite</div></div>
+      <div class="meta-item"><div class="meta-label">Active List</div><div class="meta-value">~2,651 (Tiers 1+2)</div></div>
+      <div class="meta-item"><div class="meta-label">Campaigns</div><div class="meta-value">4 Campaigns &middot; 10 Emails</div></div>
+      <div class="meta-item"><div class="meta-label">Automations</div><div class="meta-value">1 New Flow &middot; 3 Emails</div></div>
+      <div class="meta-item"><div class="meta-label">Total Emails</div><div class="meta-value">13</div></div>
+      <div class="meta-item"><div class="meta-label">Month Theme</div><div class="meta-value">Momentum Building</div></div>
+    </div>
+  </div>
+
+  <!-- STICKY NAV -->
+  <div class="sticky-nav">
+    <div class="sticky-nav-inner">
+      <a href="#strategy">Strategy</a>
+      <a href="#march-review">March Review</a>
+      <a href="#approach">Approach</a>
+      <a href="#deliverability">Deliverability</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#automations">Automations</a>
+      <a href="#tests">Split Tests</a>
+      <a href="#next-month">Next Month</a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- STRATEGY                                           -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="strategy">
+    <div class="section-label">Trust Strategy</div>
+    <h2>MOMENTUM BUILDING</h2>
+    <p class="section-intro">March was about proving the list still cares. It does. The reintroduction campaign hit 74% opens on Tier 1. The spring deep clean emails expanded to Tiers 1+2 and held at 34% opens on a cold segment ... solid for a dormant list. Now we shift from recovery to momentum. April is about turning that attention into bookings.</p>
+
+    <div class="snapshot-box">
+      <p>The rewarming worked. <strong>Tier 1 responded at 74% opens</strong> across two emails, which told us the engaged segment genuinely wants to hear from Anyclean. When we expanded to the full Tiers 1+2 audience (2,592 subscribers), opens came in at <strong>34.41%</strong> ... a natural drop for a cold segment, but well above the 20% red flag threshold.</p>
+      <p>We also learned an important lesson about <strong>volume ramping</strong>. The jump from 275 to 2,592 recipients triggered a MailerLite account review (9.6x spike). It cleared same day, but going forward we follow the protocol: <span>never jump more than 3x between sends</span>. That rule is baked into every campaign below.</p>
+      <p>April has four campaigns: wrapping the <strong>end of tenancy sequence</strong> (already scheduled from March), an <strong>Easter bank holiday push</strong>, a <strong>regular cleaning trial</strong>, and an <strong>outdoor and garden refresh</strong>. Plus we're building the <strong>Post-Service automation</strong> that was deferred from March ... the one that turns a one-off booking into a recurring customer.</p>
+      <div class="trust-snapshot-stats">
+        <div class="mini-stat"><span class="mini-stat-num">74%</span> opens (Tier 1 reintro)</div>
+        <div class="mini-stat"><span class="mini-stat-num">34%</span> opens (Tiers 1+2)</div>
+        <div class="mini-stat"><span class="mini-stat-num">11.7%</span> CTOR (credibility email)</div>
+        <div class="mini-stat"><span class="mini-stat-num">2</span> automations live</div>
+        <div class="mini-stat"><span class="mini-stat-num">3x</span> max volume ramp</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- MARCH REVIEW                                       -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="march-review">
+    <div class="section-label">March Performance</div>
+    <h2>WHAT HAPPENED IN MARCH</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Tier 1 reintroduction crushed it</h4>
+          <p>Email 01 ("Hello Again from Anyclean") hit 74.38% opens and 11.74% clicks. Email 02 ("What Makes Us Different") followed with 73.71% opens and 8.62% clicks. Both well above the 40% decision gate. Tier 1 is fully rewarmed and actively engaged.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Tier 2 expansion held steady</h4>
+          <p>Email 03 ("Spring Cleaning Season") went to the combined Tiers 1+2 segment (2,592 subs) and pulled 34.41% opens with 1.43% clicks and 4.15% CTOR. The drop from 74% was expected ... these subscribers hadn't heard from Anyclean in months. But 34% is well above the 20% red flag line.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Volume spike triggered a review</h4>
+          <p>Jumping from 275 to 2,592 recipients (9.6x) triggered MailerLite's automatic account review on March 24. It cleared the same day. The lesson: never increase send volume by more than 2-3x between sends, regardless of engagement quality. This protocol is now permanent.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Two automations went live</h4>
+          <p>The Welcome Sequence (3 emails) and Review Request flow (2 emails) are both active in MailerLite. The Win-Back Sequence remains deferred until the list has a proper sending baseline ... that's a May or June job.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cal-table-wrap" style="margin-top:40px;">
+      <table class="cal-table">
+        <thead><tr><th>Email</th><th>Recipients</th><th>Open Rate</th><th>Click Rate</th><th>CTOR</th></tr></thead>
+        <tbody>
+          <tr><td>01: Hello Again</td><td>281</td><td>74.38%</td><td>11.74%</td><td>15.79%</td></tr>
+          <tr><td>02: What Makes Us Different</td><td>232</td><td>73.71%</td><td>8.62%</td><td>11.70%</td></tr>
+          <tr><td>03: Spring Cleaning Season</td><td>2,592</td><td>34.41%</td><td>1.43%</td><td>4.15%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- APPROACH                                           -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="approach">
+    <div class="section-label">Approach</div>
+    <h2>THE PLAN FOR APRIL</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Close out the end of tenancy sequence</h4>
+          <p>Emails 06, 07, and 08 are already scheduled from the March blueprint (April 3, 8, and 10). This is the first time we're sending to Tiers 1+2+3 ... roughly 3,523 subscribers. We're watching open rates and complaints closely on this expansion. If Tier 3 responds poorly, we pull back.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Lean into Easter bank holiday timing</h4>
+          <p>Easter weekend (April 18-21) means four days off for most of London. People either want their home sorted before guests arrive or they want to come back to a clean house after a long weekend away. Two emails, timed for the Tuesday and Thursday before the holiday.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Push regular cleaning subscriptions</h4>
+          <p>This is Anyclean's highest lifetime value service. A one-off deep clean is good revenue, but a weekly or fortnightly domestic contract is recurring revenue. Two emails that make the case for regular cleaning, with a "try it once" angle to lower the commitment barrier.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Build the Post-Service automation</h4>
+          <p>Deferred from March. This is the sequence that turns a one-off customer into a repeat booker. After a completed job, the customer gets a follow-up that nudges them towards booking a regular clean. Paired with the existing Review Request flow, it creates a proper post-service journey.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- GREY BAND: DELIVERABILITY + CALENDAR               -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-grey-band">
+
+  <!-- DELIVERABILITY -->
+  <div class="section" id="deliverability">
+    <div class="section-label">Deliverability</div>
+    <h2>SENDER HEALTH UPDATE</h2>
+    <p>March's technical setup is paying off. All authentication records are verified and passing. The account review from the volume spike cleared same day, confirming the domain's good standing. One key action item remains open.</p>
+    <div class="signal-grid">
+      <div class="signal-card signal-card-green">
+        <h4>Confirmed healthy</h4>
+        <ul>
+          <li>Custom sending domain (mail.anyclean.co.uk) ... all 3 DNS records passing</li>
+          <li>SPF, DKIM, and DMARC all verified and active</li>
+          <li>MailerLite account review cleared, back in good standing</li>
+          <li>Welcome Sequence and Review Request automations live</li>
+          <li>Volume ramping protocol established and tested</li>
+        </ul>
+      </div>
+      <div class="signal-card signal-card-red">
+        <h4>Still outstanding</h4>
+        <ul>
+          <li>Google review URL still needs the actual Place ID link for the Review Request automation</li>
+          <li>"Job Completed" trigger method still TBD ... manual add or Zapier from ServiceCEO?</li>
+          <li>No website signup forms active yet ... Welcome automation only triggers for manually added subscribers</li>
+          <li>Monitor Tier 3 bounce rates closely on first sends (April 3 onwards)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="strategy-note" style="margin-top:32px;">
+      <p><strong>Volume ramping reminder:</strong> Current baseline is ~2,592 (last successful send). Maximum next jump is ~7,776 (3x). Since Tiers 1+2+3 is roughly 3,523, that's a 1.4x increase from the baseline ... well within the safe range. No sub-segmenting needed for the Tier 3 expansion this month.</p>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="section" id="calendar">
+    <div class="section-label">Send Calendar</div>
+    <h2>APRIL SCHEDULE</h2>
+    <p>Ten campaign emails across four weeks, plus the end of tenancy wrap-up that's already queued. All sends at 9:00 AM GMT on Tuesday or Thursday mornings. Volume ramps stay within 3x of previous send.</p>
+    <div class="cal-table-wrap">
+      <table class="cal-table">
+        <thead><tr><th>Date</th><th>Campaign</th><th>Audience</th><th>Trust Move</th></tr></thead>
+        <tbody>
+          <tr><td>Tue Apr 1</td><td>Spring Slots Filling Up</td><td>Tiers 1+2 (~2,592)</td><td><span class="tag tag-accent">Engagement &rarr; Booking</span></td></tr>
+          <tr><td>Thu Apr 3</td><td>Your Deposit Is at Risk</td><td>Tiers 1+2+3 (~3,523)</td><td><span class="tag tag-accent">Interest &rarr; Engagement</span></td></tr>
+          <tr><td>Tue Apr 8</td><td>What Letting Agents Check</td><td>Tiers 1+2+3 (~3,523)</td><td><span class="tag">Value Deposit</span></td></tr>
+          <tr><td>Thu Apr 10</td><td>End of Tenancy, Book Now</td><td>Tiers 1+2+3 (~3,523)</td><td><span class="tag tag-accent">Engagement &rarr; Booking</span></td></tr>
+          <tr><td>Tue Apr 15</td><td>Get Sorted Before Easter</td><td>Tiers 1+2 (~2,592)</td><td><span class="tag tag-accent">Interest &rarr; Engagement</span></td></tr>
+          <tr><td>Thu Apr 17</td><td>Easter Weekend Sorted</td><td>Tiers 1+2 (~2,592)</td><td><span class="tag tag-accent">Engagement &rarr; Booking</span></td></tr>
+          <tr><td>Tue Apr 22</td><td>What If You Never Had to Clean Again</td><td>Tiers 1+2 (~2,592)</td><td><span class="tag">Interest &rarr; Consideration</span></td></tr>
+          <tr><td>Thu Apr 24</td><td>Try a Regular Clean, One Time</td><td>Tiers 1+2 (~2,592)</td><td><span class="tag tag-accent">Consideration &rarr; Booking</span></td></tr>
+          <tr><td>Tue Apr 29</td><td>Your Garden Deserves Better</td><td>Tiers 1+2 (~2,592)</td><td><span class="tag">Interest &rarr; Engagement</span></td></tr>
+          <tr><td>Thu May 1</td><td>May Bank Holiday Prep</td><td>Tiers 1+2 (~2,592)</td><td><span class="tag tag-accent">Engagement &rarr; Booking</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  </div><!-- /section-grey-band -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- CAMPAIGN EMAILS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-campaigns" id="campaigns">
+    <div class="section-intro">
+      <div class="section-label">Campaign Emails</div>
+      <h2>Scheduled Campaign Sends</h2>
+      <p>Four campaigns this month. The end of tenancy sequence wraps up from March. Then Easter bank holiday, regular cleaning push, and an outdoor refresh to close out April and tee up May.</p>
+    </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 3 (CONT): END OF TENANCY -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 3 of 6 (continued from March)</div>
+    <h2>End of Tenancy</h2>
+    <p class="campaign-desc">These three emails were scheduled in March and are already queued in MailerLite. They run April 3-10 and target Tiers 1+2+3 for the first time. This is the highest-value service Anyclean offers ... the cost-of-cleaning vs. cost-of-losing-deposit framing makes the decision easy for tenants moving out.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Interest &rarr; Engagement &rarr; Booking</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Pain + Value + Conversion</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Tiers 1+2+3 (~3,523)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Deposit protection ... spending on cleaning is cheaper than losing deposit money</p></div>
+    </div>
+
+    <div class="strategy-note" style="margin-top:24px;">
+      <p><strong>Already scheduled:</strong> Emails 06, 07, and 08 are built and queued in MailerLite from the March blueprint. No action needed this month beyond monitoring performance. Review open rates, click rates, and unsubscribes after each send. If Tier 3 shows bounce rates above 5% or open rates below 15%, pause and re-evaluate before sending the next email to that segment.</p>
+    </div>
+
+    <!-- EMAIL 06 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 06 (SCHEDULED)</div>
+      <div class="email-title">Your Deposit Is at Risk</div>
+      <div class="email-tags">
+        <span class="tag">Interest &rarr; Engagement</span>
+        <span class="tag">Tiers 1+2+3</span>
+        <span class="tag">Pain Point</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Moving out? Read this first</li>
+            <li><span>B.</span> {$name}, your deposit is at risk</li>
+            <li><span>C.</span> Landlords check more than you think</li>
+            <li><span>D.</span> Don't lose money on cleaning</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> what most tenants get wrong about end of tenancy</li>
+            <li><span>Send</span> Thursday April 3, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2+3 (~3,523)</li>
+            <li><span>Goal</span> Create awareness of the deposit risk</li>
+          </ul>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Status:</strong> Already built and scheduled in MailerLite. Full email copy is in the March 2026 blueprint. Monitor Tier 3 bounce rate and spam complaints within 24 hours of send.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 07 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 07 (SCHEDULED)</div>
+      <div class="email-title">What Letting Agents Actually Check</div>
+      <div class="email-tags">
+        <span class="tag">Value Deposit</span>
+        <span class="tag">Tiers 1+2+3</span>
+        <span class="tag">Educational</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> The checklist letting agents use</li>
+            <li><span>B.</span> What actually gets inspected</li>
+            <li><span>C.</span> {$name}, this is what they check</li>
+            <li><span>D.</span> Inside the oven, behind the fridge</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> the spots that cost tenants their deposit</li>
+            <li><span>Send</span> Tuesday April 8, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2+3 (~3,523)</li>
+            <li><span>Goal</span> Build authority with useful content</li>
+          </ul>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Status:</strong> Already built and scheduled in MailerLite. Full email copy is in the March 2026 blueprint.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 08 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 08 (SCHEDULED)</div>
+      <div class="email-title">End of Tenancy, Book Now</div>
+      <div class="email-tags">
+        <span class="tag">Engagement &rarr; Booking</span>
+        <span class="tag">Tiers 1+2+3</span>
+        <span class="tag">Conversion</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Moving out soon?</li>
+            <li><span>B.</span> {$name}, don't leave it too late</li>
+            <li><span>C.</span> End of tenancy ... we're booking up</li>
+            <li><span>D.</span> Get your deposit back</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> book your end of tenancy clean before the rush</li>
+            <li><span>Send</span> Thursday April 10, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2+3 (~3,523)</li>
+            <li><span>Goal</span> Convert to bookings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Status:</strong> Already built and scheduled in MailerLite. Full email copy is in the March 2026 blueprint. Note: end of tenancy pricing (from ~&pound;180 for studio/1-bed) still needs confirming with client.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 4: EASTER BANK HOLIDAY -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 4 of 6</div>
+    <h2>Easter Bank Holiday</h2>
+    <p class="campaign-desc">Easter weekend is April 18-21. Four days off means people either want the house sorted before guests arrive, or they want to come back after a trip to a freshly cleaned home. Two emails: one plants the idea, one converts. Timed for the Tuesday and Thursday before the long weekend.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Interest &rarr; Engagement &rarr; Booking</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Seasonal Trigger + Conversion</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Tiers 1+2 (~2,592)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Bank holiday timing ... people want their home sorted before the long weekend</p></div>
+    </div>
+
+    <!-- EMAIL 09 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 09</div>
+      <div class="email-title">Get Sorted Before Easter</div>
+      <div class="email-tags">
+        <span class="tag">Interest &rarr; Engagement</span>
+        <span class="tag">Tiers 1+2</span>
+        <span class="tag">Seasonal</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Easter's coming, is your house ready?</li>
+            <li><span>B.</span> {$name}, a clean house for the long weekend</li>
+            <li><span>C.</span> Four days off, zero cleaning</li>
+            <li><span>D.</span> Guests coming for Easter?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> get your home sorted before the bank holiday</li>
+            <li><span>Send</span> Tuesday April 15, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2 (~2,592)</li>
+            <li><span>Goal</span> Plant the idea of a pre-Easter clean</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hi {$name},</p>
+          <p>Easter weekend is nearly here. Four days off, and for most people that means one of two things ... having people over, or getting away for a bit.</p>
+          <p>Either way, it's nice to come back to a clean house.</p>
+          <p>If you've got family or friends visiting over the bank holiday, a deep clean before they arrive means you can actually enjoy the weekend instead of spending Friday afternoon scrubbing the bathroom.</p>
+          <p>And if you're heading away, there's something genuinely lovely about walking through your front door on Monday evening to a home that smells clean and looks sorted.</p>
+          <p>We've still got availability for this week and early next week. A full deep clean covers every room ... kitchen, bathrooms, bedrooms, living areas. The works.</p>
+          <p>Takes about 2 minutes to get a quote. We'll come back with a price and you can go from there.</p>
+          <p><a href="https://anyclean.co.uk/quote" class="cta-button">Get a Quote Before Easter &rarr;</a></p>
+          <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+          <p class="ps">P.S. Need carpets or windows done as well? We can bundle those in. Just mention it when you get in touch.</p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>MailerLite setup:</strong> Tiers 1+2 combined segment. Schedule for Tuesday April 15 at 9:00 AM GMT. A/B test subject lines A vs C (question hook vs benefit-driven). CTA links to the general quote page. Merge tag: {$name}.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 10 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 10</div>
+      <div class="email-title">Easter Weekend Sorted</div>
+      <div class="email-tags">
+        <span class="tag">Engagement &rarr; Booking</span>
+        <span class="tag">Tiers 1+2</span>
+        <span class="tag">Conversion</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Last chance before the long weekend</li>
+            <li><span>B.</span> {$name}, still time to book</li>
+            <li><span>C.</span> Slots going fast this week</li>
+            <li><span>D.</span> Easter clean ... book by Thursday</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> we've got a few slots left before the bank holiday</li>
+            <li><span>Send</span> Thursday April 17, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2 (~2,592)</li>
+            <li><span>Goal</span> Convert to bookings before Easter</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hi {$name},</p>
+          <p>Quick one. Easter's tomorrow and we've still got a handful of slots this week for deep cleans and one-off domestic cleans.</p>
+          <p>If you meant to book after our last email but didn't get round to it, now's the time. Once the bank holiday hits, we're fully booked through the weekend.</p>
+          <p>Here's what's popular right now:</p>
+          <ul>
+            <li><strong>Full deep clean</strong> ... every room, top to bottom. The one where we move the sofa and clean behind the fridge.</li>
+            <li><strong>Kitchen and bathroom blitz</strong> ... just the heavy-use rooms, done properly.</li>
+            <li><strong>Carpet clean</strong> ... hot water extraction, not just a surface going-over. Makes a massive difference.</li>
+          </ul>
+          <p>Get in touch today and we'll fit you in before the weekend.</p>
+          <p><a href="https://anyclean.co.uk/quote" class="cta-button">Book Your Easter Clean &rarr;</a></p>
+          <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>MailerLite setup:</strong> Same Tiers 1+2 segment. Schedule for Thursday April 17 at 9:00 AM GMT. A/B test subject lines A vs C (urgency vs scarcity). This is the conversion email ... genuine urgency because it's the day before Good Friday. CTA links to the quote page. Merge tag: {$name}.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 5: REGULAR CLEANING   -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 5 of 6</div>
+    <h2>Regular Cleaning Trial</h2>
+    <p class="campaign-desc">Regular domestic cleaning is Anyclean's highest lifetime value service. A one-off deep clean is a single payment, but a weekly or fortnightly contract is recurring revenue month after month. These two emails make the case for regular cleaning and lower the barrier with a "try it once" angle.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Interest &rarr; Consideration &rarr; Booking</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Value Shift + Trial Offer</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Tiers 1+2 (~2,592)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Time vs. money ... regular cleaning buys back your weekends</p></div>
+    </div>
+
+    <!-- EMAIL 11 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 11</div>
+      <div class="email-title">What If You Never Had to Clean Again</div>
+      <div class="email-tags">
+        <span class="tag">Interest &rarr; Consideration</span>
+        <span class="tag">Tiers 1+2</span>
+        <span class="tag">Lifestyle</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> What if you never had to clean again?</li>
+            <li><span>B.</span> {$name}, a question about your weekends</li>
+            <li><span>C.</span> Saturday morning, no hoovering</li>
+            <li><span>D.</span> The one thing busy people outsource first</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> regular cleaning costs less than you think</li>
+            <li><span>Send</span> Tuesday April 22, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2 (~2,592)</li>
+            <li><span>Goal</span> Shift perception from "luxury" to "sensible"</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hi {$name},</p>
+          <p>Honest question. How much of your weekend goes on cleaning?</p>
+          <p>For most people it's 2-3 hours on a Saturday morning. Hoovering, mopping, wiping down the kitchen, cleaning the bathroom. It's not difficult work, it's just... endless. You finish, and a week later you're doing it all again.</p>
+          <p>A regular cleaner changes that. Someone comes in once a week or once a fortnight, works through the whole house, and by the time you get home it's done. No thinking about it, no putting it off, no "I'll do the bathroom tomorrow."</p>
+          <p>Most of our regular domestic clients say the same thing: "I wish I'd done this years ago."</p>
+          <p>With Anyclean, you get a named cleaner. The same person each time, so they get to know your home. They're vetted, insured, and trained in-house. If they're ever unwell, we send a replacement so you never miss a clean.</p>
+          <p>It costs less than most people think. And the time you get back on your weekends is worth more than the money.</p>
+          <p>If you've been thinking about it, this is the nudge. Get in touch and we'll give you a quick quote based on the size of your home and how often you'd like us to come.</p>
+          <p><a href="https://anyclean.co.uk/quote" class="cta-button">Get a Regular Cleaning Quote &rarr;</a></p>
+          <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>MailerLite setup:</strong> Tiers 1+2 combined segment. Schedule for Tuesday April 22 at 9:00 AM GMT. A/B test subject lines A vs C (aspirational vs specific). This is a lifestyle-framing email ... it sells the benefit (time back) not the service (cleaning). CTA links to general quote page. Merge tag: {$name}.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 12 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 12</div>
+      <div class="email-title">Try a Regular Clean, One Time</div>
+      <div class="email-tags">
+        <span class="tag">Consideration &rarr; Booking</span>
+        <span class="tag">Tiers 1+2</span>
+        <span class="tag">Trial</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Try us once, see what you think</li>
+            <li><span>B.</span> {$name}, no commitment, just one clean</li>
+            <li><span>C.</span> One clean, no contract</li>
+            <li><span>D.</span> See if it's for you</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> no contract, no commitment ... just try it</li>
+            <li><span>Send</span> Thursday April 24, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2 (~2,592)</li>
+            <li><span>Goal</span> Lower the barrier to first booking</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hi {$name},</p>
+          <p>If you're on the fence about regular cleaning, here's what we'd suggest: just try it once.</p>
+          <p>No contract. No commitment. No minimum term. Book a single clean, see what you think, and go from there.</p>
+          <p>Here's how it works:</p>
+          <ol>
+            <li>You tell us the size of your home and what you need done</li>
+            <li>We send a cleaner ... the same person who'd be your regular if you continue</li>
+            <li>They do a full clean, exactly like a regular visit</li>
+            <li>If you love it, we set up a weekly or fortnightly schedule</li>
+            <li>If it's not for you, that's fine. No awkward phone calls, no pressure</li>
+          </ol>
+          <p>Most people who try one clean end up booking regularly. Not because we pressure them, but because they realise how much easier life is when someone else handles the cleaning.</p>
+          <p>We've been doing this across London for 27 years. 4.7 stars on Google. 65 cleaners, all vetted and insured. Same cleaner each time where possible.</p>
+          <p><a href="https://anyclean.co.uk/quote" class="cta-button">Book a Trial Clean &rarr;</a></p>
+          <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+          <p class="ps">P.S. If you'd prefer to chat about it first, just ring us on 020 7029 3433. No scripts, no sales pitch. Just a conversation about what you need.</p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>MailerLite setup:</strong> Same Tiers 1+2 segment. Schedule for Thursday April 24 at 9:00 AM GMT. A/B test subject lines A vs C (friendly vs direct). This is the conversion email for regular cleaning ... the "no commitment" framing lowers the barrier. CTA links to general quote page. Merge tag: {$name}.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 6: OUTDOOR REFRESH    -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 6 of 6</div>
+    <h2>Outdoor Refresh and May Bank Holiday</h2>
+    <p class="campaign-desc">Late April means warmer weather, longer evenings, and people actually spending time outside. Windows that haven't been cleaned since autumn are suddenly obvious. Patios and decking look tired. This campaign highlights outdoor and exterior cleaning, and tees up the early May bank holiday (May 4).</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Interest &rarr; Engagement &rarr; Booking</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Seasonal Awareness + Conversion</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Tiers 1+2 (~2,592)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Warmer weather exposes what winter hid ... windows, patios, exteriors</p></div>
+    </div>
+
+    <!-- EMAIL 13 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 13</div>
+      <div class="email-title">Your Garden Deserves Better</div>
+      <div class="email-tags">
+        <span class="tag">Interest &rarr; Engagement</span>
+        <span class="tag">Tiers 1+2</span>
+        <span class="tag">Seasonal</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Your windows are dirtier than you think</li>
+            <li><span>B.</span> {$name}, when did you last look at your patio?</li>
+            <li><span>C.</span> Spring sunshine shows everything</li>
+            <li><span>D.</span> The outside of your home needs a clean too</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> warmer weather reveals what winter left behind</li>
+            <li><span>Send</span> Tuesday April 29, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2 (~2,592)</li>
+            <li><span>Goal</span> Highlight exterior and window cleaning</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hi {$name},</p>
+          <p>Now that the sun's actually showing up, you've probably noticed a few things around the outside of your home that looked fine all winter.</p>
+          <p>Windows with a film of grime that you can suddenly see when the light hits them. A patio that's gone green. Decking that's slippery and dull. Maybe the conservatory roof looks like it's growing something.</p>
+          <p>All of that is normal after a London winter. Rain, pollution, and six months of not really looking at it does that.</p>
+          <p>We clean windows, inside and out. We bring our own kit, and for most homes we can get the full set done in a morning. If you've got a conservatory, we do the roof and frames as well.</p>
+          <p>For patios, decking, and exterior surfaces, we can recommend trusted partners who handle pressure washing. We don't do that ourselves, but we'll point you in the right direction.</p>
+          <p>If the outside of your place could use some attention before the good weather properly arrives, get in touch. We'll give you a quote for windows and talk through what else might need doing.</p>
+          <p><a href="https://anyclean.co.uk/quote" class="cta-button">Get a Window Cleaning Quote &rarr;</a></p>
+          <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>MailerLite setup:</strong> Tiers 1+2 combined segment. Schedule for Tuesday April 29 at 9:00 AM GMT. A/B test subject lines A vs C (specific vs seasonal). Note: Anyclean does window cleaning but NOT pressure washing. The email is honest about this, which builds trust. CTA links to general quote page. Merge tag: {$name}.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 14 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 14</div>
+      <div class="email-title">May Bank Holiday Prep</div>
+      <div class="email-tags">
+        <span class="tag">Engagement &rarr; Booking</span>
+        <span class="tag">Tiers 1+2</span>
+        <span class="tag">Conversion</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> May bank holiday is next weekend</li>
+            <li><span>B.</span> {$name}, another long weekend coming</li>
+            <li><span>C.</span> Get your home sorted for May</li>
+            <li><span>D.</span> Bank holiday ready?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> book now before the May bank holiday rush</li>
+            <li><span>Send</span> Thursday May 1, 9:00 AM GMT</li>
+            <li><span>Audience</span> Tiers 1+2 (~2,592)</li>
+            <li><span>Goal</span> Tee up May bank holiday bookings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>Hi {$name},</p>
+          <p>Another bank holiday weekend is coming up ... May 4-5. Three days off for most people, and the weather should finally be warm enough to have people round.</p>
+          <p>If you've been meaning to get the house properly sorted, this is a good deadline. Whether it's a deep clean before guests, getting the windows done while it's dry, or just a regular clean to get things back in order after a busy April.</p>
+          <p>We've got availability next week. Here's what most people book at this time of year:</p>
+          <ul>
+            <li><strong>Deep clean</strong> ... full house, every room, every surface. Start fresh for May.</li>
+            <li><strong>Windows</strong> ... inside and out. You'll notice the difference the second it's done.</li>
+            <li><strong>Carpet clean</strong> ... especially if you've had people tramping through in muddy shoes all winter.</li>
+          </ul>
+          <p>Get in touch this week and we'll have you sorted before the weekend.</p>
+          <p><a href="https://anyclean.co.uk/quote" class="cta-button">Book Before the Bank Holiday &rarr;</a></p>
+          <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+          <p class="ps">P.S. Already a regular client? If you'd like an extra clean before the bank holiday on top of your usual schedule, just ring us or reply here. We'll fit you in.</p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>MailerLite setup:</strong> Same Tiers 1+2 segment. Schedule for Thursday May 1 at 9:00 AM GMT. A/B test subject lines A vs D (specific vs casual). This email bridges April into May and sets up the May bank holiday. CTA links to general quote page. Merge tag: {$name}.</p>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /section-campaigns -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- AUTOMATION FLOWS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-automations" id="automations">
+    <div class="section-intro">
+      <div class="section-label">New Automation</div>
+      <h2>Post-Service Sequence</h2>
+      <p>This automation was deferred from March. It runs after the existing Review Request flow and nudges one-off customers towards booking a regular clean. Welcome Sequence and Review Request are already live ... this is the missing piece that turns buyers into repeat customers.</p>
+    </div>
+
+    <!-- POST-SERVICE FLOW -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 4 (NEW)</div>
+      <h3 class="flow-title">Post-Service Nurture</h3>
+      <p class="flow-desc">Triggers 7 days after a completed job (after the Review Request flow finishes). 3 emails over 2 weeks that gently nudge one-off customers towards booking again ... either another one-off or a regular cleaning schedule. This is the highest-ROI automation for converting one-time buyers into recurring revenue.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">7 Days After Job Completed</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>How's the Place Holding Up?</td><td>Immediate</td></tr>
+            <tr><td>03</td><td>Most of Our Clients Book Again</td><td>+5 days</td></tr>
+            <tr><td>04</td><td>Want Us to Come Back Regularly?</td><td>+7 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- POST-SERVICE EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">POST-SERVICE 01</div>
+        <h3 class="email-title">How's the Place Holding Up?</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer &rarr; Repeat Buyer</span>
+          <span class="tag">Post-Service</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> How's the place holding up, {$name}?</li>
+              <li><span>B.</span> A week later ... still clean?</li>
+              <li><span>C.</span> {$name}, quick check-in</li>
+              <li><span>D.</span> Hope it's still looking good</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> just checking in a week on</li>
+              <li><span>Trigger</span> 7 days after "Job Completed" group</li>
+              <li><span>Audience</span> Customers after service</li>
+              <li><span>Goal</span> Stay top of mind, plant rebooking seed</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hi {$name},</p>
+            <p>It's been about a week since your clean. Hope the place is still looking good.</p>
+            <p>If you're anything like most of our customers, around the one-week mark is when you start noticing things creeping back. Dust settling on surfaces, the bathroom mirror getting spots, crumbs appearing from nowhere.</p>
+            <p>That's normal. A professional clean resets everything, but daily life has a way of undoing it gradually.</p>
+            <p>If you'd like us to come back ... whether it's another one-off or setting up something regular ... just let us know. Same cleaner where possible, same quality, same easy booking process.</p>
+            <p>No rush. Just wanted you to know we're here whenever you need us.</p>
+            <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>MailerLite setup:</strong> This automation should be a continuation of the existing Review Request flow, or a separate automation triggered by the "Job Completed" group with a 7-day delay (which puts it after the Review Request emails finish). No CTA button in this first email ... it's a soft check-in that keeps Anyclean in the customer's mind. Merge tag: {$name}.</p>
+        </div>
+      </div>
+
+      <!-- POST-SERVICE EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">POST-SERVICE 02</div>
+        <h3 class="email-title">Most of Our Clients Book Again</h3>
+        <div class="email-tags">
+          <span class="tag">Social Proof</span>
+          <span class="tag">Post-Service</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Here's what most people do after their first clean</li>
+              <li><span>B.</span> {$name}, you're not alone</li>
+              <li><span>C.</span> Most of our clients come back</li>
+              <li><span>D.</span> The one thing our regulars say</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> the difference between cleaning once and cleaning regularly</li>
+              <li><span>Trigger</span> 5 days after Post-Service 01</li>
+              <li><span>Audience</span> Customers after service</li>
+              <li><span>Goal</span> Use social proof to normalise rebooking</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hi {$name},</p>
+            <p>Something we've noticed over 27 years of doing this: most people who book one clean end up booking again.</p>
+            <p>Not because we chase them. Because once you've experienced a properly cleaned home ... the kind where someone has actually moved the sofa, wiped the skirting boards, and cleaned inside the oven ... going back to doing it yourself feels different.</p>
+            <p>Our regular domestic clients tell us the same thing: "I don't know why I waited so long."</p>
+            <p>If you've been thinking about making it a regular thing, it's easier than you think:</p>
+            <ul>
+              <li>Weekly or fortnightly visits ... you choose the schedule</li>
+              <li>Same cleaner each time, so they learn your home</li>
+              <li>No contracts or minimum terms</li>
+              <li>Cancel or pause whenever you like</li>
+            </ul>
+            <p>We can set it up with a quick phone call or email. No paperwork, no fuss.</p>
+            <p><a href="https://anyclean.co.uk/quote" class="cta-button">Set Up Regular Cleaning &rarr;</a></p>
+            <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>MailerLite setup:</strong> Same automation, 5-day delay after Post-Service 01. The social proof angle ("most people book again") is more persuasive than a discount because it frames regular cleaning as normal behaviour, not a special offer. Merge tag: {$name}.</p>
+        </div>
+      </div>
+
+      <!-- POST-SERVICE EMAIL 3 -->
+      <div class="email-block">
+        <div class="email-num">POST-SERVICE 03</div>
+        <h3 class="email-title">Want Us to Come Back Regularly?</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer &rarr; Repeat Buyer</span>
+          <span class="tag">Post-Service</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Want us to come back regularly?</li>
+              <li><span>B.</span> {$name}, one last thought</li>
+              <li><span>C.</span> Your cleaner is still available</li>
+              <li><span>D.</span> Quick question about your next clean</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> we saved a spot for you</li>
+              <li><span>Trigger</span> 7 days after Post-Service 02</li>
+              <li><span>Audience</span> Customers after service</li>
+              <li><span>Goal</span> Direct ask for regular booking</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hi {$name},</p>
+            <p>Last email from us about this (promise).</p>
+            <p>If you'd like to set up a regular clean ... weekly, fortnightly, or even monthly ... we can sort it out with a quick reply to this email or a phone call.</p>
+            <p>Your cleaner still has availability in their schedule, and we'd keep them as your regular so you don't have to explain your home to someone new each time.</p>
+            <p>If the timing's not right, that's completely fine. We'll still send you useful emails now and then, and you can always book a one-off whenever you need one.</p>
+            <p>Just reply "yes" if you'd like us to get back to you with a quote for regular cleaning. That's all it takes to get started.</p>
+            <div class="sig">The Anyclean Team<br>020 7029 3433</div>
+            <p class="ps">P.S. If you know anyone who could use a good cleaner, we'd appreciate the recommendation. Word of mouth is still how most of our new clients find us.</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>MailerLite setup:</strong> Same automation, 7-day delay after Post-Service 02. The "reply yes" CTA is intentional ... it generates engagement signals for sender reputation AND is the lowest-friction way for someone to convert. No form, no page, just a reply. After this email, the customer exits the post-service flow and stays on the regular campaign list. Merge tag: {$name}.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- A/B TESTING STRATEGY                                -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="tests">
+    <div class="section-label">Testing Strategy</div>
+    <h2>A/B Tests Built Into Every Send</h2>
+    <p>Every new campaign has subject line tests baked in. Here's what we're testing this month and why.</p>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Question Hook vs. Benefit Statement</h4>
+          <p><strong>Campaign 4 (Easter):</strong> Subject A ("Easter's coming, is your house ready?") vs Subject C ("Four days off, zero cleaning"). Testing whether a question or a benefit statement drives more opens on seasonal content.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Aspirational vs. Specific</h4>
+          <p><strong>Campaign 5 (Regular Cleaning):</strong> Subject A ("What if you never had to clean again?") vs Subject C ("Saturday morning, no hoovering"). Does a big aspirational question or a specific relatable moment get more engagement?</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Friendly vs. Direct</h4>
+          <p><strong>Campaign 5 (Trial):</strong> Subject A ("Try us once, see what you think") vs Subject C ("One clean, no contract"). Testing warm-casual against direct-clear for a commitment-lowering email.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Specific Detail vs. Seasonal</h4>
+          <p><strong>Campaign 6 (Outdoor):</strong> Subject A ("Your windows are dirtier than you think") vs Subject C ("Spring sunshine shows everything"). Testing a specific provocation against a broader seasonal observation.</p>
+        </div>
+      </div>
+    </div>
+    <div class="strategy-note">
+      <p><strong>How to run in MailerLite:</strong> When creating each campaign, enable "A/B split testing" in the campaign settings. Choose "Subject line" as the variable. Set a 50/50 split. Send to 30% of the audience first, wait 3 hours, then MailerLite automatically sends the winning subject to the remaining 70%. Log winners in the performance log for May planning.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- NEXT MONTH PREVIEW                                  -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="next-month">
+    <div class="section-label">Looking Ahead</div>
+    <h2>What's Coming in May</h2>
+    <p>April builds momentum. May converts it into sustainable, recurring revenue. We'll also tackle two deferred items that become relevant once the list is properly warmed.</p>
+
+    <div class="next-month-box">
+      <h4>May 2026 Roadmap</h4>
+      <ul>
+        <li><strong>Regular Cleaning Push (Continued)</strong> ... if April's trial campaign converts well, May doubles down with testimonial-driven content from satisfied regular clients. Real quotes, real stories.</li>
+        <li><strong>Summer Prep Campaign</strong> ... Airbnb and short-let changeover cleans, holiday home prep, pre-summer deep cleans. London's rental market heats up in May and June.</li>
+        <li><strong>Win-Back Sequence (Deferred)</strong> ... the list now has 2+ months of consistent sending history. May is the right time to activate the win-back automation for subscribers who've gone quiet.</li>
+        <li><strong>Website Signup Form</strong> ... still outstanding from March. Adding an email capture form to anyclean.co.uk feeds the Welcome automation with genuinely interested subscribers.</li>
+        <li><strong>Performance Review</strong> ... full March + April analysis. Which subject line styles won? Did regular cleaning emails convert? How did Tier 3 respond? Update the performance log.</li>
+      </ul>
+    </div>
+
+    <div class="next-month-box" style="margin-top:24px;">
+      <div class="strategy-grid" style="margin-top:0;">
+        <div class="strategy-card">
+          <h4>Month 3 Focus</h4>
+          <p>Regular cleaning is the recurring revenue engine. May's campaigns use real client testimonials to sell the lifestyle, not just the service. We also activate the Win-Back flow now that the list has a proper sending baseline.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Month 4 Focus</h4>
+          <p>Summer season. Airbnb changeover cleans, holiday home prep, and pre-summer deep cleans. Refer-a-friend campaign if engagement is strong enough. Begin building a proper seasonal content calendar for the second half of the year.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- IMPLEMENTATION ROADMAP                              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">How to Roll This Out</div>
+    <h2>Implementation Roadmap</h2>
+    <p>Follow this order. Each week builds on the last.</p>
+
+    <div class="next-month-box">
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <h4>Week of April 1-10</h4>
+          <p><strong>End of Tenancy wraps up.</strong> Emails 05, 06, 07, and 08 are already scheduled. Monitor Tier 3 performance closely on the April 3 send ... watch bounce rates and spam complaints within 24 hours. If anything looks off, pause remaining sends to Tier 3 and investigate.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Week of April 14</h4>
+          <p><strong>Easter Bank Holiday campaign.</strong> Build Emails 09 and 10 in MailerLite. Same Tiers 1+2 segment. Schedule for Tuesday April 15 and Thursday April 17 at 9:00 AM GMT. Also begin building the Post-Service automation flow in MailerLite.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Week of April 21</h4>
+          <p><strong>Regular Cleaning trial push.</strong> Build Emails 11 and 12 in MailerLite. Schedule for Tuesday April 22 and Thursday April 24. Finish and activate the Post-Service automation. Test the flow with a test subscriber.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Week of April 28</h4>
+          <p><strong>Outdoor refresh and May bank holiday tee-up.</strong> Build Emails 13 and 14 in MailerLite. Schedule for Tuesday April 29 and Thursday May 1. Review all April performance data and prepare notes for the May blueprint.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- FOOTER                                              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-brand">The Email Blueprint</div>
+    <p style="margin-top:8px;font-size:13px;color:#a1a1aa;">Anyclean ... Professional Cleaning Services Across London Since 1998</p>
+  </footer>
+</div>
+
+<script>
+function copyEmail(btn) {
+  const wrapper = btn.closest('.email-body-wrapper');
+  const body = wrapper.querySelector('.email-body');
+  const text = body.innerText || body.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+    btn.style.color = '#16a34a';
+    setTimeout(() => {
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

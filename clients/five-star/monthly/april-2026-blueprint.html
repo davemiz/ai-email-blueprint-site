@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Email Blueprint ... Five Star Jewelers · April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     DESIGN SYSTEM ... Email Blueprint (Peec-style)
+     ═══════════════════════════════════════════════════════════
+     Fonts:    Inter (body/labels) + Geist (display headings)
+     Palette:  Zinc-based, inverted naming (--white = darkest)
+     Aligned:  brand-guide.html (Peec/Geist design system)
+
+     TYPOGRAPHY HIERARCHY
+     ─────────────────────────────────────────────────────────
+     h1    48px  Geist 400  title case  -0.96px  (page title)
+     h2    40px  Geist 400  title case  -0.8px   (section-intro)
+     h2    32px  Geist 500  title case  -0.64px  (section title)
+     h2    28px  Geist 500  title case  -0.56px  (campaign/flow)
+     h3    22px  Geist 500  title case  -0.22px  (subsection)
+     h4    18px  Geist 500  title case           (numbered step)
+     h4    16px  Geist 500  title case           (test card)
+     h4    15px  Geist 500  uppercase            (strategy card)
+     body  15px  Inter 400                       (paragraph)
+     meta  13-14px Inter 400-500                 (tables, details)
+     label 10-11px Inter 500-600     uppercase   (section labels)
+
+     BORDER TIERS
+     ─────────────────────────────────────────────────────────
+     --border           primary dividers, section borders
+     --border-subtle    faint: table rows, inner separators
+
+     TEXT TIERS (dark → light)
+     ─────────────────────────────────────────────────────────
+     --white            strongest: headings, page title
+     --text-strong      emphasis: bold values, active states
+     --body             body text
+     --muted            muted body, strategy notes
+     --text-secondary   secondary: snapshot copy, table cells
+     --text-tertiary    tertiary: nav links, table headers
+     --text-caption     captions: labels, meta, step numbers
+
+     SURFACE TIERS (light → dark)
+     ─────────────────────────────────────────────────────────
+     --black            page background (#FFF)
+     --surface-hover    table hover (var(--surface-hover))
+     --surface-subtle   snapshot, grey bands (var(--surface-subtle))
+     --dark             alt surface (#F7F8FA)
+     --surface-pill     pills, badges, hover bg (#F4F4F5)
+     --card             cards, strategy notes (#F3F4F6)
+     ═══════════════════════════════════════════════════════════ */
+
+  :root {
+    /* ── Surfaces ── */
+    --black: #FFFFFF;
+    --surface-hover: #FAFAFA;
+    --surface-subtle: #F8F9FB;
+    --dark: #F7F8FA;
+    --surface-pill: #F4F4F5;
+    --card: #F3F4F6;
+
+    /* ── Borders ── */
+    --border: #EBEBEB;
+    --border-subtle: #F4F4F5;
+
+    /* ── Text (dark → light) ── */
+    --white: #000000;
+    --text-strong: #18181b;
+    --light: #111827;
+    --accent: #111827;
+    --body: #1F2937;
+    --muted: #4B5563;
+    --text-secondary: #52525b;
+    --text-tertiary: #71717a;
+    --text-caption: #a1a1aa;
+
+    /* ── Semantic ── */
+    --accent-dim: rgba(17,24,39,0.04);
+    --accent-border: rgba(17,24,39,0.12);
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.05);
+    --red-border: rgba(220,38,38,0.20);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%); background-attachment: fixed; color: var(--body); font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* Header */
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .brand-label { display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); padding: 5px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: #fff; }
+  .powered-by { display: none; }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--muted); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: 'Geist', sans-serif; font-size: 56px; font-weight: 600; color: var(--white); line-height: 1.06; letter-spacing: -0.02em; text-transform: none; margin-bottom: 16px; }
+  .header h1 span { color: var(--text-secondary); display: block; font-weight: 600; font-size: inherit; letter-spacing: inherit; }
+  .header-sub { font-size: 17px; color: var(--text-secondary); max-width: 620px; margin-bottom: 40px; font-weight: 400; letter-spacing: 0; line-height: 1.65; }
+  .header-tags { display: flex; gap: 24px; flex-wrap: wrap; }
+  .header-tag { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); padding: 5px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: #fff; }
+
+  /* Sections */
+  .section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); margin-bottom: 12px; display: inline-block; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .section-month-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .section h2 { font-family: 'Geist', sans-serif; font-size: 52px; font-weight: 600; color: var(--white); letter-spacing: -1.2px; text-transform: none; line-height: 1.05; margin-bottom: 24px; }
+  .section .section-intro { font-size: 17px; color: var(--muted); max-width: 600px; margin-bottom: 0; line-height: 1.7; font-weight: 400; }
+  .section p { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--white); font-weight: 600; }
+
+  /* Trust Strategy Snapshot */
+  .snapshot-box { background: var(--surface-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 48px; margin-top: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-strong); }
+  .snapshot-box p span { color: var(--red); font-weight: 500; }
+  .snapshot-box .trust-snapshot-stats { border-top-color: var(--border); }
+  .snapshot-box .mini-stat { color: var(--text-tertiary); }
+  .snapshot-box .mini-stat-num { color: var(--text-strong); }
+
+  /* Strategy Grid */
+  .strategy-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 40px; background: var(--surface-subtle); border-radius: 20px; padding: 20px; }
+  .strategy-card { background: #FFFFFF; padding: 28px 32px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .strategy-card h4 { font-family: 'Geist', sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--white); margin-bottom: 10px; }
+  .strategy-card p { font-size: 14px; color: var(--body); max-width: 100%; margin-bottom: 0; line-height: 1.75; }
+  .campaign-group .strategy-grid { grid-template-columns: 1fr 1fr; }
+  .next-month-box .strategy-grid { grid-template-columns: 1fr 1fr; }
+  .next-month-box .strategy-card { background: var(--black); border-color: var(--border); }
+
+  /* Numbered Steps */
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--card); border-radius: 12px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 600; color: var(--white); margin: 0 0 8px 0; letter-spacing: -0.3px; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+
+  /* Section Intro Box */
+  .section-intro { border-top: none; border-bottom: 1px solid var(--border); padding: 24px 0; margin-bottom: 0; }
+  .section-intro .section-label { margin-bottom: 8px; }
+  .section-intro h2 { font-size: 52px; letter-spacing: -1.2px; margin-bottom: 12px; }
+  .section-intro p { margin-bottom: 0; }
+
+  /* Campaign Calendar */
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table-wrap { background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin-top: 36px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); color: #333; }
+  .cal-table-wrap *, .cal-table-wrap strong, .cal-table-wrap b { color: inherit; }
+  .cal-table-wrap strong, .cal-table-wrap b { color: var(--text-strong) !important; }
+  .cal-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .cal-table tbody tr:hover { background: var(--surface-hover); }
+  .cal-table tbody td { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: top; line-height: 1.5; }
+  .cal-table tbody td:first-child { color: var(--text-strong); font-weight: 500; }
+  .cal-table tbody td:nth-child(2) { color: var(--text-secondary); }
+  .cal-table tbody td:nth-child(3) { color: var(--text-secondary); }
+  .cal-table .tag { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; padding: 0; border: none; color: var(--text-caption); display: inline-block; border-radius: 0; }
+  .cal-table .tag-accent { border: none; color: var(--text-strong); background: none; font-weight: 500; }
+
+  /* Email Copy Sections */
+  .email-block { margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .email-block:first-child { margin-top: 24px; padding-top: 0; border-top: none; }
+  .email-num { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .email-title { font-family: 'Geist', sans-serif; font-size: 26px; font-weight: 600; color: var(--white); text-transform: none; letter-spacing: -0.4px; margin-bottom: 12px; }
+  .email-tags { margin-bottom: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 3px 10px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-caption); background: #FFFFFF; }
+  .email-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .email-meta > div { padding: 20px 24px; }
+  .email-meta > div:first-child { border-right: 1px solid rgba(0,0,0,0.06); }
+  .email-meta-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); margin-bottom: 10px; }
+  .email-meta-value { font-size: 14px; color: var(--body); line-height: 1.8; }
+  .email-meta-value strong { color: var(--white); font-weight: 500; }
+  .sl-list { list-style: none; padding: 0; margin: 0; }
+  .sl-list li { font-size: 14px; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-subtle); }
+  .sl-list li:last-child { border-bottom: none; }
+  .sl-list li span { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li { font-size: 14px; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-subtle); line-height: 1.5; }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-list li span { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption); width: 80px; margin-right: 4px; vertical-align: baseline; }
+  .flow-group .email-meta { background: #FFFFFF; border-color: rgba(0,0,0,0.06); }
+  .flow-group .email-meta > div:first-child { border-right-color: rgba(0,0,0,0.06); }
+  .flow-group .sl-list li { border-bottom-color: var(--border-subtle); }
+  .flow-group .detail-list li { border-bottom-color: var(--border-subtle); }
+
+  /* Email Body (white boxes) */
+  .email-body-wrapper { position: relative; margin-top: 20px; background: #FFFFFF; border-radius: 16px; padding: 48px 0; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .email-body { color: #333333; padding: 0 40px; font-size: 15px; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+  .email-body p { color: #333333; font-size: 15px; line-height: 1.8; margin-bottom: 16px; max-width: 100%; }
+  .email-body p:last-child { margin-bottom: 0; }
+  .email-body a { color: #2563EB; text-decoration: underline; }
+  .email-body .sig { margin-top: 24px; color: #666; font-size: 14px; }
+  .email-body .ps { margin-top: 20px; font-size: 14px; color: #555; font-style: italic; }
+  .email-body ul, .email-body ol { margin: 12px 0; padding-left: 20px; color: #333; }
+  .email-body li { margin-bottom: 8px; font-size: 15px; line-height: 1.7; }
+  .email-body .cta-button { display: inline-block; background: #2563EB; color: #FFFFFF !important; padding: 14px 32px; text-decoration: none; font-weight: 600; font-size: 16px; border-radius: 4px; margin: 16px 0; }
+  .email-body h3 { color: #111; font-size: 18px; margin-bottom: 12px; }
+  .email-body strong, .email-body b, .email-body p strong, .email-body p b { color: #222 !important; font-weight: 600; }
+
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); color: #666; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; border-radius: 6px; }
+  .copy-btn:hover { background: rgba(0,0,0,0.1); color: #333; }
+  .copy-btn.copied { background: var(--dark); border-color: var(--border); color: var(--body); }
+  .copy-btn svg { width: 16px; height: 16px; }
+
+  /* Strategy Note */
+  .strategy-note { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 28px 32px; margin-top: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .strategy-note p { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--accent); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+
+  /* Major Section Divider */
+  .section-break { padding: 0; margin: 0 -40px; border: none; position: relative; background: var(--surface-hover); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-break-inner { display: flex; align-items: center; gap: 24px; padding: 36px 40px; }
+  .section-break-line { flex: 1; height: 1px; background: var(--border); }
+  .section-break-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-caption); white-space: nowrap; }
+
+  /* Grey Band Sections (full viewport width) */
+  .section-grey-band { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 56px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .section + .section { padding-top: 48px; border-top: 1px solid var(--border); }
+  .section-grey-band .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-grey-band .cal-table-wrap { background: var(--black); }
+  .section-grey-band .signal-card { background: var(--black); }
+
+  /* Automations Section (grey wrapper) */
+  .section-automations { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 56px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  /* Sticky Nav */
+  .sticky-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); margin: 0 -40px; padding: 0 40px; }
+  .sticky-nav-inner { display: flex; justify-content: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 10px 0; }
+  .sticky-nav-inner::-webkit-scrollbar { display: none; }
+  .sticky-nav a { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-tertiary); text-decoration: none; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: all 0.15s ease; letter-spacing: -0.01em; }
+  .sticky-nav a:hover { color: var(--text-strong); background: var(--surface-pill); }
+  .section-automations .flow-group { background: transparent; margin: 0 -40px; padding: 56px 40px; border-top: 1px solid var(--border); }
+  .section-campaigns { border-bottom: none; }
+  .section-campaigns .campaign-group:last-child { border-bottom: none; }
+  .section-automations .flow-group:first-of-type { border-top: none; }
+  .section-automations .section-intro { border-bottom: none; margin-bottom: 0; }
+  .section-automations .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-automations + .section { padding-top: 56px; }
+
+  /* Flow Diagrams */
+  .flow-group { padding: 56px 40px; border-bottom: none; background: var(--surface-subtle); margin: 0 -40px; border-top: 1px solid var(--border); }
+  .flow-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .flow-title { font-family: 'Geist', sans-serif; font-size: 40px; font-weight: 600; color: var(--white); letter-spacing: -1px; text-transform: none; line-height: 1.1; margin-bottom: 16px; }
+  .flow-desc { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Flow Table (ShadCN style) */
+  .flow-table-wrap { background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .flow-table tbody td { font-size: 14px; color: var(--text-secondary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--surface-hover); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-caption); font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; width: 60px; }
+  .flow-table tbody td:nth-child(2) { color: var(--text-strong); font-weight: 500; }
+  .flow-table tbody td:nth-child(3) { color: var(--text-secondary); }
+  .flow-table .flow-trigger-badge { display: inline-block; padding: 4px 12px; background: var(--surface-pill); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-strong); }
+
+  /* Testing & Optimization */
+  .test-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 32px; }
+  .test-card { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); padding: 28px 32px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .test-card h4 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 600; color: var(--white); margin-bottom: 10px; letter-spacing: -0.3px; }
+  .test-card .test-type { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .test-card p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+
+  /* Signal Cards */
+  .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  .signal-card { padding: 36px; }
+  .signal-card h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+  .signal-card ul { list-style: none; margin: 0; padding: 0; }
+  .signal-card li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 28px; position: relative; }
+  .signal-card li:last-child { border-bottom: none; }
+  .signal-card li::before { position: absolute; left: 0; font-weight: 700; font-size: 14px; }
+  .signal-card-green { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .signal-card-green h4 { color: var(--body); }
+  .signal-card-green li::before { content: "\2713"; color: var(--body); }
+  .signal-card-red { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .signal-card-red h4 { color: var(--red); }
+  .signal-card-red li::before { content: "\26A0"; color: var(--red); }
+
+  /* Playbook Subsection */
+  .playbook-subsection { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--border); }
+  .playbook-subsection .section-label { margin-bottom: 16px; }
+  .playbook-subsection h3 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 500; color: var(--white); letter-spacing: -0.22px; line-height: 1.3; margin-bottom: 16px; }
+  .playbook-subsection > p { margin-bottom: 40px; }
+  .playbook-subsection .numbered-steps { margin-top: 32px; }
+  .playbook-subsection .numbered-step { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .playbook-subsection .numbered-step:last-child { border-bottom: none; }
+  .playbook-subsection .step-num { font-family: 'Geist', sans-serif; font-size: 14px; font-weight: 500; color: var(--muted); min-width: 28px; padding-top: 2px; }
+  .playbook-subsection .numbered-step h4 { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .playbook-subsection .numbered-step p { font-size: 14px; color: var(--body); line-height: 1.7; margin-bottom: 0; }
+
+  /* Segment Cards */
+  .seg-group-row td { font-family: 'Inter', sans-serif; font-size: 11px !important; font-weight: 500 !important; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption) !important; background: var(--surface-hover); padding: 14px 20px !important; border-bottom: 1px solid var(--border) !important; border-top: 1px solid var(--border) !important; }
+  .seg-warn-row { background: #FFFBFB !important; }
+  .seg-warn-row:hover { background: #FFF5F5 !important; }
+  .seg-warn-row td:first-child { color: #991B1B !important; }
+
+  /* Header Meta */
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 48px; background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .meta-item { display: flex; flex-direction: column; gap: 8px; padding: 24px 28px; border-right: 1px solid var(--border); background: var(--black); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: var(--font-body, 'Inter', sans-serif); font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); }
+  .meta-value { font-family: 'Geist', sans-serif; font-size: 18px; font-weight: 600; color: var(--white); letter-spacing: -0.02em; }
+
+  /* Mini Stats */
+  .trust-snapshot-stats { display: flex; gap: 16px; padding-top: 24px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; margin-top: 24px; align-items: center; }
+  .mini-stat { font-size: 13px; color: var(--text-caption); font-weight: 400; }
+  .mini-stat + .mini-stat::before { content: "|"; margin-right: 16px; color: var(--border); font-weight: 300; }
+  .mini-stat-num { font-family: 'Geist', sans-serif; font-size: 20px; font-weight: 500; color: var(--white); margin-right: 4px; }
+
+  /* Next Month Boxes */
+  .next-month-box { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); padding: 36px; margin-top: 32px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .next-month-box h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .next-month-box ul { list-style: none; margin: 0; padding: 0; }
+  .next-month-box li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 32px; position: relative; }
+  .next-month-box li:last-child { border-bottom: none; }
+  .next-month-box li::before { content: "\25A1"; color: var(--muted); position: absolute; left: 4px; font-size: 14px; }
+
+  /* Campaign Group Header */
+  .campaign-group { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .campaign-group h2 { font-family: 'Geist', sans-serif; font-size: 40px; font-weight: 600; color: var(--white); letter-spacing: -1px; text-transform: none; line-height: 1.1; margin-bottom: 20px; }
+  .campaign-desc { font-size: 14px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Subject Line */
+  .subject-line { font-size: 14px; color: var(--body); padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+  .subject-line:last-child { border-bottom: none; }
+  .sl-letter { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+
+  /* Footer */
+  .footer { padding: 56px 0 56px; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--muted); font-style: italic; }
+
+  /* Accordion */
+  .accordion { margin-top: 40px; }
+  .accordion-item { border-bottom: 1px solid var(--border); }
+  .accordion-item:first-child { border-top: 1px solid var(--border); }
+  .accordion-item summary { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; cursor: pointer; list-style: none; font-family: 'Geist', sans-serif; font-size: 17px; font-weight: 600; color: var(--text-tertiary); transition: color 0.2s; }
+  .accordion-item summary:hover { color: var(--text-strong); }
+  .accordion-item[open] summary { color: var(--white); }
+  .accordion-item summary::-webkit-details-marker { display: none; }
+  .accordion-item summary::marker { display: none; content: ''; }
+  .accordion-item summary::after { content: ''; display: inline-block; width: 16px; height: 16px; flex-shrink: 0; margin-left: 16px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; transition: transform 0.2s ease; }
+  .accordion-item[open] summary::after { transform: rotate(180deg); }
+  .accordion-content { padding: 0 0 24px 0; }
+  .accordion-content p { font-size: 15px; color: var(--text-tertiary); line-height: 1.75; max-width: 700px; margin-bottom: 0; }
+  .accordion-content p strong { color: var(--white); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+    .copy-btn { display: none; }
+    .email-body { border: 1px solid #ddd; }
+    .section, .header { border-color: #eee; }
+    :root { --white: #000; --body: #222; --muted: #666; --dark: #f9f9f9; --card: #f5f5f5; --border: #e0e0e0; --accent: #222; --black: #fff; }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .strategy-grid, .email-meta, .test-grid, .signal-grid, .campaign-group .strategy-grid, .next-month-box .strategy-grid { grid-template-columns: 1fr; }
+    .header-meta-row { gap: 24px; }
+    .signal-card { padding: 24px; }
+    .signal-card li { font-size: 15px; }
+    .cal-table thead th, .cal-table tbody td { padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">The Email Blueprint<span class="powered-by">powered by: Email Trust Architecture AI</span></div>
+      <div class="header-meta">
+        <p>Prepared by Dave Miz</p>
+        <p>April 2026</p>
+      </div>
+    </div>
+    <h1>Five Star <span>Jewelers</span></h1>
+    <p class="header-sub">April 2026 Email Blueprint</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value">Five Star Jewelers</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span class="meta-value">GoHighLevel</span></div>
+      <div class="meta-item"><span class="meta-label">Month</span><span class="meta-value">April 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Locations</span><span class="meta-value">8 Miami-Dade</span></div>
+      <div class="meta-item"><span class="meta-label">Campaigns</span><span class="meta-value">4 Campaigns · 6 Emails</span></div>
+      <div class="meta-item"><span class="meta-label">Automations</span><span class="meta-value">3 Flows · 6 Emails</span></div>
+    </div>
+  </div>
+
+  <!-- STICKY NAV -->
+  <nav class="sticky-nav">
+    <div class="sticky-nav-inner">
+      <a href="#strategy">Strategy</a>
+      <a href="#diagnosis">Diagnosis</a>
+      <a href="#approach">Approach</a>
+      <a href="#segments">Segments</a>
+      <a href="#deliverability">Deliverability</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#automations">Automations</a>
+      <a href="#tests">Split Tests</a>
+      <a href="#next-month">Next Month</a>
+    </div>
+  </nav>
+
+  <!-- TRUST STRATEGY SNAPSHOT -->
+  <div class="section" id="strategy">
+    <div class="section-label">This Month's Trust Strategy</div>
+    <div class="section-month-label">Month 1:</div>
+    <h2>Trust Recovery</h2>
+    <div class="snapshot-box" style="background: #FFFFFF;">
+      <p>This is <strong>Month 1</strong>. Five Star has 143,279 subscribers but only ~12,799 are active (7.59%). The list has been getting weekly "We Buy Gold" blasts with 0.07% click rates, which means most subscribers have tuned out. Step one this month: <strong>suppress the 130K+ inactive contacts</strong> so we're only sending to people who actually engage. Step two: replace the "We Buy Gold" blasts with <strong>strategic, culturally connected campaigns</strong> tied to real life events. April is the perfect month to start because the calendar is working in our favor: quinceañera season opens, graduation gifting ramps up, and Mother's Day is around the corner. The rhythm: deposit, deposit, soft ask, conversion ask. <strong>Bilingual sends</strong> with English primary and Spanish versions for each campaign. Cuban Link Chains get their own dedicated spotlight because they're the signature revenue driver and deserve a moment.</p>
+      <div class="trust-snapshot-stats">
+        <div class="mini-stat"><span class="mini-stat-num">6</span> campaign emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">6</span> automation emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">24</span> subject lines</div>
+        <div class="mini-stat"><span class="mini-stat-num">2</span> languages</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT DIAGNOSIS -->
+  <div class="section" id="diagnosis">
+    <div class="section-label">Account Diagnosis</div>
+    <h2>Where Things Stand</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>List Health</h4>
+          <p>143,279 total subscribers with ~12,799 active (7.59%). The 130K+ inactive contacts need to be suppressed immediately so all sends go only to the active segment. This is the first priority before any campaigns go out. <strong>Once suppression is done, monitor whether the active pool grows or shrinks as we begin strategic sending.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Engagement Trajectory</h4>
+          <p>Starting from 7.71% open rate and 0.07% click rate (from "We Buy Gold" blasts to the full list). By sending only to active contacts with value-first content, those numbers should improve dramatically. <strong>After Week 2, check open rates. If opens are 20%+, the strategy is working. If below 15%, tighten the active window to 60 days.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Automation Status</h4>
+          <p>Welcome Sequence, Post-Purchase Thank You, and Review Request flows need to go live this month. <strong>Get all three active in Week 1 before campaigns start. These run automatically and compound over time.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>April Opportunity</h4>
+          <p>Quinceañera season (April through June) is Five Star's #1 selling season. Graduation gifting peaks in May but buying starts in April. Mother's Day (May 11) early access creates urgency without pressure. <strong>This month's campaigns are timed to capture these natural buying moments.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTHLY STRATEGY -->
+  <div class="section" id="approach">
+    <div class="section-label">Monthly Strategy</div>
+    <h2>The April Approach</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Ride the Calendar</h4>
+          <p>April has four natural buying triggers: quinceañera season kickoff, graduation gift shopping, early Mother's Day planning, and everyday Cuban Link demand. Instead of manufacturing urgency, we're meeting people where they already are. Every campaign ties to a real moment their family is already thinking about.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Deposit-Deposit-Ask-Convert</h4>
+          <p>Week 1 is a cultural value deposit (quinceañera traditions). Week 2 is a gift guide value deposit (graduation). Week 3 is a soft ask (Mother's Day early access). Week 4 is a conversion ask (Cuban Link spotlight). Each week earns the next level of trust.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Segment Smarter</h4>
+          <p>April introduces audience-specific targeting. Campaign 1 goes to past buyers and the Latino community segment. Campaign 4 targets Cuban Link and gold chain buyers specifically. Campaigns 2 and 3 use broader active lists. <strong>Build behavioral segments from April click data as it comes in.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Target Metrics</h4>
+          <p>Open rate target: 25%+ (baseline month, establishing benchmarks). Click rate target: 2%+. Unsubscribe ceiling: 0.3% per send. Revenue attribution: track in-store mentions of email campaigns and use GHL pipeline tracking for any online inquiries. Every metric this month becomes the data we optimize against.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-grey-band">
+  <!-- SEGMENTS -->
+  <div class="section" id="segments">
+    <div class="section-label">Segments Used This Month</div>
+    <h2>April Audience Targeting</h2>
+    <p>These are the segments to set up in GHL this month. <strong>Cuban Link Interest and Past Buyers segments drive the targeted campaigns in Weeks 3 and 4.</strong></p>
+
+    <div class="cal-table-wrap" style="margin-top:24px;">
+      <table class="cal-table">
+        <thead><tr><th>Segment</th><th>Filter Criteria</th><th>April Usage</th></tr></thead>
+        <tbody>
+          <tr class="seg-group-row"><td colspan="3">Campaign Lists</td></tr>
+          <tr><td>Active 90 Days</td><td>Opened or clicked any email in last 90 days (all locations)</td><td>Campaigns 2 and 3</td></tr>
+          <tr><td>Past Buyers + Latino Community</td><td>Tag "purchase-completed" OR tag "latino-community" OR language = Spanish</td><td>Campaign 1 (Quinceañera)</td></tr>
+          <tr><td>Engaged Buyers (90-Day Active)</td><td>Active 90 Days AND has tag "purchase-completed"</td><td>Campaign 3 (Mother's Day)</td></tr>
+          <tr><td>Cuban Link &amp; Gold Chain Buyers</td><td>Tag "cuban-link-interest" OR past purchase includes Cuban link/gold chain</td><td>Campaign 4 (Cuban Link Spotlight)</td></tr>
+          <tr class="seg-group-row"><td colspan="3">Automation Triggers (Unchanged)</td></tr>
+          <tr><td>New Contacts</td><td>Contact created in last 7 days</td><td>Welcome Sequence</td></tr>
+          <tr><td>Recent Purchasers</td><td>Contact has tag "purchase-completed"</td><td>Post-Purchase flow</td></tr>
+          <tr><td>Purchase +14 Days, No Review</td><td>Tagged "purchase-completed" 14+ days ago AND no "left-review" tag</td><td>Review Request</td></tr>
+          <tr class="seg-group-row"><td colspan="3">Suppression (Unchanged)</td></tr>
+          <tr class="seg-warn-row"><td>Unengaged 180+ Days</td><td>No email opens AND no clicks in last 180 days</td><td style="color:#DC2626;">Suppress from ALL sends</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="strategy-note" style="margin-top:24px;">
+      <p><strong>New Segments for April:</strong> Build the "Cuban Link Interest" behavioral segment: contacts who have a "cuban-link-interest" tag OR past purchases include Cuban link/gold chain items. Create "Past Buyers + Latino" by combining the "purchase-completed" tag with language = Spanish contacts.</p>
+      <p><strong>Segment Sizing:</strong> If any targeted segment (Campaign 1 or 4) has fewer than 500 contacts, expand to the full Active 90 Days list instead. Small sends hurt deliverability.</p>
+    </div>
+  </div>
+
+  <!-- DELIVERABILITY -->
+  <div class="section" id="deliverability">
+    <div class="section-label">Deliverability</div>
+    <h2>Month 1 Health Check</h2>
+    <p>This is the baseline month. Suppress inactive contacts, establish consistent sending, and collect the data that will drive every decision going forward.</p>
+    <div class="signal-grid">
+      <div class="signal-card signal-card-green">
+        <h4>Do This First (Week 1)</h4>
+        <ul>
+          <li>130K+ inactive contacts suppressed</li>
+          <li>Active 90 Days smart list live and sending</li>
+          <li>SPF/DKIM/DMARC configured</li>
+          <li>Language segments (English/Spanish) active</li>
+          <li>Reply-to going to monitored inbox</li>
+          <li>"We Buy Gold" blasts stopped</li>
+        </ul>
+      </div>
+      <div class="signal-card signal-card-red">
+        <h4>April Actions</h4>
+        <ul>
+          <li>Monitor bounce rate after first sends, if hard bounces exceed 1%, clean the list further</li>
+          <li>Check spam complaint rate in GHL, anything above 0.08% needs investigation</li>
+          <li>Run blacklist check on sending domain before first campaign</li>
+          <li>After Week 2, evaluate Active 90 window: if opens are below 15%, tighten to 60 days</li>
+          <li>Build behavioral segments from April click data (Cuban Link Interest, Engagement Ring Interest)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Volume Management -->
+    <div class="playbook-subsection" style="margin-top:32px;">
+      <h3>Volume Management</h3>
+      <p>Warmup is complete, but volume discipline is permanent. Monitor volume jumps between campaigns — the <strong>2–3x rule</strong> still applies. Even with a healthy sender reputation, sudden volume spikes trigger spam filters.</p>
+
+      <div class="signal-card signal-card-red" style="margin-top:20px;">
+        <h4>Campaign Volume Check (Verify Before Scheduling)</h4>
+        <ul>
+          <li>Campaign 1 targets [segment] → est. [X] contacts</li>
+          <li>Campaign 2 targets [segment] → est. [Y] contacts</li>
+          <li>If Y > 3x X, add a ramp send between them</li>
+        </ul>
+        <p style="margin-top:12px;"><strong>Warning:</strong> Even with a warmed-up domain, jumping from a 500-person segment to a 12,000-person segment in one send WILL trigger flags. Ramp gradually.</p>
+      </div>
+
+      <div class="numbered-steps" style="margin-top:24px;">
+        <div class="numbered-step">
+          <div class="step-num">GHL</div>
+          <div>
+            <h4>How to Split Segments in GHL</h4>
+            <ol style="margin:8px 0 0 18px; line-height:1.7;">
+              <li>Go to <strong>Contacts → Smart Lists → Create Smart List</strong></li>
+              <li>Name it <strong>"[Segment Name] - Ramp Batch"</strong></li>
+              <li>Filter: <strong>"Last Email Activity"</strong> is within last 30 days AND is in your target segment</li>
+              <li>Send to this smaller group first, then expand to full segment next send</li>
+              <li>Delete temporary Smart Lists after ramping is complete</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAMPAIGN CALENDAR -->
+  <div class="section" id="calendar">
+    <div class="section-label">Campaign Calendar</div>
+    <h2>April 2026 Send Schedule</h2>
+    <div class="cal-table-wrap">
+      <table class="cal-table">
+        <thead><tr><th>Date</th><th>Campaign</th><th>Emails</th><th>Trust Move</th></tr></thead>
+        <tbody>
+          <tr><td>Wed Apr 1</td><td>Quinceañera Season Kickoff</td><td>2 (English + Spanish/Resend)</td><td><span class="tag">Familiar → Engaged</span></td></tr>
+          <tr><td>Wed Apr 8</td><td>Graduate Gift Guide</td><td>2 (Gift Guide + Alt Angle)</td><td><span class="tag">Stranger → Familiar</span></td></tr>
+          <tr><td>Wed Apr 15</td><td>Mother's Day Early Access</td><td>1</td><td><span class="tag tag-accent">Engaged → Buyer</span></td></tr>
+          <tr><td>Wed Apr 22</td><td>Cuban Link Collection Spotlight</td><td>1</td><td><span class="tag tag-accent">Familiar → Buyer</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  </div><!-- /section-grey-band -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- CAMPAIGN EMAILS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-campaigns" id="campaigns">
+    <div class="section-intro">
+      <div class="section-label">Campaign Emails</div>
+      <h2>April Campaign Sends</h2>
+      <p>Four campaigns across April, each timed to a natural buying trigger. Bilingual strategy continues: English primary with Spanish versions or non-opener resends. Each campaign includes full email copy, subject lines, and GHL setup instructions.</p>
+    </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 1: QUINCEAÑERA        -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 1 of 4</div>
+    <h2>Quinceañera Season Kickoff</h2>
+    <p class="campaign-desc">This is the cultural anchor campaign. Quinceañera season is Five Star's #1 selling season, and April is when families start shopping. This email positions Five Star as the jeweler who understands the tradition, not just the transaction. Tiaras, gold bracelets, cross pendants, the last doll ceremony. Financing mentioned because quinceañera jewelry is a family investment. The Spanish version isn't a translation, it's a cultural connection.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Familiar → Engaged (value deposit through cultural connection)</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Value Deposit, culturally resonant</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Past Buyers + Latino Community segment</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Quinceañera jewelry traditions, tiaras, gold bracelets, cross pendants, Acima/Klarna financing</p></div>
+    </div>
+
+    <!-- EMAIL 01 ... Quinceañera English -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 01 ... ENGLISH</div>
+      <div class="email-title">Quinceañera Season Kickoff</div>
+      <div class="email-tags">
+        <span class="tag">Familiar → Engaged</span>
+        <span class="tag">English</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Her quinceañera deserves the perfect piece</li>
+            <li><span>B.</span> Quinceañera season is here, Five Star is ready</li>
+            <li><span>C.</span> {{contact.first_name}}, planning a quinceañera?</li>
+            <li><span>D.</span> Tiaras, gold bracelets, and the traditions that matter</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> tiaras, gold bracelets, cross pendants, and flexible financing</li>
+            <li><span>Send</span> Wednesday April 1, 10:00 AM ET</li>
+            <li><span>Audience</span> Past Buyers + Latino Community</li>
+            <li><span>Goal</span> Cultural connection + drive quinceañera inquiries</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{contact.first_name}},</p>
+          <p>Quinceañera season is here. And if you're planning one (or know someone who is), this is the time to start thinking about the jewelry.</p>
+          <p>Because the right pieces aren't just accessories. They're part of the ceremony. They carry meaning.</p>
+          <p><strong>The Tiara</strong> symbolizes her triumph and the crown she earns as she enters young womanhood. We carry everything from classic crystal tiaras to custom gold designs.</p>
+          <p><strong>The Last Doll</strong> tradition calls for a special bracelet or pendant gifted alongside the last childhood doll. Gold bracelets with her name or birthstone make this moment unforgettable.</p>
+          <p><strong>The Cross Pendant</strong> represents faith and family. A 14K gold cross pendant from Five Star is something she'll wear for years, not just on the big day.</p>
+          <p><strong>Gold Bracelets</strong> are the gift that says "you're growing up, and this is real gold for a real milestone." We carry 10K and 14K options in every style.</p>
+          <p>We understand quinceañera traditions because we've been helping Miami families celebrate them for over 35 years. And with Acima and Klarna financing, you can spread the cost into manageable payments.</p>
+          <p>Come in early. The best pieces go first, and custom orders need 4-6 weeks.</p>
+          <p><a href="#" class="cta-button">Visit Your Nearest Five Star →</a></p>
+          <div class="sig">Five Star Jewelers<br>8 locations across Miami-Dade<br>fivestarjewelers.com</div>
+          <p class="ps">P.S. Already have a date locked in? Come in and we'll help you pick everything at once, tiara, bracelet, pendant, and earrings. We love putting the full look together.</p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Marketing → Emails → Campaigns → New Campaign. Select "Past Buyers + Latino Community" smart list. Schedule Wednesday April 1 at 10:00 AM ET. A/B test subject lines A vs D (emotional vs specific). Merge tag: {{contact.first_name}}. CTA links to store locator.</p>
+        <p><strong>Email 02 ... Spanish Version or Non-Opener Resend:</strong> Option A: Translate this email and send to Spanish-preference contacts on Thursday April 2. Spanish subject lines: A. "Su quinceañera merece la pieza perfecta" / B. "La temporada de quinceañeras comenzo" / C. "{{contact.first_name}}, planeando una quinceañera?" / D. "Tiaras, pulseras de oro, y las tradiciones que importan." Option B: Resend to non-openers on Friday April 3 with subject line C (personalized).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 2: GRADUATE GIFT GUIDE -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 2 of 4</div>
+    <h2>Graduate Gift Guide</h2>
+    <p class="campaign-desc">Graduation season starts in May but the shopping starts now. This gift guide positions Cuban Links as the ultimate "grown-up" gift, alongside watches and custom pieces. The angle: you're not buying jewelry, you're marking a milestone. Price range accessibility and financing remove friction. Two emails: the main gift guide, then a follow-up angle for the "impossible to shop for" graduate.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Stranger → Familiar (value deposit through helpful gift ideas)</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Value Deposit, gift guide format</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>All Active Subscribers (Active 90 Days)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Cuban Links as "grown-up" gift, watches, custom pieces, price accessibility, financing</p></div>
+    </div>
+
+    <!-- EMAIL 03 ... Gift Guide -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 03 ... GIFT GUIDE</div>
+      <div class="email-title">Graduate Gift Guide</div>
+      <div class="email-tags">
+        <span class="tag">Stranger → Familiar</span>
+        <span class="tag">English</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Every milestone deserves gold</li>
+            <li><span>B.</span> The graduation gift they'll actually keep</li>
+            <li><span>C.</span> {{contact.first_name}}, know a graduate?</li>
+            <li><span>D.</span> Gold chains, watches, and why they matter now</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> Cuban Links, watches, and custom pieces for every budget</li>
+            <li><span>Send</span> Wednesday April 8, 10:00 AM ET</li>
+            <li><span>Audience</span> Active 90 Days ... All</li>
+            <li><span>Goal</span> Position Five Star as the graduation gift destination</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{contact.first_name}},</p>
+          <p>Graduation is coming. And there's a big difference between a gift that gets tossed in a drawer and one they wear every single day.</p>
+          <p>Gold lasts. It doesn't fade, it doesn't break, and it means something. Here's what graduates in Miami are actually asking for:</p>
+          <p><strong>Cuban Link Chains</strong> ... Our signature. Solid gold, custom lengths, handcrafted right here in Miami. A Cuban Link isn't just a chain. It's a statement that says "I made it." We carry everything from 2mm everyday pieces to 18mm bold statements, in 10K and 14K gold.</p>
+          <p><strong>Watches</strong> ... A real watch is a grown-up gift. We carry styles that work for the graduate who's about to start their first job, and for the one who's been eyeing something special for years.</p>
+          <p><strong>Custom Pieces</strong> ... Engraved pendants, initial rings, birthstone bracelets. Something personal that nobody else has.</p>
+          <p><strong>Diamond Studs</strong> ... Lab-grown or natural. Starting under $500. Classic, clean, and they go with everything.</p>
+          <p>Not sure where to start? That's what we're here for. Come into any of our 8 locations and tell us about the graduate. We'll help you find the right piece at the right price.</p>
+          <p>And with Klarna, you can split it into 4 payments. No stress.</p>
+          <p><a href="#" class="cta-button">Find Your Nearest Five Star →</a></p>
+          <div class="sig">Five Star Jewelers<br>8 locations across Miami-Dade<br>fivestarjewelers.com</div>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> "Active 90 Days ... All" list. Schedule Wednesday April 8, 10:00 AM ET. A/B test subject lines A vs B (aspirational vs practical). Merge tag: {{contact.first_name}}. CTA links to store locator.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 04 ... Alt Angle -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 04 ... FOLLOW-UP ANGLE</div>
+      <div class="email-title">For the Graduate Who Has Everything</div>
+      <div class="email-tags">
+        <span class="tag">Stranger → Familiar</span>
+        <span class="tag">English</span>
+        <span class="tag">Value Deposit</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> The graduate who has everything needs this</li>
+            <li><span>B.</span> Still looking for a graduation gift?</li>
+            <li><span>C.</span> One gift they won't return</li>
+            <li><span>D.</span> {{contact.first_name}}, graduation is closer than you think</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> gold is the gift that never gets returned</li>
+            <li><span>Send</span> Friday April 10, 10:00 AM ET</li>
+            <li><span>Audience</span> Active 90 Days ... Non-openers of Email 03</li>
+            <li><span>Goal</span> Catch non-openers + different angle</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{contact.first_name}},</p>
+          <p>You know the graduate who says "I don't need anything"? They're the hardest to shop for and the easiest to impress.</p>
+          <p>Because nobody returns gold.</p>
+          <p>A Cuban Link Chain they can wear every day. A pair of diamond studs they didn't know they wanted. A watch that makes them feel like the person they're about to become.</p>
+          <p>These aren't the kind of gifts that end up in a closet. They're the kind people still talk about ten years later.</p>
+          <p>We've helped thousands of Miami families find the right graduation piece. And here's what we've learned: the best gifts aren't the most expensive ones. They're the ones that mean something.</p>
+          <p>Come in and let us help. We'll work with any budget, and Klarna lets you split it into 4 payments if you need flexibility.</p>
+          <p><a href="#" class="cta-button">Visit Five Star This Week →</a></p>
+          <div class="sig">Five Star Jewelers<br>8 locations across Miami-Dade<br>fivestarjewelers.com</div>
+          <p class="ps">P.S. Custom engraving takes 24-48 hours. If you want something personalized, come in soon.</p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> Create as a resend to non-openers of Email 03. In GHL, filter to contacts in Active 90 Days who did NOT open the April 8 email. Schedule Friday April 10, 10:00 AM ET. Use subject line A or D. This captures people who missed the first email with a completely different hook.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- CAMPAIGN 3: MOTHER'S DAY EARLY ACCESS              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 3 of 4</div>
+    <h2>Mother's Day Early Access</h2>
+    <p class="campaign-desc">Mother's Day is May 11. This email goes out 26 days early, which is the sweet spot: enough time to browse and decide, soon enough that it feels timely. The angle is "she's been waiting, she just hasn't told you." Gentle urgency, not pressure. Highlight earrings, pendants, and bracelets, the most popular Mother's Day categories. Free shipping over $250 and Klarna 4-payment option remove friction. This goes to engaged buyers only because they've earned the right to get the first look.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Engaged → Buyer (soft ask, earned after two deposits)</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Soft Conversion Ask</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Engaged Buyers (90-day active with purchase history)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Early access to Mother's Day picks, earrings, pendants, bracelets, free shipping $250+, Klarna</p></div>
+    </div>
+
+    <!-- EMAIL 05 ... Mother's Day -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 05</div>
+      <div class="email-title">Mother's Day Early Access</div>
+      <div class="email-tags">
+        <span class="tag">Engaged → Buyer</span>
+        <span class="tag">English</span>
+        <span class="tag">Soft Ask</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> She's been waiting (she just hasn't told you)</li>
+            <li><span>B.</span> Mother's Day early access, just for you</li>
+            <li><span>C.</span> 26 days until she expects something beautiful</li>
+            <li><span>D.</span> {{contact.first_name}}, get ahead of Mother's Day</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> earrings, pendants, bracelets, and free shipping over $250</li>
+            <li><span>Send</span> Wednesday April 15, 10:00 AM ET</li>
+            <li><span>Audience</span> Engaged Buyers (90-day active + purchase tag)</li>
+            <li><span>Goal</span> Drive early Mother's Day purchases</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{contact.first_name}},</p>
+          <p>Mother's Day is May 11th. And here's what we've learned after 35 years of helping families in Miami pick the right gift:</p>
+          <p>She already knows what she wants. She's just waiting for someone to pay attention.</p>
+          <p>Maybe it's the earrings she paused on last time she was in the store. Maybe it's a pendant with her kids' birthstones. Maybe it's the bracelet she's been hinting about for months.</p>
+          <p>Here are our most popular Mother's Day picks:</p>
+          <p><strong>Diamond Earrings</strong> ... Lab-grown or natural. Studs, hoops, or drops. Starting under $300. The gift she'll wear every single day.</p>
+          <p><strong>Birthstone Pendants</strong> ... Personalized with her children's birthstones. 14K gold. Meaningful, beautiful, and one of a kind.</p>
+          <p><strong>Gold Bracelets</strong> ... From delicate chains to bold bangles. 10K and 14K options at every price point.</p>
+          <p><strong>Name Necklaces</strong> ... Custom made with her name or her family's name. Classic Miami style.</p>
+          <p>Orders over $250 ship free. And with Klarna, you can split any purchase into 4 easy payments.</p>
+          <p>Don't wait until the week before. Come in now and get exactly what she's hoping for.</p>
+          <p><a href="#" class="cta-button">Shop Mother's Day at Five Star →</a></p>
+          <div class="sig">Five Star Jewelers<br>8 locations across Miami-Dade<br>fivestarjewelers.com</div>
+          <p class="ps">P.S. Custom and engraved pieces take 3-5 business days. Come in by May 2nd if you want something personalized.</p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> "Engaged Buyers" smart list (Active 90 Days + purchase-completed tag). Schedule Wednesday April 15, 10:00 AM ET. A/B test subject lines A vs C (emotional vs urgency). Merge tag: {{contact.first_name}}. CTA links to store locator or Mother's Day landing page if one exists.</p>
+        <p><strong>Spanish Version:</strong> Translate and send Thursday April 16 to Spanish-preference contacts. Spanish subject lines: A. "Ella ha estado esperando (solo no te lo ha dicho)" / B. "Acceso anticipado para el Dia de las Madres" / C. "26 dias para sorprenderla" / D. "{{contact.first_name}}, adelantate al Dia de las Madres"</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- CAMPAIGN 4: CUBAN LINK SPOTLIGHT                   -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section campaign-group">
+    <div class="section-label">Campaign 4 of 4</div>
+    <h2>Cuban Link Collection Spotlight</h2>
+    <p class="campaign-desc">Cuban Links are Five Star's signature product and primary revenue driver. They deserve a dedicated email that goes beyond "we sell chains." This is education meets conversion: widths explained (2mm-18mm), gold types compared (10K vs 14K), solid vs semi-solid clarified. The "build your chain" custom option is the differentiator. This email speaks directly to people who already care about Cuban Links, so the ask is direct.</p>
+    <div class="strategy-grid" style="margin-top:24px;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Familiar → Buyer (conversion ask, earned through prior deposits)</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Conversion Ask, education-led</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Cuban Link &amp; Gold Chain Buyers segment</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Width education (2mm-18mm), 10K vs 14K, solid vs semi-solid, custom "build your chain" option</p></div>
+    </div>
+
+    <!-- EMAIL 06 ... Cuban Link -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 06</div>
+      <div class="email-title">Cuban Link Collection Spotlight</div>
+      <div class="email-tags">
+        <span class="tag">Familiar → Buyer</span>
+        <span class="tag">English</span>
+        <span class="tag">Conversion Ask</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> How to pick the right Cuban Link (a guide)</li>
+            <li><span>B.</span> 2mm or 18mm? Here's how to decide</li>
+            <li><span>C.</span> Build your own Cuban Link at Five Star</li>
+            <li><span>D.</span> {{contact.first_name}}, your chain is waiting</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> widths, gold types, solid vs semi-solid, and custom options</li>
+            <li><span>Send</span> Wednesday April 22, 10:00 AM ET</li>
+            <li><span>Audience</span> Cuban Link &amp; Gold Chain Buyers</li>
+            <li><span>Goal</span> Drive Cuban Link purchases + custom orders</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{contact.first_name}},</p>
+          <p>A Cuban Link Chain is more than jewelry. In Miami, it's a statement. It's identity. It's culture you wear.</p>
+          <p>Five Star has been handcrafting Cuban Links for over 35 years. And the most common question we get is: "How do I pick the right one?"</p>
+          <p>Here's the breakdown:</p>
+          <p><strong>Width matters.</strong> 2mm-4mm is subtle and everyday. 6mm-8mm is the sweet spot for most people, noticeable without being heavy. 10mm-14mm is a statement. 16mm-18mm is bold, for the person who wants to turn heads. Come in and try different widths on. It's the only way to know.</p>
+          <p><strong>10K vs 14K Gold.</strong> 10K is more durable and more affordable, great for daily wear. 14K has a richer color and higher gold content, the classic choice. Both hold their value. Neither is "better." It depends on how you wear it.</p>
+          <p><strong>Solid vs Semi-Solid.</strong> Solid links are heavier, more substantial, and built to last decades. Semi-solid looks identical but weighs less and costs less. We carry both, and we'll show you the difference in person so you can feel it.</p>
+          <p><strong>Build Your Chain.</strong> Pick your width, your length (16" to 30"), your gold type, and your clasp style. We'll build it exactly the way you want it. Custom orders take 2-3 weeks.</p>
+          <p>Not sure where to start? That's exactly why we're here. Come into any of our 8 locations, try on a few pieces, and we'll walk you through it. No pressure. No rush. Just good advice from people who've been doing this a long time.</p>
+          <p>Financing available through Acima and Klarna.</p>
+          <p><a href="#" class="cta-button">Build Your Cuban Link at Five Star →</a></p>
+          <div class="sig">Five Star Jewelers<br>8 locations across Miami-Dade<br>fivestarjewelers.com</div>
+          <p class="ps">P.S. Buying your first Cuban Link? Ask for the "first chain" experience. We'll measure your neck, help you choose the right width, and make sure it feels right before you commit. La diferencia se nota cuando lo pruebas.</p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>GHL Setup:</strong> "Cuban Link &amp; Gold Chain Buyers" segment. If this segment has fewer than 500 contacts, expand to full Active 90 Days list. Schedule Wednesday April 22, 10:00 AM ET. A/B test subject lines A vs C (educational vs custom option). Merge tag: {{contact.first_name}}. CTA links to store locator or Cuban Link product page if available.</p>
+        <p><strong>Spanish Version:</strong> Translate and send Thursday April 23 to Spanish-preference contacts. Spanish subject lines: A. "Como elegir el Cuban Link perfecto (una guia)" / B. "2mm o 18mm? Asi decides" / C. "Arma tu propio Cuban Link en Five Star" / D. "{{contact.first_name}}, tu cadena te espera." The P.S. already includes Spanish naturally.</p>
+      </div>
+    </div>
+  </div>
+  </div><!-- /section-campaigns -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- AUTOMATION FLOWS                                     -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-automations" id="automations">
+    <div class="section-intro">
+      <div class="section-label">Automation Flows</div>
+      <h2>Always-On Email Sequences</h2>
+      <p>These automations need to go live in GHL during Week 1. Once active, they run 24/7. Every new contact gets welcomed, every purchase gets followed up, and review requests go out automatically. Monitor flow completion rates and review volume monthly.</p>
+    </div>
+
+    <!-- WELCOME SEQUENCE -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 1</div>
+      <h3 class="flow-title">Welcome Sequence</h3>
+      <p class="flow-desc">Triggers when a new contact is added. 3 emails over 6 days. Introduces Five Star, showcases products and financing, then drives first visit with social proof and referral program.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">New Contact Created</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Welcome to Five Star</td><td>Immediate</td></tr>
+            <tr><td>03</td><td>What We're Known For</td><td>+3 days</td></tr>
+            <tr><td>04</td><td>Why People Keep Coming Back</td><td>+3 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- WELCOME EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 01</div>
+        <h3 class="email-title">Welcome to Five Star</h3>
+        <div class="email-tags">
+          <span class="tag">Introduction</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Welcome to Five Star, {{contact.first_name}}</li>
+              <li><span>B.</span> Thanks for visiting us</li>
+              <li><span>C.</span> A quick intro from Five Star</li>
+              <li><span>D.</span> {{contact.first_name}}, glad you stopped by</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> family-owned, 8 Miami-Dade locations</li>
+              <li><span>Trigger</span> Immediately on contact creation</li>
+              <li><span>Audience</span> All new contacts</li>
+              <li><span>Goal</span> Introduce Five Star, set expectations</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>Welcome to Five Star Jewelers. Quick intro so you know who you're dealing with:</p>
+            <p>We're a family-owned jewelry business with 8 locations across Miami-Dade. We've been helping Miami families find the right piece, and take care of the ones they already love, for over 35 years.</p>
+            <p>What we do: Engagement Rings, Wedding Bands, Cuban Link Chains, watches, lab-grown and natural diamonds, custom pieces, and full-service repairs done on-site.</p>
+            <p>We also speak English and Spanish at every location. This is Miami, we get it.</p>
+            <p>We'll send you helpful tips, new arrivals, and the occasional special offer. That's it, no spam, no daily emails, nothing you'll regret signing up for.</p>
+            <p>Thanks for being here.</p>
+            <p>The Five Star Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Create workflow: Trigger = Contact Created. Send immediately. Use contact's preferred language if tagged. If language unknown, send English version. Merge tag: {{contact.first_name}}.</p>
+        </div>
+      </div>
+
+      <!-- WELCOME EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 02</div>
+        <h3 class="email-title">What We're Known For</h3>
+        <div class="email-tags">
+          <span class="tag">Education</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> What Five Star is known for</li>
+              <li><span>B.</span> Lab-grown diamonds, Cuban links, and more</li>
+              <li><span>C.</span> We do way more than you think</li>
+              <li><span>D.</span> Financing that actually makes sense</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> diamonds, Cuban links, repairs, financing</li>
+              <li><span>Trigger</span> 3 days after Welcome 01</li>
+              <li><span>Audience</span> All new contacts</li>
+              <li><span>Goal</span> Product awareness + financing education</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>People come to Five Star for different reasons. Here's what we're known for:</p>
+            <p><strong>Cuban Link Chains</strong> ... Our signature. Solid gold, custom lengths, handcrafted. We've been making these for Miami families for years. If you want the real thing, this is where you come.</p>
+            <p><strong>Lab-Grown Diamonds</strong> ... Same brilliance as natural diamonds, more accessible pricing. We carry both so you can compare side by side and decide what's right for you.</p>
+            <p><strong>Engagement Rings &amp; Bridal</strong> ... Custom and ready-made. We'll work with any budget and help you find something she'll never want to take off.</p>
+            <p><strong>Repairs</strong> ... Ring sizing, chain repair, stone replacement, watch batteries, all done on-site, usually same day. Your piece never leaves the store.</p>
+            <p><strong>Financing</strong> ... We offer Acima and Klarna financing, flexible plans that work with any budget. The right piece shouldn't have to wait because of timing. Come in and we'll walk you through the options.</p>
+            <p>Questions? Just reply to this email or stop by any of our 8 locations.</p>
+            <p>The Five Star Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Same workflow, 3-day wait step after Welcome 01. This email surfaces product categories many contacts may not know about. The financing mention is critical, with a $1,300 AOV, financing removes the biggest purchase barrier.</p>
+        </div>
+      </div>
+
+      <!-- WELCOME EMAIL 3 -->
+      <div class="email-block">
+        <div class="email-num">WELCOME 03</div>
+        <h3 class="email-title">Why People Keep Coming Back</h3>
+        <div class="email-tags">
+          <span class="tag">Interested → Engaged</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Why people keep coming back</li>
+              <li><span>B.</span> $100 cash, just for telling a friend</li>
+              <li><span>C.</span> {{contact.first_name}}, one more thing</li>
+              <li><span>D.</span> We pay you to spread the word</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> social proof + $100 referral program</li>
+              <li><span>Trigger</span> 3 days after Welcome 02</li>
+              <li><span>Audience</span> All new contacts</li>
+              <li><span>Goal</span> Social proof + referral program intro</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>The biggest compliment we get isn't a Google review (although those help). It's when a customer sends their friend, their mom, or their boyfriend to us.</p>
+            <p>That happens a lot. And here's why we think it does:</p>
+            <p>We don't pressure people. We don't upsell. We show you options, explain the differences, and let you decide. Whether you spend $200 or $20,000, you get the same treatment.</p>
+            <p>That's why families come back for Engagement Rings after buying a watch battery. That's why abuela sends her granddaughter to the same store she's been going to for years.</p>
+            <p>And because we appreciate it, we have a referral program. Refer a friend or family member who makes a purchase, and we'll pay you <strong>$100 cash</strong>. Not a store credit. Cash.</p>
+            <p>Just tell them to mention your name when they come in.</p>
+            <p><a href="#" class="cta-button">Find Your Nearest Five Star →</a></p>
+            <p>The Five Star Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Same workflow, 3-day wait after Welcome 02. This is the first soft ask after two value deposits. The referral program is the CTA, low friction, high reward. After this email, the contact enters the regular campaign audience. If referral tracking exists in GHL, include a unique referral link per contact.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST-PURCHASE FOLLOW-UP -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 2</div>
+      <h3 class="flow-title">Post-Purchase Thank You</h3>
+      <p class="flow-desc">Triggers when a contact is tagged "purchase-completed" in GHL (add this tag manually or via pipeline stage). 2 emails: a thank you with care tips, then a referral program push 5 days later.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">Tag: purchase-completed</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Thanks for Choosing Five Star</td><td>+1 day</td></tr>
+            <tr><td>03</td><td>Know Someone Who'd Love This?</td><td>+5 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- POST-PURCHASE EMAIL 1 -->
+      <div class="email-block">
+        <div class="email-num">POST-PURCHASE 01</div>
+        <h3 class="email-title">Thanks for Choosing Five Star</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer → Repeat Buyer</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Thanks, {{contact.first_name}}, care tips inside</li>
+              <li><span>B.</span> How to keep your new piece looking perfect</li>
+              <li><span>C.</span> Quick tips from the Five Star team</li>
+              <li><span>D.</span> Your piece is beautiful, here's how to keep it that way</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> keep everything looking beautiful longer</li>
+              <li><span>Trigger</span> 1 day after "purchase-completed" tag</li>
+              <li><span>Audience</span> Customers who made a purchase</li>
+              <li><span>Goal</span> Trust deposit + care education</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>Thanks for choosing Five Star. We hope you love your new piece.</p>
+            <p>A few quick tips to keep it looking perfect, especially in Miami's climate:</p>
+            <p><strong>Gold &amp; Diamonds:</strong> Remove before swimming, showering, or applying sunscreen. Clean weekly with warm water, mild soap, and a soft brush. Store pieces separately to avoid scratching.</p>
+            <p><strong>Cuban Links:</strong> Wipe down with a soft cloth after wearing. Keep away from chemicals and chlorine. Come in for a free professional cleaning anytime.</p>
+            <p><strong>Watches:</strong> Avoid extreme heat (don't leave on the dashboard). Get water resistance tested annually. Replace batteries promptly, a dead battery can leak and damage the movement.</p>
+            <p>If anything ever doesn't look right, bring it back. We stand behind every piece we sell.</p>
+            <p>Thanks again, {{contact.first_name}}.</p>
+            <p>The Five Star Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Create workflow: Trigger = Tag Added "purchase-completed." 1-day wait, then send. This is a pure trust deposit, no ask. The care tips add value and subtly plant "come in for a free cleaning anytime" as a return visit seed.</p>
+        </div>
+      </div>
+
+      <!-- POST-PURCHASE EMAIL 2 -->
+      <div class="email-block">
+        <div class="email-num">POST-PURCHASE 02</div>
+        <h3 class="email-title">Know Someone Who'd Love This?</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer → Advocate</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> $100 cash, just for spreading the word</li>
+              <li><span>B.</span> Know someone who'd love Five Star?</li>
+              <li><span>C.</span> We pay you to tell friends</li>
+              <li><span>D.</span> {{contact.first_name}}, quick question</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> $100 cash for every referral who buys</li>
+              <li><span>Trigger</span> 5 days after Post-Purchase 01</li>
+              <li><span>Audience</span> Customers who made a purchase</li>
+              <li><span>Goal</span> Drive referrals via $100 cash program</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>Hope you're loving your new piece.</p>
+            <p>Quick question: know anyone who's shopping for jewelry? An Engagement Ring, a Cuban Link, a watch, a gift for someone special?</p>
+            <p>If you send them our way and they make a purchase, we'll pay you <strong>$100 cash</strong>. Not store credit. Not a coupon. Cash.</p>
+            <p>All they need to do is mention your name when they come in.</p>
+            <p>That's it. No forms, no codes, no hoops. Just tell a friend, get paid.</p>
+            <p><a href="#" class="cta-button">Find the Nearest Five Star for Your Friend →</a></p>
+            <p>Thanks, {{contact.first_name}}. We appreciate you.</p>
+            <p>The Five Star Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Same workflow, 5-day wait after Post-Purchase 01. This is the referral push, timed when the customer is still excited about their purchase. Tag contact "referral-asked" after send. If GHL supports referral tracking links, include a unique link per contact. CTA links to store locator.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVIEW REQUEST -->
+    <div class="flow-group">
+      <div class="flow-label">FLOW 3</div>
+      <h3 class="flow-title">Review Request</h3>
+      <p class="flow-desc">Triggers 14 days after purchase, enough time for the customer to enjoy their piece. One email asking for a Google review. Only sends to contacts who haven't already left a review.</p>
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>Step</th><th>Email</th><th>Timing</th></tr></thead>
+          <tbody>
+            <tr><td>01</td><td><span class="flow-trigger-badge">14 Days After Purchase</span></td><td>Trigger</td></tr>
+            <tr><td>02</td><td>Would You Leave Us a Review?</td><td>Immediate</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- REVIEW EMAIL -->
+      <div class="email-block">
+        <div class="email-num">REVIEW 01</div>
+        <h3 class="email-title">Would You Leave Us a Review?</h3>
+        <div class="email-tags">
+          <span class="tag">Buyer → Advocate</span>
+          <span class="tag">All Locations</span>
+          <span class="tag">Automation</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> Quick favor, {{contact.first_name}}?</li>
+              <li><span>B.</span> 30 seconds to help us out</li>
+              <li><span>C.</span> How was your experience?</li>
+              <li><span>D.</span> Would you recommend Five Star?</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>Preview</span> a quick Google review means a lot to us</li>
+              <li><span>Trigger</span> 14 days after "purchase-completed" tag</li>
+              <li><span>Audience</span> Purchasers without "left-review" tag</li>
+              <li><span>Goal</span> Generate Google reviews across all locations</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+            <p>Hey {{contact.first_name}},</p>
+            <p>It's been a couple weeks since you visited Five Star. Hope you're still loving your piece.</p>
+            <p>Small ask: if you had a good experience, would you mind leaving us a quick Google review? Takes about 30 seconds and it helps other families in Miami find a jeweler they can trust.</p>
+            <p><a href="#" class="cta-button">Leave a Google Review →</a></p>
+            <p>And if anything wasn't right, we'd rather hear it from you directly. Just reply to this email or stop back in. We'll make it right.</p>
+            <p>Thanks, {{contact.first_name}}. It means a lot.</p>
+            <p>The Five Star Team</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Create a separate workflow or add to the Post-Purchase workflow with a 14-day total wait (starts from purchase tag, not from last email). Exclude contacts already tagged "left-review." CTA links to the Google Business Profile for the contact's location. Tag "review-requested" after send. Use location-specific Google review URLs for each of the 8 locations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- A/B TESTING STRATEGY                                -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="tests">
+    <div class="section-label">Testing Strategy</div>
+    <h2>April Split Tests</h2>
+    <p>Each campaign has A/B subject line tests built in. April also introduces an English vs Spanish test to optimize bilingual strategy.</p>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Emotional vs. Specific (Quinceañera)</h4>
+          <p><strong>Campaign 1:</strong> Subject A ("Her quinceañera deserves the perfect piece") vs Subject D ("Tiaras, gold bracelets, and the traditions that matter"). Hypothesis: the emotional hook wins for this culturally resonant audience because it connects to identity, not just products.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Aspirational vs. Practical (Graduation)</h4>
+          <p><strong>Campaign 2:</strong> Subject A ("Every milestone deserves gold") vs Subject B ("The graduation gift they'll actually keep"). Hypothesis: practical wins for gift buyers because they're solving a problem ("what do I get them?"), not browsing for themselves.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Emotional Hook vs. Urgency (Mother's Day)</h4>
+          <p><strong>Campaign 3:</strong> Subject A ("She's been waiting, she just hasn't told you") vs Subject C ("26 days until she expects something beautiful"). Hypothesis: emotional wins because engaged buyers respond to empathy, not countdown pressure.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>English vs. Spanish Subject Lines</h4>
+          <p><strong>Cross-campaign:</strong> For bilingual contacts (tagged as both English and Spanish capable), test Spanish subject lines with English body copy vs all-English. If Spanish subjects outperform by 5%+ on open rate, consider Spanish-first subject lines as the default for this segment going forward. Track this across all four campaigns.</p>
+        </div>
+      </div>
+    </div>
+    <div class="strategy-note">
+      <p><strong>How to run in GHL:</strong> When creating each campaign, use the A/B split test feature. Set a 50/50 split. Send the test to 30% of the list first, wait 2 hours, then send the winner to the remaining 70%. Track open rates to determine the winner. Log all results in the performance log for May planning.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- NEXT MONTH PREVIEW                                  -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="next-month">
+    <div class="section-label">Looking Ahead</div>
+    <h2>What's Coming in May</h2>
+    <p>April rides the calendar. May doubles down on the two biggest gifting moments of the year.</p>
+
+    <div class="next-month-box">
+      <h4>May 2026 Roadmap</h4>
+      <ul>
+        <li><strong>Mother's Day Final Push (May 5-9)</strong> ... Last-chance reminder emails. "She deserves it" angle. Same-day pickup options. Gift wrapping. This is the conversion month for the seeds planted in April.</li>
+        <li><strong>Father's Day Early Access (May 18-25)</strong> ... Cuban Links, watches, and rings for dad. Same early-access formula that worked for Mother's Day. Plant the seed 3 weeks early.</li>
+        <li><strong>Graduation Season Peak</strong> ... Follow up on April's gift guide with "last chance" graduation emails. Custom engraving deadline reminders. Class of 2026 angle.</li>
+        <li><strong>Quinceañera Season Continuation</strong> ... June is peak quinceañera season. May keeps the momentum going with package deals and custom order reminders (4-6 week lead time).</li>
+        <li><strong>"We Buy Gold" Reframe Test</strong> ... Reintroduce gold buying as "Turn old gold into something new." Trade-in program positioning, not cold ask. Small test to one segment.</li>
+        <li><strong>Performance Review</strong> ... Full analysis of April (Month 1): open rates by campaign, click rates by segment, in-store attribution, automation completion rates. Use this data to set Month 2 strategy.</li>
+      </ul>
+    </div>
+
+    <div class="next-month-box" style="margin-top:24px;">
+      <div class="strategy-grid" style="margin-top:0;">
+        <div class="strategy-card">
+          <h4>Month 3 Focus</h4>
+          <p>Mother's Day conversion + Father's Day early access. Continue deposit-deposit-ask rhythm. Expand Cuban Link segment based on April click data. If April open rates sustained 25%+, test expanding to 90-180 day inactive contacts with a small re-engagement batch.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Month 4 Focus</h4>
+          <p>Father's Day conversion push. Summer Cuban Link campaign (outdoor season = chain season). Quinceañera peak month. Gold buying trade-in program full launch if May test performs. Birthday automation if GHL data supports it. Re-engagement sequence for 90-180 day inactive.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- FOOTER                                              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-brand">The Email Blueprint</div>
+    <p style="margin-top:8px;font-size:13px;color:#a1a1aa;">Five Star Jewelers ... 8 locations across Miami-Dade County, FL</p>
+  </footer>
+</div>
+
+<script>
+function copyEmail(btn) {
+  const wrapper = btn.closest('.email-body-wrapper');
+  const body = wrapper.querySelector('.email-body');
+  const text = body.innerText || body.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+    btn.style.color = '#4ADE80';
+    setTimeout(() => {
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

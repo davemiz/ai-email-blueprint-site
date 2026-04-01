@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Review Acceleration — Anyclean</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-subtle: #F8F9FB;
+    --bg-muted: #F3F4F6;
+    --text-primary: #171717;
+    --text-body: #374151;
+    --text-secondary: #6B7280;
+    --text-caption: #9CA3AF;
+    --border: #E5E7EB;
+    --border-subtle: #F3F4F6;
+    --font-heading: 'Geist', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%); background-attachment: fixed; color: var(--text-body); font-family: var(--font-body); font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .brand-label { font-family: var(--font-body); font-size: 12px; font-weight: 500; letter-spacing: 5px; text-transform: uppercase; color: var(--text-secondary); display: flex; flex-direction: column; gap: 2px; }
+  .powered-by { font-family: var(--font-body); font-size: 11px; font-weight: 400; letter-spacing: 0.5px; text-transform: none; color: var(--text-secondary); }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--text-secondary); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: var(--font-heading); font-size: 56px; font-weight: 400; color: var(--text-primary); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .header h1 span { color: var(--text-secondary); display: block; font-weight: 400; }
+  .header-sub { font-size: 15px; color: var(--text-secondary); margin-bottom: 40px; font-weight: 400; letter-spacing: 0.5px; }
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 48px; background: var(--bg); border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0; overflow: hidden; }
+  .meta-item { display: flex; flex-direction: column; gap: 10px; padding: 32px 36px; border-right: 1px solid var(--border); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-secondary); }
+  .meta-value { font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em; }
+  .section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); margin-bottom: 16px; display: inline-block; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .section h2 { font-family: var(--font-heading); font-size: 36px; font-weight: 400; color: var(--text-primary); letter-spacing: -0.8px; line-height: 1.1; margin-bottom: 24px; }
+  .section p { font-size: 15px; color: var(--text-body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--text-primary); font-weight: 600; }
+  .snapshot-box { background: var(--bg-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 48px; margin-top: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-primary); }
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: var(--font-body); font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--bg-muted); border-radius: 6px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: var(--font-heading); font-size: 22px; font-weight: 500; color: var(--text-primary); margin: 0 0 8px 0; letter-spacing: -0.22px; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+  .step-content ul { margin: 8px 0 0; padding-left: 20px; }
+  .step-content li { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 6px; }
+  .strategy-note { background: var(--bg-muted); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 32px 36px; margin-top: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .strategy-note p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--text-primary); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+  .section-grey-band { background: var(--bg-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 80px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .strategy-note { background: var(--bg); border-color: rgba(0,0,0,0.06); }
+  .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-top: 36px; background: var(--bg); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .metric-item { padding: 32px 28px; border-right: 1px solid var(--border); }
+  .metric-item:last-child { border-right: none; }
+  .metric-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .metric-value { font-family: var(--font-heading); font-size: 28px; font-weight: 400; color: var(--text-primary); margin-bottom: 4px; }
+  .metric-note { font-size: 12px; color: var(--text-caption); }
+
+  /* QR Card Preview */
+  .card-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+  .card-side { background: var(--bg-muted); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 40px; text-align: center; aspect-ratio: 85/55; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .card-side-label { font-family: var(--font-body); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 16px; }
+  .card-side h3 { font-family: var(--font-heading); font-size: 20px; font-weight: 500; color: var(--text-primary); margin-bottom: 12px; letter-spacing: -0.22px; }
+  .card-side p { font-size: 13px; color: var(--text-secondary); margin: 0; line-height: 1.6; max-width: 100%; }
+  .qr-placeholder { width: 80px; height: 80px; background: var(--border); border-radius: 4px; margin: 12px auto; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-caption); }
+  .card-side .stars { font-size: 20px; letter-spacing: 4px; margin-bottom: 8px; }
+
+  .flow-table-wrap { background: var(--bg); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.5px; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .flow-table tbody td { font-size: 13px; color: var(--text-caption); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--bg-subtle); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-primary); font-weight: 500; }
+
+  .footer { padding: 80px 0 80px; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--text-secondary); font-style: italic; }
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+  }
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .metrics-grid, .card-preview { grid-template-columns: 1fr; }
+    .header-meta-row { grid-template-columns: 1fr; }
+    .metric-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .metric-item:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">Growth Systems<span class="powered-by">powered by: Email Trust Architecture AI</span></div>
+      <div class="header-meta">
+        <p>March 2026</p>
+        <p>v1.0</p>
+      </div>
+    </div>
+    <h1>Google Review<span>Acceleration</span></h1>
+    <p class="header-sub">A system to take Anyclean from 355 reviews to 500+ within 12 months.</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><div class="meta-label">Current Reviews</div><div class="meta-value">355</div></div>
+      <div class="meta-item"><div class="meta-label">Current Rating</div><div class="meta-value">4.7 Stars</div></div>
+      <div class="meta-item"><div class="meta-label">12-Month Target</div><div class="meta-value">500+ Reviews</div></div>
+      <div class="meta-item"><div class="meta-label">Monthly Target</div><div class="meta-value">12+ New Reviews</div></div>
+      <div class="meta-item"><div class="meta-label">Channels</div><div class="meta-value">Email + Physical Card</div></div>
+      <div class="meta-item"><div class="meta-label">System Type</div><div class="meta-value">Reputation Building</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- WHY THIS MATTERS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Why This Matters</div>
+    <h2>Reviews Win Local Searches</h2>
+    <p>Google reviews are the single biggest trust signal for local service businesses. When someone in London searches "cleaning company near me," Google shows businesses with more reviews and higher ratings first. You're at 355 reviews with 4.7 stars. That's good, but your competitors are building theirs too.</p>
+    <p>The goal isn't just more reviews. It's creating a consistent, automated system that generates new reviews every week without anyone having to think about it.</p>
+
+    <div class="snapshot-box">
+      <p>You already have a <strong>Review Request automation live in MailerLite</strong> (2 emails, triggered by "Job Completed"). This strategy builds around that automation with two additions: <strong>a physical QR code card</strong> cleaners leave after every job, and <strong>a reply-to-every-review habit</strong> that boosts visibility in Google's algorithm. Combined, these three channels should generate 12+ new reviews per month.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- THE MATH                                            -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Numbers</div>
+    <h2>How We Get to 500</h2>
+    <p>Simple maths. You need 145 more reviews over 12 months. That's roughly 12 per month.</p>
+
+    <div class="flow-table-wrap">
+      <table class="flow-table">
+        <thead><tr><th>Channel</th><th>Expected Reviews/Month</th><th>How It Works</th></tr></thead>
+        <tbody>
+          <tr><td>Email automation</td><td>4-6</td><td>Review Request flow (Day 4 after job)</td></tr>
+          <tr><td>Physical QR card</td><td>4-6</td><td>Left by cleaner after every job</td></tr>
+          <tr><td>Verbal ask by cleaner</td><td>2-4</td><td>Brief training: "If you're happy, a Google review helps"</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="strategy-note">
+      <p><strong>Conservative estimate:</strong> If Anyclean completes ~200 jobs per month and 6% leave a review, that's 12 reviews/month. At that rate, you hit 500 reviews in about 12 months. The real number could be higher once the system is running consistently.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- QR CARD SPEC                                        -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-grey-band">
+    <div class="section" style="padding-top: 0; border-bottom: none;">
+      <div class="section-label">Physical Review Card</div>
+      <h2>QR Code Card Design</h2>
+      <p>A small card cleaners leave on the kitchen counter (or similar visible spot) after every job. The customer sees it, scans the QR code on their phone, and leaves a review. No typing a URL, no searching for the business. One scan.</p>
+
+      <div class="card-preview">
+        <div class="card-side">
+          <div class="card-side-label">Front</div>
+          <h3>How did we do?</h3>
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="qr-placeholder">QR Code</div>
+          <p>Scan to leave a quick review</p>
+        </div>
+        <div class="card-side">
+          <div class="card-side-label">Back</div>
+          <h3>Anyclean</h3>
+          <p>Professional cleaning since 1998</p>
+          <p style="margin-top: 12px;">020 XXXX XXXX<br>anyclean.co.uk</p>
+        </div>
+      </div>
+
+      <div class="numbered-steps">
+        <div class="numbered-step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h4>Card specifications</h4>
+            <p>Standard business card size: 85mm x 55mm. Matte or soft-touch finish. Print through Vistaprint, Moo, or a local printer. Order 500-1,000 to start. Cost: roughly 3-5p per card.</p>
+          </div>
+        </div>
+        <div class="numbered-step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h4>Generate the QR code</h4>
+            <p>The QR code should link directly to your Google review page. To get this URL: search "Anyclean" on Google, click your business listing, click "Write a review," and copy that URL. Or use the Place ID method: https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID. Use any free QR code generator to create the image.</p>
+          </div>
+        </div>
+        <div class="numbered-step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h4>Distribute to all 65 cleaners</h4>
+            <p>Give each cleaner a stack of cards. Brief them: "After every job, leave one of these on the kitchen counter or somewhere the customer will see it. That's it. Don't ask them to scan it. Just leave it." The card does the asking for you.</p>
+          </div>
+        </div>
+        <div class="numbered-step">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h4>Restock monthly</h4>
+            <p>Track usage loosely. If 65 cleaners each do 3 jobs per week, that's ~780 cards per month. Order accordingly. At 4p per card, that's about 31 quid a month for a review generation machine.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- EMAIL IMPROVEMENTS                                  -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Email Automation Improvements</div>
+    <h2>Sharpen the Review Request Emails</h2>
+    <p>The existing 2-email review automation is live but uses a placeholder review link. Here's what needs updating.</p>
+
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Get the actual Google review URL</h4>
+          <p>Replace the placeholder link in Email 02 ("Quick Favour?") with the real Google review URL. Same URL as the QR code. This is the single most important action item in this document.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Make the review link a button, not a text link</h4>
+          <p>In MailerLite, swap the plain hyperlink for a proper CTA button. Text: "Leave a Quick Review." Colour: match Anyclean's brand. A button gets 2-3x more clicks than a text link in email.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Add a one-line instruction</h4>
+          <p>Above the button, add: "It takes about 30 seconds. Just click below, choose your star rating, and write a line or two." People are more likely to act when they know exactly how easy it is.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- REPLY STRATEGY                                      -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Review Response Strategy</div>
+    <h2>Reply to Every Single Review</h2>
+    <p>This is the easiest win in the whole system. Google's algorithm favours businesses that respond to reviews. It signals that you're active and engaged. And it shows potential customers that you care.</p>
+
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Reply within 24 hours</h4>
+          <p>Set a daily habit. Someone on the office team checks Google reviews once a day (takes 5 minutes) and replies to any new ones. Speed matters: a quick reply feels personal.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Positive reviews: thank and personalise</h4>
+          <p>Don't copy-paste the same "Thanks for your review!" reply. Mention something specific: the service type, the area, or something from the review. "Thanks Sarah, glad the end of tenancy clean went well. The flat in Clapham was a big job!" This takes 30 seconds and makes the reply feel real.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Negative reviews: respond publicly, resolve privately</h4>
+          <p>If a negative review comes in, respond publicly with empathy: "We're sorry to hear this. We'd like to make it right. Please email us at [address] so we can sort this out." Never argue publicly. The public reply is for the hundreds of people who'll read it later, not just the reviewer.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Verbal ask training for cleaners</h4>
+          <p>Brief the team with one simple line they can say at the end of a job: "If you're happy with the clean, a Google review really helps us." That's it. No script, no card-handing, no pressure. Just a genuine ask. Some cleaners will naturally do this more than others, and that's fine.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- TRACKING                                            -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" style="border-bottom: none;">
+    <div class="section-label">Tracking</div>
+    <h2>Monthly Review Check</h2>
+    <p>Once a month, note the current total and compare to last month. That's it. No complex dashboard needed.</p>
+
+    <div class="metrics-grid">
+      <div class="metric-item">
+        <div class="metric-label">Starting Point</div>
+        <div class="metric-value">355</div>
+        <div class="metric-note">March 2026</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">Monthly Target</div>
+        <div class="metric-value">12+</div>
+        <div class="metric-note">New reviews per month</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">12-Month Goal</div>
+        <div class="metric-value">500+</div>
+        <div class="metric-note">By March 2027</div>
+      </div>
+    </div>
+
+    <div class="strategy-note" style="margin-top: 36px;">
+      <p><strong>Why 500 matters:</strong> In London's competitive cleaning market, businesses with 500+ reviews dominate local search results. It's a psychological threshold too. When a potential customer sees "500 reviews," it signals an established, trusted business. Your competitors Fantastic Services and Fastklean are building their review counts. Staying ahead means growing yours consistently.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">The Email Blueprint · Growth Systems</div>
+    <p class="footer-note">Built for Anyclean by The Email Blueprint. This document contains proprietary strategy.</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,2184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Email Blueprint / Vintage Muscle · April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     DESIGN SYSTEM — Email Blueprint (Peec-style)
+     ═══════════════════════════════════════════════════════════
+     Fonts:    Inter (body/labels) + Geist (display headings)
+     Palette:  Zinc-based, inverted naming (--white = darkest)
+     Aligned:  brand-guide.html (Peec/Geist design system)
+
+     TYPOGRAPHY HIERARCHY
+     ─────────────────────────────────────────────────────────
+     h1    48px  Geist 400  title case  -0.96px  (page title)
+     h2    40px  Geist 400  title case  -0.8px   (section-intro)
+     h2    32px  Geist 500  title case  -0.64px  (section title)
+     h2    28px  Geist 500  title case  -0.56px  (campaign/flow)
+     h3    22px  Geist 500  title case  -0.22px  (subsection)
+     h4    18px  Geist 500  title case           (numbered step)
+     h4    16px  Geist 500  title case           (test card)
+     h4    15px  Geist 500  uppercase            (strategy card)
+     body  15px  Inter 400                       (paragraph)
+     meta  13-14px Inter 400-500                 (tables, details)
+     label 10-11px Inter 500-600     uppercase   (section labels)
+
+     BORDER TIERS
+     ─────────────────────────────────────────────────────────
+     --border           primary dividers, section borders
+     --border-subtle    faint: table rows, inner separators
+
+     TEXT TIERS (dark → light)
+     ─────────────────────────────────────────────────────────
+     --white            strongest: headings, page title
+     --text-strong      emphasis: bold values, active states
+     --body             body text
+     --muted            muted body, strategy notes
+     --text-secondary   secondary: snapshot copy, table cells
+     --text-tertiary    tertiary: nav links, table headers
+     --text-caption     captions: labels, meta, step numbers
+
+     SURFACE TIERS (light → dark)
+     ─────────────────────────────────────────────────────────
+     --black            page background (#FFF)
+     --surface-hover    table hover (var(--surface-hover))
+     --surface-subtle   snapshot, grey bands (var(--surface-subtle))
+     --dark             alt surface (#F7F8FA)
+     --surface-pill     pills, badges, hover bg (#F4F4F5)
+     --card             cards, strategy notes (#F3F4F6)
+     ═══════════════════════════════════════════════════════════ */
+
+  :root {
+    /* ── Surfaces ── */
+    --black: #FFFFFF;
+    --surface-hover: #FAFAFA;
+    --surface-subtle: #F8F9FB;
+    --dark: #F7F8FA;
+    --surface-pill: #F4F4F5;
+    --card: #F3F4F6;
+
+    /* ── Borders ── */
+    --border: #EBEBEB;
+    --border-subtle: #F4F4F5;
+
+    /* ── Text (dark → light) ── */
+    --white: #000000;
+    --text-strong: #18181b;
+    --light: #111827;
+    --accent: #111827;
+    --body: #1F2937;
+    --muted: #4B5563;
+    --text-secondary: #52525b;
+    --text-tertiary: #71717a;
+    --text-caption: #a1a1aa;
+
+    /* ── Semantic ── */
+    --accent-dim: rgba(17,24,39,0.04);
+    --accent-border: rgba(17,24,39,0.12);
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.05);
+    --red-border: rgba(220,38,38,0.20);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%); background-attachment: fixed; color: var(--body); font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* Header */
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .brand-label { display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); padding: 5px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: #fff; }
+  .powered-by { display: none; }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--muted); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: 'Geist', sans-serif; font-size: 56px; font-weight: 600; color: var(--white); line-height: 1.06; letter-spacing: -0.02em; text-transform: none; margin-bottom: 16px; }
+  .header h1 span { color: var(--text-secondary); display: block; font-weight: 600; font-size: inherit; letter-spacing: inherit; }
+  .header-sub { font-size: 17px; color: var(--text-secondary); max-width: 620px; margin-bottom: 40px; font-weight: 400; letter-spacing: 0; line-height: 1.65; }
+  .header-tags { display: flex; gap: 24px; flex-wrap: wrap; }
+  .header-tag { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); padding: 5px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: #fff; }
+
+  /* Sections */
+  .section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); margin-bottom: 12px; display: inline-block; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .section-month-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .section h2 { font-family: 'Geist', sans-serif; font-size: 52px; font-weight: 600; color: var(--white); letter-spacing: -1.2px; text-transform: none; line-height: 1.05; margin-bottom: 24px; }
+  .section .section-intro { font-size: 17px; color: var(--muted); max-width: 600px; margin-bottom: 0; line-height: 1.7; font-weight: 400; }
+  .section p { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--white); font-weight: 600; }
+
+  /* Trust Strategy Snapshot */
+  .snapshot-box { background: var(--surface-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 48px; margin-top: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-strong); }
+  .snapshot-box p span { color: var(--red); font-weight: 500; }
+  .snapshot-box .trust-snapshot-stats { border-top-color: var(--border); }
+  .snapshot-box .mini-stat { color: var(--text-tertiary); }
+  .snapshot-box .mini-stat-num { color: var(--text-strong); }
+
+  /* Strategy Grid */
+  .strategy-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 40px; background: var(--surface-subtle); border-radius: 20px; padding: 20px; }
+  .strategy-card { background: #FFFFFF; padding: 28px 32px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .strategy-card h4 { font-family: 'Geist', sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--white); margin-bottom: 10px; }
+  .strategy-card p { font-size: 14px; color: var(--body); max-width: 100%; margin-bottom: 0; line-height: 1.75; }
+  /* Campaign-group strategy grids stay 2-column */
+  .campaign-group .strategy-grid { grid-template-columns: 1fr 1fr; }
+  /* Implementation roadmap inside next-month-box stays 2-column, cards go white on grey parent */
+  .next-month-box .strategy-grid { grid-template-columns: 1fr 1fr; }
+  .next-month-box .strategy-card { background: var(--black); border-color: var(--border); }
+
+  /* Numbered Steps */
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--card); border-radius: 12px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 600; color: var(--white); margin: 0 0 8px 0; letter-spacing: -0.3px; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+
+  /* Section Intro Box */
+  .section-intro { border-top: none; border-bottom: 1px solid var(--border); padding: 24px 0; margin-bottom: 0; }
+  .section-intro .section-label { margin-bottom: 8px; }
+  .section-intro h2 { font-size: 52px; letter-spacing: -1.2px; margin-bottom: 12px; }
+  .section-intro p { margin-bottom: 0; }
+
+  /* Campaign Calendar */
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table-wrap { background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin-top: 36px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); color: #333; }
+  .cal-table-wrap *, .cal-table-wrap strong, .cal-table-wrap b { color: inherit; }
+  .cal-table-wrap strong, .cal-table-wrap b { color: var(--text-strong) !important; }
+  .cal-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .cal-table tbody tr:hover { background: var(--surface-hover); }
+  .cal-table tbody td { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: top; line-height: 1.5; }
+  .cal-table tbody td:first-child { color: var(--text-strong); font-weight: 500; }
+  .cal-table tbody td:nth-child(2) { color: var(--text-secondary); }
+  .cal-table tbody td:nth-child(3) { color: var(--text-secondary); }
+  .cal-table .tag { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; padding: 0; border: none; color: var(--text-caption); display: inline-block; border-radius: 0; }
+  .cal-table .tag-accent { border: none; color: var(--text-strong); background: none; font-weight: 500; }
+
+  /* Email Copy Sections */
+  .email-block { margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .email-block:first-child { margin-top: 24px; padding-top: 0; border-top: none; }
+  .email-num { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .email-title { font-family: 'Geist', sans-serif; font-size: 26px; font-weight: 600; color: var(--white); text-transform: none; letter-spacing: -0.4px; margin-bottom: 12px; }
+  .email-tags { margin-bottom: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 3px 10px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-caption); background: #FFFFFF; }
+  .email-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .email-meta > div { padding: 20px 24px; }
+  .email-meta > div:first-child { border-right: 1px solid rgba(0,0,0,0.06); }
+  .email-meta-item { }
+  .email-meta-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); margin-bottom: 10px; }
+  .email-meta-value { font-size: 14px; color: var(--body); line-height: 1.8; }
+  .email-meta-value strong { color: var(--white); font-weight: 500; }
+  .sl-list { list-style: none; padding: 0; margin: 0; }
+  .sl-list li { font-size: 14px; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-subtle); }
+  .sl-list li:last-child { border-bottom: none; }
+  .sl-list li span { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li { font-size: 14px; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-subtle); line-height: 1.5; }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-list li span { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption); width: 80px; margin-right: 4px; vertical-align: baseline; }
+  .flow-group .email-meta { background: #FFFFFF; border-color: rgba(0,0,0,0.06); }
+  .flow-group .email-meta > div:first-child { border-right-color: rgba(0,0,0,0.06); }
+  .flow-group .sl-list li { border-bottom-color: var(--border-subtle); }
+  .flow-group .detail-list li { border-bottom-color: var(--border-subtle); }
+
+  /* Email Body (white boxes) */
+  .email-body-wrapper { position: relative; margin-top: 20px; background: #FFFFFF; border-radius: 16px; padding: 48px 0; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .email-body { color: #333333; padding: 0 40px; font-size: 15px; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+  .email-body p { color: #333333; font-size: 15px; line-height: 1.8; margin-bottom: 16px; max-width: 100%; }
+  .email-body p:last-child { margin-bottom: 0; }
+  .email-body a { color: #2563EB; text-decoration: underline; }
+  .email-body .sig { margin-top: 24px; color: #666; font-size: 14px; }
+  .email-body .ps { margin-top: 20px; font-size: 14px; color: #555; font-style: italic; }
+  .email-body ul, .email-body ol { margin: 12px 0; padding-left: 20px; color: #333; }
+  .email-body li { margin-bottom: 8px; font-size: 15px; line-height: 1.7; }
+  .email-body .cta-button { display: inline-block; background: #2563EB; color: #FFFFFF !important; padding: 14px 32px; text-decoration: none; font-weight: 600; font-size: 16px; border-radius: 4px; margin: 16px 0; }
+  .email-body h3 { color: #111; font-size: 18px; margin-bottom: 12px; }
+  .email-body strong, .email-body b, .email-body p strong, .email-body p b { color: #222 !important; font-weight: 600; }
+
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); color: #666; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; border-radius: 6px; }
+  .copy-btn:hover { background: rgba(0,0,0,0.1); color: #333; }
+  .copy-btn.copied { background: var(--dark); border-color: var(--border); color: var(--body); }
+  .copy-btn svg { width: 16px; height: 16px; }
+
+  /* Strategy Note */
+  .strategy-note { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 28px 32px; margin-top: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .strategy-note p { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--accent); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+
+  /* Major Section Divider */
+  .section-break { padding: 0; margin: 0 -40px; border: none; position: relative; background: var(--surface-hover); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-break-inner { display: flex; align-items: center; gap: 24px; padding: 36px 40px; }
+  .section-break-line { flex: 1; height: 1px; background: var(--border); }
+  .section-break-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--text-caption); white-space: nowrap; }
+
+  /* Grey Band Sections (full viewport width) */
+  .section-grey-band { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 56px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .section + .section { padding-top: 48px; border-top: 1px solid var(--border); }
+  .section-grey-band .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-grey-band .cal-table-wrap { background: var(--black); }
+  .section-grey-band .signal-card { background: var(--black); }
+
+  /* Automations Section (grey wrapper — full viewport width) */
+  .section-automations { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 56px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  /* Sticky Nav */
+  .sticky-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); margin: 0 -40px; padding: 0 40px; }
+  .sticky-nav-inner { display: flex; justify-content: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 10px 0; }
+  .sticky-nav-inner::-webkit-scrollbar { display: none; }
+  .sticky-nav a { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-tertiary); text-decoration: none; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: all 0.15s ease; letter-spacing: -0.01em; }
+  .sticky-nav a:hover { color: var(--text-strong); background: var(--surface-pill); }
+  .section-automations .flow-group { background: transparent; margin: 0 -40px; padding: 56px 40px; border-top: 1px solid var(--border); }
+  .section-campaigns { border-bottom: none; }
+  .section-campaigns .campaign-group:last-child { border-bottom: none; }
+  .section-automations .flow-group:first-of-type { border-top: none; }
+  .section-automations .section-intro { border-bottom: none; margin-bottom: 0; }
+  .section-automations .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-automations + .section { padding-top: 56px; }
+
+  /* Flow Diagrams */
+  .flow-group { padding: 56px 40px; border-bottom: none; background: var(--surface-subtle); margin: 0 -40px; border-top: 1px solid var(--border); }
+  .flow-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .flow-title { font-family: 'Geist', sans-serif; font-size: 40px; font-weight: 600; color: var(--white); letter-spacing: -1px; text-transform: none; line-height: 1.1; margin-bottom: 16px; }
+  .flow-desc { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Flow Table (ShadCN style) */
+  .flow-table-wrap { background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .flow-table tbody td { font-size: 14px; color: var(--text-secondary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--surface-hover); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-caption); font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; width: 60px; }
+  .flow-table tbody td:nth-child(2) { color: var(--text-strong); font-weight: 500; }
+  .flow-table tbody td:nth-child(3) { color: var(--text-secondary); }
+  .flow-table .flow-trigger-badge { display: inline-block; padding: 4px 12px; background: var(--surface-pill); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-strong); }
+
+  /* Testing & Optimization */
+  .test-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 32px; }
+  .test-card { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); padding: 28px 32px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .test-card h4 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 600; color: var(--white); margin-bottom: 10px; letter-spacing: -0.3px; }
+  .test-card .test-type { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .test-card p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+
+  /* Signal Cards */
+  .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  .signal-card { padding: 36px; }
+  .signal-card h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+  .signal-card ul { list-style: none; margin: 0; padding: 0; }
+  .signal-card li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 28px; position: relative; }
+  .signal-card li:last-child { border-bottom: none; }
+  .signal-card li::before { position: absolute; left: 0; font-weight: 700; font-size: 14px; }
+  .signal-card-green { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .signal-card-green h4 { color: var(--body); }
+  .signal-card-green li::before { content: "\2713"; color: var(--body); }
+  .signal-card-red { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .signal-card-red h4 { color: var(--red); }
+  .signal-card-red li::before { content: "\26A0"; color: var(--red); }
+
+  /* Playbook Subsection (inside a .section — uses h3 for subsection title) */
+  .playbook-subsection { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--border); }
+  .playbook-subsection .section-label { margin-bottom: 16px; }
+  .playbook-subsection h3 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 500; color: var(--white); letter-spacing: -0.22px; line-height: 1.3; margin-bottom: 16px; }
+  .playbook-subsection > p { margin-bottom: 40px; }
+  .playbook-subsection .numbered-steps { margin-top: 32px; }
+  .playbook-subsection .numbered-step { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .playbook-subsection .numbered-step:last-child { border-bottom: none; }
+  .playbook-subsection .step-num { font-family: 'Geist', sans-serif; font-size: 14px; font-weight: 500; color: var(--muted); min-width: 28px; padding-top: 2px; }
+  .playbook-subsection .numbered-step h4 { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .playbook-subsection .numbered-step p { font-size: 14px; color: var(--body); line-height: 1.7; margin-bottom: 0; }
+
+  /* Segment Cards */
+  .seg-group-row td { font-family: 'Inter', sans-serif; font-size: 11px !important; font-weight: 500 !important; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption) !important; background: var(--surface-hover); padding: 14px 20px !important; border-bottom: 1px solid var(--border) !important; border-top: 1px solid var(--border) !important; }
+  .seg-warn-row { background: #FFFBFB !important; }
+  .seg-warn-row:hover { background: #FFF5F5 !important; }
+  .seg-warn-row td:first-child { color: #991B1B !important; }
+
+  /* Header Meta */
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 48px; background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .meta-item { display: flex; flex-direction: column; gap: 8px; padding: 24px 28px; border-right: 1px solid var(--border); background: var(--black); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: var(--font-body, 'Inter', sans-serif); font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); }
+  .meta-value { font-family: 'Geist', sans-serif; font-size: 18px; font-weight: 600; color: var(--white); letter-spacing: -0.02em; }
+
+  /* Mini Stats */
+  .trust-snapshot-stats { display: flex; gap: 16px; padding-top: 24px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; margin-top: 24px; align-items: center; }
+  .mini-stat { font-size: 13px; color: var(--text-caption); font-weight: 400; }
+  .mini-stat + .mini-stat::before { content: "|"; margin-right: 16px; color: var(--border); font-weight: 300; }
+  .mini-stat-num { font-family: 'Geist', sans-serif; font-size: 20px; font-weight: 500; color: var(--white); margin-right: 4px; }
+
+  /* Next Month Boxes */
+  .next-month-box { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); padding: 36px; margin-top: 32px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .next-month-box h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .next-month-box ul { list-style: none; margin: 0; padding: 0; }
+  .next-month-box li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 32px; position: relative; }
+  .next-month-box li:last-child { border-bottom: none; }
+  .next-month-box li::before { content: "\25A1"; color: var(--muted); position: absolute; left: 4px; font-size: 14px; }
+
+  /* Campaign Group Header */
+  .campaign-group { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .campaign-group h2 { font-family: 'Geist', sans-serif; font-size: 40px; font-weight: 600; color: var(--white); letter-spacing: -1px; text-transform: none; line-height: 1.1; margin-bottom: 20px; }
+  .campaign-desc { font-size: 14px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Subject Line (ShadCN normalized) */
+  .subject-line { font-size: 14px; color: var(--body); padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+  .subject-line:last-child { border-bottom: none; }
+  .sl-letter { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+
+  /* SMS Card */
+  .sms-card { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); padding: 28px 32px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); margin-top: 24px; }
+  .sms-card h4 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 600; color: var(--white); margin-bottom: 10px; letter-spacing: -0.3px; }
+  .sms-card .sms-meta { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-caption); margin-bottom: 16px; }
+  .sms-body { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; font-size: 14px; color: var(--body); line-height: 1.7; margin-bottom: 16px; }
+
+  /* Footer */
+  .footer { padding: 56px 0 56px; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--muted); font-style: italic; }
+
+  /* Accordion (shadcn style) */
+  .accordion { margin-top: 40px; }
+  .accordion-item { border-bottom: 1px solid var(--border); }
+  .accordion-item:first-child { border-top: 1px solid var(--border); }
+  .accordion-item summary { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; cursor: pointer; list-style: none; font-family: 'Geist', sans-serif; font-size: 17px; font-weight: 600; color: var(--text-tertiary); transition: color 0.2s; }
+  .accordion-item summary:hover { color: var(--text-strong); }
+  .accordion-item[open] summary { color: var(--white); }
+  .accordion-item summary::-webkit-details-marker { display: none; }
+  .accordion-item summary::marker { display: none; content: ''; }
+  .accordion-item summary::after { content: ''; display: inline-block; width: 16px; height: 16px; flex-shrink: 0; margin-left: 16px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; transition: transform 0.2s ease; }
+  .accordion-item[open] summary::after { transform: rotate(180deg); }
+  .accordion-content { padding: 0 0 24px 0; }
+  .accordion-content p { font-size: 15px; color: var(--text-tertiary); line-height: 1.75; max-width: 700px; margin-bottom: 0; }
+  .accordion-content p strong { color: var(--white); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+    .copy-btn { display: none; }
+    .email-body { border: 1px solid #ddd; }
+    .section, .header { border-color: #eee; }
+    :root { --white: #000; --body: #222; --muted: #666; --dark: #f9f9f9; --card: #f5f5f5; --border: #e0e0e0; --accent: #222; --black: #fff; }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .strategy-grid, .email-meta, .test-grid, .signal-grid, .campaign-group .strategy-grid, .next-month-box .strategy-grid { grid-template-columns: 1fr; }
+    .header-meta-row { gap: 24px; }
+    .signal-card { padding: 24px; }
+    .signal-card li { font-size: 15px; }
+    .cal-table thead th, .cal-table tbody td { padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">The Email Blueprint<span class="powered-by">powered by: Email Trust Architecture AI</span></div>
+      <div class="header-meta">
+        <p>Prepared by Dave Miz</p>
+        <p>April 2026</p>
+      </div>
+    </div>
+    <h1>Vintage Muscle <span>April 2026</span></h1>
+    <p class="header-sub">Monthly Email + SMS Campaign Blueprint</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value">Vintage Muscle</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span class="meta-value">Klaviyo</span></div>
+      <div class="meta-item"><span class="meta-label">Month</span><span class="meta-value">April 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Revenue</span><span class="meta-value">$600k/mo</span></div>
+      <div class="meta-item"><span class="meta-label">Campaigns</span><span class="meta-value">4 Campaigns &middot; 12 Emails</span></div>
+      <div class="meta-item"><span class="meta-label">SMS + Flows</span><span class="meta-value">4 SMS &middot; 3 Flows</span></div>
+    </div>
+  </div>
+
+  <!-- STICKY NAV -->
+  <nav class="sticky-nav">
+    <div class="sticky-nav-inner">
+      <a href="#strategy">Strategy</a>
+      <a href="#diagnosis">Diagnosis</a>
+      <a href="#approach">Approach</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#segments">Segments</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#sms">SMS</a>
+      <a href="#automations">Automations</a>
+      <a href="#tests">Split Tests</a>
+      <a href="#next-month">Next Month</a>
+    </div>
+  </nav>
+
+  <!-- TRUST STRATEGY SNAPSHOT -->
+  <div class="section" id="strategy">
+    <div class="section-label">This Month's Trust Strategy</div>
+    <div class="section-month-label">Month 1:</div>
+    <h2>Fix the Click Rate</h2>
+    <div class="snapshot-box">
+      <p>This is <strong>Month 1</strong> on the Email Trust Architecture. Vintage Muscle is doing <strong>$658k/month</strong> with $67k (10.18%) attributed to email and SMS. Flows generate $21.8k/month, campaigns $45.1k/month, SMS $13.7k/month. Jared's copy is strong ... direct response DNA, mechanism education, tribal language. But click rates are <span>critically low (0.13-0.71%)</span>, which means emails are getting read but not driving action. April fixes that with multi-CTA trust ladders on every email, G/L/F campaign sequences with matched SMS, and three trust-architecture flow replacements (Welcome, Abandoned Checkout, Post-Purchase) to improve the $0.39/recipient welcome flow and $0.79/recipient cart recovery. The rhythm: <strong>desire, then proof, then urgency</strong>.</p>
+      <div class="trust-snapshot-stats">
+        <div class="mini-stat"><span class="mini-stat-num">12</span> campaign emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">12</span> automation emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">3</span> lifecycle flows</div>
+        <div class="mini-stat"><span class="mini-stat-num">4</span> SMS messages</div>
+        <div class="mini-stat"><span class="mini-stat-num">48</span> subject lines</div>
+        <div class="mini-stat"><span class="mini-stat-num">4</span> product angles</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT DIAGNOSIS -->
+  <div class="section" id="diagnosis">
+    <div class="section-label">Account Diagnosis</div>
+    <h2>Where Things Stand</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Click Rate Problem</h4>
+          <p>Open rates are solid (40%+ on engaged segments) but click rates are 0.13-0.71%. This is the single biggest revenue leak. Emails are being read but CTAs aren't converting. <strong>Fix: multi-CTA trust ladder on every email.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Copy Quality</h4>
+          <p>Jared writes excellent direct response copy. Mechanism education, tribal language, pattern interrupts. The voice is dialed. <strong>We're not rewriting his style, we're layering trust architecture on top of it.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Sending Infrastructure</h4>
+          <p>All DNS records verified (SPF, DKIM, DMARC). Branded sending domain active (send.vintage-muscle.com). Currently on Klaviyo shared IPs. <strong>At ~50k daily sends, evaluate dedicated IPs by Month 3.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Flow Performance (Current)</h4>
+          <p>Existing Social Scouts flows generating $21,880/month (32.6% of attributed revenue). Welcome flow leads at $6,812/month ($0.39/recipient). Abandoned Checkout highest efficiency at $0.79/recipient. <strong>Our trust-architecture replacements target 40%+ improvement in rev/recipient across all three flows.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">05</div>
+        <div class="step-content">
+          <h4>SMS + Lifecycle Flows</h4>
+          <p>SMS already doing $13,744/month (20.5% of attributed revenue). SMS domain active (kla6.io). April adds campaign SMS paired with Fear emails. Three lifecycle flow replacements (Welcome, Abandoned Checkout, Post-Purchase) replace existing Social Scouts flows. <strong>SMS automations layer on in May.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTHLY STRATEGY -->
+  <div class="section" id="approach">
+    <div class="section-label">Monthly Strategy</div>
+    <h2>The April Approach</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>Primary Goal</h4>
+          <p>Fix click rates from 0.71% to 2%+ by adding multi-CTA trust ladder to every email. Secondary: introduce SMS as urgency channel.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Trust Architecture</h4>
+          <p>Every campaign runs Gain/Logic/Fear over 3 days. Gain (desire, 40-60 words), Logic (mechanism/proof, 100-200 words), Fear (urgency, 60-100 words). Each email gets 4-6 hyperlinked CTAs woven throughout.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>SMS Coordination</h4>
+          <p>One SMS per campaign, paired with the Fear email, sent 3 hours after. SMS is the urgency channel. 160 chars max. Different framing than the email.</p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>Key Metrics</h4>
+          <p>Target click rate: 2%+ (up from 0.71%). Maintain 40%+ open rate on engaged segments. SMS click rate target: 8%+. Unsubscribe ceiling: 0.3% per send.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GREY BAND: CALENDAR -->
+  <div class="section-grey-band">
+  <div class="section" id="calendar">
+    <div class="section-label">Campaign Calendar</div>
+    <h2>April 2026 Send Schedule</h2>
+    <div class="cal-table-wrap">
+      <table class="cal-table">
+        <thead><tr><th>Date</th><th>Campaign</th><th>Type</th><th>Trust Move</th></tr></thead>
+        <tbody>
+          <tr><td>Apr 1</td><td>The Summer Countdown Stack</td><td>Gain (Email)</td><td><span class="tag tag-accent">Buyer &rarr; Repeat Buyer</span></td></tr>
+          <tr><td>Apr 2</td><td>The Summer Countdown Stack</td><td>Logic (Email)</td><td><span class="tag tag-accent">Buyer &rarr; Repeat Buyer</span></td></tr>
+          <tr><td>Apr 3</td><td>The Summer Countdown Stack</td><td>Fear (Email)</td><td><span class="tag tag-accent">Buyer &rarr; Repeat Buyer</span></td></tr>
+          <tr><td>Apr 3</td><td>The Summer Countdown Stack</td><td>SMS</td><td><span class="tag">Urgency</span></td></tr>
+          <tr><td>Apr 8</td><td>What 17,000 Reviews Sound Like</td><td>Gain (Email)</td><td><span class="tag tag-accent">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 9</td><td>What 17,000 Reviews Sound Like</td><td>Logic (Email)</td><td><span class="tag tag-accent">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 10</td><td>What 17,000 Reviews Sound Like</td><td>Fear (Email)</td><td><span class="tag tag-accent">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 10</td><td>What 17,000 Reviews Sound Like</td><td>SMS</td><td><span class="tag">Urgency</span></td></tr>
+          <tr><td>Apr 15</td><td>The Taste Test</td><td>Gain (Email)</td><td><span class="tag">Interested &rarr; Engaged</span></td></tr>
+          <tr><td>Apr 16</td><td>The Taste Test</td><td>Logic (Email)</td><td><span class="tag">Interested &rarr; Engaged</span></td></tr>
+          <tr><td>Apr 17</td><td>The Taste Test</td><td>Fear (Email)</td><td><span class="tag">Interested &rarr; Engaged</span></td></tr>
+          <tr><td>Apr 17</td><td>The Taste Test</td><td>SMS</td><td><span class="tag">Urgency</span></td></tr>
+          <tr><td>Apr 22</td><td>Your Wife Will Notice Before You Do</td><td>Gain (Email)</td><td><span class="tag tag-accent">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 23</td><td>Your Wife Will Notice Before You Do</td><td>Logic (Email)</td><td><span class="tag tag-accent">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 24</td><td>Your Wife Will Notice Before You Do</td><td>Fear (Email)</td><td><span class="tag tag-accent">Engaged &rarr; Buyer</span></td></tr>
+          <tr><td>Apr 24</td><td>Your Wife Will Notice Before You Do</td><td>SMS</td><td><span class="tag">Urgency</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div><!-- /section-grey-band -->
+
+  <!-- SEGMENTS -->
+  <div class="section" id="segments">
+    <div class="section-label">Klaviyo Segments</div>
+    <h2>Segments to Build</h2>
+    <p class="section-intro" style="border-bottom: none; padding-bottom: 0;">These segments power the campaign targeting below. Create them in Klaviyo under <strong>Lists &amp; Segments &rarr; Create New &rarr; Segment</strong>. Some may already exist in your account.</p>
+
+    <div class="cal-table-wrap" style="margin-top: 24px;">
+      <table class="cal-table">
+        <thead><tr><th>Segment Name</th><th>Definition</th><th>Est. Size</th><th>Used In</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Engaged 90 Days</strong></td>
+            <td>Opened or clicked email in last 90 days</td>
+            <td>~94,500</td>
+            <td>All campaigns (primary send list)</td>
+          </tr>
+          <tr>
+            <td><strong>Buyers (Last 180 Days)</strong></td>
+            <td>Placed order in last 180 days</td>
+            <td>~8,000-12,000</td>
+            <td>Campaign 1 (Summer Countdown Stack), Campaign 4 (Wife Will Notice)</td>
+          </tr>
+          <tr>
+            <td><strong>Non-Buyers Engaged</strong></td>
+            <td>Engaged 90 Days AND has NOT placed order (ever)</td>
+            <td>~40,000-50,000</td>
+            <td>Campaign 2 (17,000 Reviews), Campaign 3 (Taste Test)</td>
+          </tr>
+          <tr>
+            <td><strong>Completed Quiz</strong></td>
+            <td>Completed Lantern Quiz (existing segment)</td>
+            <td>~37,049</td>
+            <td>Campaign 3 (Taste Test) exclude overlap, Welcome Flow quiz branch</td>
+          </tr>
+          <tr>
+            <td><strong>Free Alpha Stack Popup</strong></td>
+            <td>Signed up via Alpha Stack popup (existing list)</td>
+            <td>~24,658</td>
+            <td>Welcome Flow entry point</td>
+          </tr>
+          <tr>
+            <td><strong>Repeat Buyers</strong></td>
+            <td>Placed 2+ orders (all time)</td>
+            <td>~3,000-5,000</td>
+            <td>Campaign 1 (upsell angle), Campaign 4 (stack upgrade)</td>
+          </tr>
+          <tr>
+            <td><strong>Cart Abandoners (Active)</strong></td>
+            <td>Started checkout in last 30 days AND has NOT placed order in last 7 days</td>
+            <td>Variable</td>
+            <td>Abandoned Checkout Flow trigger</td>
+          </tr>
+          <tr>
+            <td><strong>First-Time Buyers (Last 30 Days)</strong></td>
+            <td>Placed first order in last 30 days</td>
+            <td>Variable</td>
+            <td>Post-Purchase Flow trigger</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="strategy-note" style="margin-top: 24px;">
+      <p><strong>Segmentation priority:</strong> Start with "Engaged 90 Days" as your primary send list for all campaigns. This alone will improve deliverability by excluding dead weight. The buyer/non-buyer split lets us send product-aware copy to people who already trust us, and proof-heavy copy to people who still need convincing. Build these 8 segments once, reuse them every month.</p>
+    </div>
+
+    <!-- Volume Ramping Protocol -->
+    <div style="margin-top: 48px;">
+      <p style="font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 500; color: var(--white); letter-spacing: -0.22px; margin-bottom: 8px;">Volume Ramping Protocol</p>
+      <p style="font-size: 15px; color: var(--muted); max-width: 700px; margin-bottom: 24px; line-height: 1.7;">Never increase send volume by more than 2-3x between sends. Even on Klaviyo's shared IP pools, sudden volume spikes can trigger deliverability issues&nbsp;&mdash; especially on dedicated sending domains.</p>
+
+      <div class="strategy-note">
+        <p><strong>Before scheduling campaigns, check segment sizes:</strong></p>
+        <p style="margin-top: 12px;">
+          &bull;&ensp;Campaign 1: Previous Buyers &rarr; est. <strong>[X]</strong> contacts<br>
+          &bull;&ensp;Campaign 2: Engaged Non-Buyers &rarr; est. <strong>[Y]</strong> contacts<br>
+          &bull;&ensp;Campaign 3: All Active 90 Days &rarr; est. <strong>[Z]</strong> contacts<br>
+          &bull;&ensp;Campaign 4: Engaged 60 Days &rarr; est. <strong>[W]</strong> contacts
+        </p>
+        <p style="margin-top: 12px;">If any campaign's segment is <strong>3x+ larger</strong> than the previous one, add a ramp send between them.</p>
+      </div>
+
+      <div class="strategy-note" style="margin-top: 16px;">
+        <p><strong>How to split segments in Klaviyo:</strong></p>
+        <p style="margin-top: 12px;">
+          1.&ensp;Go to <strong>Lists &amp; Segments &rarr; Create Segment</strong><br>
+          2.&ensp;Name it <strong>"[Segment Name] - Ramp Batch"</strong><br>
+          3.&ensp;Conditions: "Date Added &gt; [recent date]" AND "In Segment [target segment]"<br>
+          4.&ensp;This gives you the newer/more engaged portion of the segment<br>
+          5.&ensp;Send ramp campaign to this smaller group<br>
+          6.&ensp;Send full campaign to complete segment on next scheduled send<br>
+          7.&ensp;Archive the temporary ramp segment when done
+        </p>
+      </div>
+
+      <div class="strategy-note" style="margin-top: 16px;">
+        <p><strong>Example:</strong> If Campaign 1 targets Previous Buyers (est. 2,000) and Campaign 3 targets All Active 90 Days (est. 15,000), that's a <strong>7.5x jump</strong>. Split: send Campaign 2 to Engaged Non-Buyers (~5,000) as a natural ramp, then Campaign 3 to full Active 90 Days.</p>
+      </div>
+
+      <div class="strategy-note" style="margin-top: 16px;">
+        <p><strong>Note:</strong> Klaviyo is generally more forgiving than MailerLite or GHL on volume spikes because of shared IP pools. But the risk increases significantly on dedicated sending domains, and best practice is to ramp regardless.</p>
+      </div>
+
+      <div class="strategy-note" style="margin-top: 16px; border-left: 3px solid var(--red); border-color: var(--red-border); background: var(--red-dim);">
+        <p><strong style="color: var(--red);">If the account gets flagged:</strong></p>
+        <p style="margin-top: 8px;">
+          &bull;&ensp;Don't panic&nbsp;&mdash; review flags are usually temporary (24-72 hours)<br>
+          &bull;&ensp;Pause scheduled sends until cleared<br>
+          &bull;&ensp;Resume with smaller audience and ramp properly
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- CAMPAIGN EMAILS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section section-campaigns" id="campaigns">
+    <div class="section-intro">
+      <div class="section-label">Campaign Emails</div>
+      <h2>Gain / Logic / Fear Sequences</h2>
+      <p>Four campaigns, each running a 3-email Gain/Logic/Fear sequence over 3 days. Every email uses the multi-CTA trust ladder with 4-6 hyperlinked CTAs woven throughout the copy. Each campaign targets a different audience segment and product angle.</p>
+    </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 1: SUMMER COUNTDOWN   -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 1 of 4</div>
+    <h2>The Summer Countdown Stack</h2>
+    <p class="campaign-desc">Cross-sell to existing customers using the recomp angle. Win-Test + Hydroxygenin positioned as the "build and cut at the same time" stack. Summer deadline creates natural urgency without manufactured scarcity. These guys already trust the brand, so this is a trust withdrawal.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Buyer &rarr; Repeat Buyer</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Trust Withdrawal (cross-sell to existing customers)</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Klaviyo segment: Previous Buyers (purchased any product)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Summer body deadline, build and cut at the same time, recomp positioning</p></div>
+    </div>
+
+    <!-- EMAIL 01 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 01 / GAIN</div>
+      <div class="email-title">summer's 12 weeks out</div>
+      <div class="email-tags">
+        <span class="tag">Buyer &rarr; Repeat Buyer</span>
+        <span class="tag">Gain</span>
+        <span class="tag">Anabolic Shred Stack</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> summer's 12 weeks out</li>
+            <li><span>B.</span> same gym. same diet. different results.</li>
+            <li><span>C.</span> build and cut at the same time</li>
+            <li><span>D.</span> your recomp window just opened</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> the shirt comes off in 12 weeks</li>
+            <li><span>Send</span> Tuesday April 1, 10:00 AM ET</li>
+            <li><span>Audience</span> Previous Buyers (purchased any product)</li>
+            <li><span>Goal</span> Drive recomp stack interest from existing customers</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>12 weeks until the shirt comes off.</p>
+          <p>Same gym. Same diet. You already know.</p>
+          <p><a href="#">Build and cut at the same time &rarr;</a></p>
+          <p>The guys stacking Win-Test + Hydroxygenin aren't choosing between size and lean. They're getting both.</p>
+          <p><a href="#">See the Anabolic Shred Stack &rarr;</a></p>
+          <p>One cycle. Two compounds. Days, not weeks.</p>
+          <p><a href="#">Start your recomp cycle &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live right now. Buy 2, get 2 free. Less than $6/day for a full 8-week cycle. <a href="#">Grab it here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create Campaign. Segment: Previous Buyers (anyone with at least 1 order). Schedule: Tuesday April 1 at 10:00 AM ET. A/B test subject lines B vs C. Merge tag: {{ first_name|default:'Brother' }}. All links point to: vintage-muscle.com/products/anabolic-shred-stack. Exclude anyone who purchased Anabolic Shred Stack in last 30 days.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 02 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 02 / LOGIC</div>
+      <div class="email-title">here's why you can't outrun belly fat</div>
+      <div class="email-tags">
+        <span class="tag">Buyer &rarr; Repeat Buyer</span>
+        <span class="tag">Logic</span>
+        <span class="tag">Anabolic Shred Stack</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> here's why you can't outrun belly fat</li>
+            <li><span>B.</span> two compounds. one goal. zero guessing.</li>
+            <li><span>C.</span> the recomp problem nobody talks about</li>
+            <li><span>D.</span> why cutting always eats your muscle</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> your body fights you on purpose</li>
+            <li><span>Send</span> Wednesday April 2, 10:00 AM ET</li>
+            <li><span>Audience</span> Same segment as Email 1</li>
+            <li><span>Goal</span> Mechanism education on recomp stack</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>Here's the problem with cutting. You lose muscle. Every time.</p>
+          <p><a href="#">The Anabolic Shred Stack fixes that &rarr;</a></p>
+          <p>Your body doesn't want to burn fat and build muscle at the same time. Those are opposite signals. One says break down. The other says build up.</p>
+          <p>That's why dieting alone leaves you flat. Cardio makes it worse. And most "fat burners" are caffeine pills with a label.</p>
+          <p>The Anabolic Shred Stack pairs two compounds that work on different pathways.</p>
+          <p>Win-Test sends the anabolic signal. Supports lean muscle, drive, and recovery. Goes under your tongue, straight to the blood. No pills. No first-pass liver destruction.</p>
+          <p>Hydroxygenin attacks stored fat through thermogenesis. The kind that makes you sweat through your shirt at the gym.</p>
+          <p><a href="#">See the full compound breakdown &rarr;</a></p>
+          <p>Together, they let your body do what it can't do alone. Build and cut at the same time.</p>
+          <p>270,000+ bottles sold. Over 3,000 five-star reviews. This isn't new. It's proven.</p>
+          <p><a href="#">Grab the Anabolic Shred Stack (B2G2 live) &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. Most guys notice the difference in the mirror by week 2. Not week 8. Week 2. That's what real compounds do. <a href="#">Start your cycle &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create Campaign. Same segment as Email 1 (Previous Buyers). Schedule: Wednesday April 2 at 10:00 AM ET. A/B test subject lines A vs D. All links point to: vintage-muscle.com/products/anabolic-shred-stack.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 03 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 03 / FEAR</div>
+      <div class="email-title">12 weeks. that's it.</div>
+      <div class="email-tags">
+        <span class="tag">Buyer &rarr; Repeat Buyer</span>
+        <span class="tag">Fear</span>
+        <span class="tag">Anabolic Shred Stack</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 12 weeks. that's it.</li>
+            <li><span>B.</span> every week you wait is a week you don't get back</li>
+            <li><span>C.</span> you already know what doing nothing looks like</li>
+            <li><span>D.</span> the mirror doesn't lie and summer doesn't wait</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> every week counts now</li>
+            <li><span>Send</span> Thursday April 3, 10:00 AM ET</li>
+            <li><span>Audience</span> Same segment</li>
+            <li><span>Goal</span> Convert via consequence of inaction</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>Every week you wait is a week of the same mirror.</p>
+          <p>Same soft midsection. Same flat arms. Same "I'll start Monday."</p>
+          <p><a href="#">The Anabolic Shred Stack is here &rarr;</a></p>
+          <p>Summer doesn't care about your schedule. 12 weeks is 12 weeks. And every one of them counts.</p>
+          <p>The guys who started last month? They're already seeing it.</p>
+          <p><a href="#">Start your cycle today &rarr;</a></p>
+          <p>B2G2 is live right now. Buy 2, get 2 free. Full 8-week cycle, less than $6/day.</p>
+          <p><a href="#">Grab the stack before your window closes &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. You've done the work in the gym. The stack is the signal your body needs to show it. <a href="#">Get it here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same segment (Previous Buyers). Schedule: Thursday April 3 at 10:00 AM ET. A/B test subject lines A vs B. Urgency approach: D (Consequence of inaction). All links: vintage-muscle.com/products/anabolic-shred-stack. SMS sends 3 hours after this email.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 2: 17,000 REVIEWS     -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 2 of 4</div>
+    <h2>What 17,000 Reviews Sound Like</h2>
+    <p class="campaign-desc">First purchase conversion using social proof as the mechanism. Let the customers sell for him. Target engaged non-buyers who have been browsing but haven't pulled the trigger. The Alpha Test Stack is the flagship, so this is the right entry point for skeptics.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Engaged &rarr; Buyer</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Trust Withdrawal (first purchase conversion)</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Klaviyo segment: Engaged Non-Buyers (opened/clicked in last 60 days, zero purchases)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Social proof stack, let customers sell for him, burned skeptic validation</p></div>
+    </div>
+
+    <!-- EMAIL 04 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 04 / GAIN</div>
+      <div class="email-title">17,148 reviews. here's what they say.</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Gain</span>
+        <span class="tag">Alpha Test Stack</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 17,148 reviews. here's what they say.</li>
+            <li><span>B.</span> what 17,000 guys already figured out</li>
+            <li><span>C.</span> they all say the same three words</li>
+            <li><span>D.</span> the most reviewed compound on the internet</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> three words keep showing up</li>
+            <li><span>Send</span> Tuesday April 8, 10:00 AM ET</li>
+            <li><span>Audience</span> Engaged Non-Buyers (opened/clicked last 60 days, 0 purchases)</li>
+            <li><span>Goal</span> Drive curiosity about social proof</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>17,148 reviews. The same three words keep showing up.</p>
+          <p>"This stuff works."</p>
+          <p><a href="#">Read them yourself &rarr;</a></p>
+          <p>Not "great customer service." Not "fast shipping."</p>
+          <p>Just... <a href="#">this stuff works</a>.</p>
+          <p>270,000 bottles sold. One compound. One reason.</p>
+          <p><a href="#">See why &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live. Buy 2, get 2 free on the Alpha Test Stack. Less than $6/day for a full 8-week cycle. <a href="#">Check it out &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create Campaign. Segment: Engaged Non-Buyers (opened or clicked email in last 60 days AND placed order = 0). Schedule: Tuesday April 8 at 10:00 AM ET. A/B test subject lines A vs C. All links point to: vintage-muscle.com/products/alpha-test-stack</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 05 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 05 / LOGIC</div>
+      <div class="email-title">52 years old. 315 bench. started 4 months ago.</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Logic</span>
+        <span class="tag">Alpha Test Stack</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 52 years old. 315 bench. started 4 months ago.</li>
+            <li><span>B.</span> three guys. three ages. same compound.</li>
+            <li><span>C.</span> here's what happened after 8 weeks</li>
+            <li><span>D.</span> the reviews write themselves</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> same compound, different guys, same result</li>
+            <li><span>Send</span> Wednesday April 9, 10:00 AM ET</li>
+            <li><span>Audience</span> Same segment</li>
+            <li><span>Goal</span> Social proof mechanism, customer stories as proof</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>I could tell you the Alpha Test Stack works. But you've heard that before from every company selling you rice flour in a capsule.</p>
+          <p><a href="#">So here's what actual customers said instead &rarr;</a></p>
+          <p>Mike, 52: "Four months in. Bench went from 245 to 315. Energy is back. Feel like myself again."</p>
+          <p>Dan, 47: "Tried every test booster on Amazon. Fenugreek, tribulus, all of it. Nothing. Two weeks on Alpha Test and my wife noticed before I did."</p>
+          <p>Rick, 61: "I'm 61 and I have more energy than guys in their 30s at my gym. Customer for life."</p>
+          <p>Three different guys. Three different ages. Same compound.</p>
+          <p><a href="#">See all 17,148 reviews &rarr;</a></p>
+          <p>The Alpha Test Stack doesn't need me to sell it. 270,000 bottles and 3,000+ five-star reviews do that.</p>
+          <p>What it needs is for you to try it once. That's it.</p>
+          <p><a href="#">Start your cycle (B2G2 live) &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. 30-day money-back guarantee. If you've been burned before, you're exactly who we built this for. <a href="#">Try it risk-free &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same segment (Engaged Non-Buyers). Schedule: Wednesday April 9 at 10:00 AM ET. A/B test subject lines A vs B. Customer quotes are from actual VM reviews. All links: vintage-muscle.com/products/alpha-test-stack</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 06 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 06 / FEAR</div>
+      <div class="email-title">270,000 bottles. you're still on the fence.</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Fear</span>
+        <span class="tag">Alpha Test Stack</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> 270,000 bottles. you're still on the fence.</li>
+            <li><span>B.</span> they already started. have you?</li>
+            <li><span>C.</span> 17,148 guys aren't wrong</li>
+            <li><span>D.</span> everyone else figured it out</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> still reading emails about it?</li>
+            <li><span>Send</span> Thursday April 10, 10:00 AM ET</li>
+            <li><span>Audience</span> Same segment</li>
+            <li><span>Goal</span> Convert via social proof pressure</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>270,000 bottles sold. 17,148 reviews. Over 3,000 of them five stars.</p>
+          <p><a href="#">They all figured it out &rarr;</a></p>
+          <p>At some point, it stops being a question of "does it work" and starts being "what am I waiting for?"</p>
+          <p>The guys who took the shot are in the gym right now, feeling like themselves again. The guys who didn't? Still reading emails.</p>
+          <p><a href="#">Try it. 30-day guarantee. &rarr;</a></p>
+          <p>B2G2 is live. Buy 2, get 2 free. Full 8-week cycle for $176.</p>
+          <p><a href="#">Grab the Alpha Test Stack &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. You've been burned before. So were they. That's why 3,000 of them left five-star reviews. One cycle. That's all it took. <a href="#">Start here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same segment (Engaged Non-Buyers). Schedule: Thursday April 10 at 10:00 AM ET. A/B test subject lines A vs C. Urgency approach: E (Social proof pressure). All links: vintage-muscle.com/products/alpha-test-stack. SMS sends 3 hours after this email.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 3: THE TASTE TEST     -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 3 of 4</div>
+    <h2>The Taste Test</h2>
+    <p class="campaign-desc">Brand education campaign targeting all active subscribers. Taste as proof of potency, anti-supplement positioning, mechanism education on the delivery system. This is a trust deposit, not a hard sell. The goal is to move people from "interested" to "engaged" by teaching them why Vintage Muscle is different from everything else on the shelf.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Interested &rarr; Engaged</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Trust Deposit (education, brand positioning, no hard product push)</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Klaviyo segment: All Active Subscribers (opened or clicked in last 90 days)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Taste as proof of potency, anti-supplement positioning, mechanism education</p></div>
+    </div>
+
+    <!-- EMAIL 07 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 07 / GAIN</div>
+      <div class="email-title">it tastes like gasoline mixed with chalk</div>
+      <div class="email-tags">
+        <span class="tag">Interested &rarr; Engaged</span>
+        <span class="tag">Gain</span>
+        <span class="tag">Brand</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> it tastes like gasoline mixed with chalk</li>
+            <li><span>B.</span> if you need candy flavored pills don't open this</li>
+            <li><span>C.</span> the worst tasting compound you'll ever love</li>
+            <li><span>D.</span> this is not a Flintstones vitamin</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> good. that means it's real.</li>
+            <li><span>Send</span> Tuesday April 15, 10:00 AM ET</li>
+            <li><span>Audience</span> All Active Subscribers (opened/clicked last 90 days)</li>
+            <li><span>Goal</span> Brand differentiation, pattern interrupt, tribal gate</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>Our best seller tastes like gasoline mixed with chalk.</p>
+          <p>Good.</p>
+          <p><a href="#">Here's why that matters &rarr;</a></p>
+          <p>That taste means it's raw. Concentrated. Not cut with filler, not candy-coated so you'll buy more.</p>
+          <p>If you need grape-flavored gummies, <a href="#">we're not your guys</a>.</p>
+          <p>The taste means it's real. That's the difference between this and the GNC stuff that does not work.</p>
+          <p><a href="#">See what real compounds look like &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live. Buy 2, get 2 free. The taste is rough but the results aren't. <a href="#">Check it out &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create Campaign. Segment: All Active Subscribers (opened or clicked any email in last 90 days). Schedule: Tuesday April 15 at 10:00 AM ET. A/B test subject lines A vs B. This is a brand education email, not a product push. Links point to: vintage-muscle.com/collections/shop-now</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 08 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 08 / LOGIC</div>
+      <div class="email-title">why every pill you've ever taken failed</div>
+      <div class="email-tags">
+        <span class="tag">Interested &rarr; Engaged</span>
+        <span class="tag">Logic</span>
+        <span class="tag">Brand</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> why every pill you've ever taken failed</li>
+            <li><span>B.</span> the first pass problem (and how to skip it)</li>
+            <li><span>C.</span> 60-70% destroyed before it hits your blood</li>
+            <li><span>D.</span> your stomach acid is eating your supplements</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> it's called first-pass metabolism</li>
+            <li><span>Send</span> Wednesday April 16, 10:00 AM ET</li>
+            <li><span>Audience</span> Same segment</li>
+            <li><span>Goal</span> Mechanism education on liquid delivery</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>Every capsule you've ever swallowed had one problem.</p>
+          <p>It had to survive your stomach.</p>
+          <p><a href="#">Here's why that matters &rarr;</a></p>
+          <p>Stomach acid. Liver filtration. Something called first-pass metabolism. 60-70% of the compound gets destroyed before it ever reaches your bloodstream.</p>
+          <p>That's not a theory. That's biology.</p>
+          <p>It's why you took 47 different test boosters and felt nothing. The compounds got flushed before they could do anything. Gone. Wasted.</p>
+          <p>Our compounds go under your tongue. Not in your stomach. Straight to the blood. No acid. No liver. No first pass.</p>
+          <p><a href="#">See how the delivery system works &rarr;</a></p>
+          <p>That's why it tastes like gasoline. There's no sugar coating. No filler. No flavoring to hide behind. Just raw, concentrated compound hitting your bloodstream in minutes.</p>
+          <p>The taste is the proof.</p>
+          <p><a href="#">Try it yourself (B2G2 live) &rarr;</a></p>
+          <p>270,000+ bottles sold. Not because it tastes good. Because it works.</p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. Under your tongue, hold it 60 seconds, straight to work. No pills. No powder. No needles. No prescription. <a href="#">See the full lineup &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same segment (All Active Subscribers). Schedule: Wednesday April 16 at 10:00 AM ET. A/B test subject lines A vs C. This is the mechanism education email. Links: vintage-muscle.com/collections/shop-now</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 09 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 09 / FEAR</div>
+      <div class="email-title">you said you wanted to feel like yourself again</div>
+      <div class="email-tags">
+        <span class="tag">Interested &rarr; Engaged</span>
+        <span class="tag">Fear</span>
+        <span class="tag">Brand</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> you said you wanted to feel like yourself again</li>
+            <li><span>B.</span> still waiting for a Flintstones vitamin to work?</li>
+            <li><span>C.</span> you've been patient long enough</li>
+            <li><span>D.</span> the GNC stuff isn't going to cut it</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> so what are you waiting for?</li>
+            <li><span>Send</span> Thursday April 17, 10:00 AM ET</li>
+            <li><span>Audience</span> Same segment</li>
+            <li><span>Goal</span> Convert via identity challenge</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>You said you wanted to feel like yourself again.</p>
+          <p>You said you were tired of the mirror.</p>
+          <p>You said the GNC stuff doesn't work.</p>
+          <p><a href="#">So what are you waiting for? &rarr;</a></p>
+          <p>We built this for guys who've been burned. Guys who tried everything on the shelf and got nothing but expensive piss.</p>
+          <p>This isn't a supplement. It's a compound. Under your tongue. Straight to the blood. You'll feel the difference in days, not weeks.</p>
+          <p><a href="#">Start your first cycle &rarr;</a></p>
+          <p>B2G2 live. 30-day money-back guarantee. Zero risk.</p>
+          <p><a href="#">Grab it here &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. Every guy who's a customer for life started right where you are. Skeptical. Burned. Done with the BS. One cycle changed that. <a href="#">See for yourself &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same segment (All Active Subscribers). Schedule: Thursday April 17 at 10:00 AM ET. A/B test subject lines A vs B. Urgency approach: F (Identity challenge). Links: vintage-muscle.com/collections/shop-now. SMS sends 3 hours after this email.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- CAMPAIGN 4: WIFE WILL NOTICE   -->
+  <!-- ============================== -->
+  <div class="campaign-group">
+    <div class="section-label">Campaign 4 of 4</div>
+    <h2>Your Wife Will Notice Before You Do</h2>
+    <p class="campaign-desc">Bedroom and libido angle targeting engaged subscribers (mix of buyers and non-buyers). Win-Test positioned as the "third path" between doing nothing and TRT. Partner validation as the emotional hook. This drives conversion through a different motivation than the gym, reaching guys who might not respond to the fitness angle alone.</p>
+    <div class="strategy-grid" style="margin-top:0;">
+      <div class="strategy-card"><h4>Trust Move</h4><p>Engaged &rarr; Buyer</p></div>
+      <div class="strategy-card"><h4>Type</h4><p>Trust Withdrawal (conversion, bedroom motive)</p></div>
+      <div class="strategy-card"><h4>Audience</h4><p>Klaviyo segment: Engaged Subscribers (opened or clicked in last 60 days, all purchase statuses)</p></div>
+      <div class="strategy-card"><h4>Key Angle</h4><p>Partner validation, bedroom performance, third path vs TRT</p></div>
+    </div>
+
+    <!-- EMAIL 10 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 10 / GAIN</div>
+      <div class="email-title">your wife will notice before you do</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Gain</span>
+        <span class="tag">Win-Test</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> your wife will notice before you do</li>
+            <li><span>B.</span> what a 61 year old is taking that you're not</li>
+            <li><span>C.</span> she'll know something changed</li>
+            <li><span>D.</span> the bedroom compound</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> it's not just the gym</li>
+            <li><span>Send</span> Tuesday April 22, 10:00 AM ET</li>
+            <li><span>Audience</span> Engaged Subscribers (opened/clicked last 60 days)</li>
+            <li><span>Goal</span> Drive curiosity about bedroom/libido angle</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>Here's what guys keep telling us.</p>
+          <p>"My wife noticed before I did."</p>
+          <p><a href="#">Find out what they're taking &rarr;</a></p>
+          <p>Win-Test handles the gym. But guys keep telling us about the other room. Drive. Energy. Performance. The stuff that got muted when you weren't paying attention.</p>
+          <p><a href="#">See how Win-Test works &rarr;</a></p>
+          <p>No needles. No prescription. No doctor. No dependency. Just the signal your body forgot how to send.</p>
+          <p><a href="#">Try Win-Test (B2G2 live) &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 live. Buy 2, get 2 free. That's an 8-week cycle for the price of two bottles. <a href="#">Check it out &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create Campaign. Segment: Engaged Subscribers (opened or clicked in last 60 days). Schedule: Tuesday April 22 at 10:00 AM ET. A/B test subject lines A vs B. All links point to: vintage-muscle.com/products/win-test</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 11 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 11 / LOGIC</div>
+      <div class="email-title">no needles. no prescription. no dependency.</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Logic</span>
+        <span class="tag">Win-Test</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> Win-Test vs TRT (honest comparison)</li>
+            <li><span>B.</span> no needles. no prescription. no dependency.</li>
+            <li><span>C.</span> $176 vs $200+/month (and no doctor visits)</li>
+            <li><span>D.</span> the compound your doctor won't tell you about</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> there's a third path</li>
+            <li><span>Send</span> Wednesday April 23, 10:00 AM ET</li>
+            <li><span>Audience</span> Same segment</li>
+            <li><span>Goal</span> Comparison mechanism, TRT alternative positioning</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>Most guys think there are two options when drive tanks.</p>
+          <p>Option 1: Do nothing. Hope it comes back. It won't.</p>
+          <p>Option 2: TRT. Needles. Doctor visits. $200+/month. Dependency.</p>
+          <p><a href="#">There's a third path &rarr;</a></p>
+          <p>Win-Test is the compound guys are using instead.</p>
+          <p>No needles. No prescription. No doctor. No dependency. $176 for a full 8-week cycle with B2G2.</p>
+          <p>It goes under your tongue. Straight to the blood. Bypasses the stomach acid and liver filtration that destroys 60-70% of every pill you've ever taken.</p>
+          <p><a href="#">See the full compound profile &rarr;</a></p>
+          <p>The results aren't subtle. Guys report feeling the difference in days. Drive comes back. Energy comes back. The bedroom comes back.</p>
+          <p>Dan, 47: "Two weeks in. My wife noticed before I did. Not just the gym either."</p>
+          <p>Rick, 58: "Tried TRT for 6 months. Hated the needles. Hated the dependency. Win-Test gave me the same results without any of that."</p>
+          <p><a href="#">Grab Win-Test (B2G2 live) &rarr;</a></p>
+          <p>No needles. No prescription. No doctor. No dependency. 30-day money-back guarantee.</p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. Less than $6/day. Compare that to TRT at $200/month plus doctor visits. And you can stop anytime. <a href="#">Start your cycle &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same segment (Engaged Subscribers). Schedule: Wednesday April 23 at 10:00 AM ET. A/B test subject lines B vs C. Customer quotes from actual VM reviews. All links: vintage-muscle.com/products/win-test</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 12 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 12 / FEAR</div>
+      <div class="email-title">she hasn't said anything. but she's noticed.</div>
+      <div class="email-tags">
+        <span class="tag">Engaged &rarr; Buyer</span>
+        <span class="tag">Fear</span>
+        <span class="tag">Win-Test</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> she hasn't said anything. but she's noticed.</li>
+            <li><span>B.</span> every week you wait is a week she notices</li>
+            <li><span>C.</span> the conversation you don't want to have</li>
+            <li><span>D.</span> you used to not think about it. now you do.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> you already know what I'm talking about</li>
+            <li><span>Send</span> Thursday April 24, 10:00 AM ET</li>
+            <li><span>Audience</span> Same segment</li>
+            <li><span>Goal</span> Convert via consequence of inaction (bedroom angle)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>She hasn't said anything.</p>
+          <p>But she's noticed.</p>
+          <p><a href="#">You already know what I'm talking about &rarr;</a></p>
+          <p>The energy that used to be there. The drive. The thing that made you... you.</p>
+          <p>It didn't break. It got muted. And every week you wait is another week of "not tonight" and "I'm just tired."</p>
+          <p>Win-Test sends the signal your body stopped sending on its own.</p>
+          <p><a href="#">Start your cycle today &rarr;</a></p>
+          <p>B2G2 is live. Buy 2, get 2 free. 30-day guarantee. Less than $6/day.</p>
+          <p><a href="#">Grab Win-Test here &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. Your anabolic signals aren't broken. They're just muted. One cycle is all it takes to hear them again. <a href="#">Get Win-Test &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same segment (Engaged Subscribers). Schedule: Thursday April 24 at 10:00 AM ET. A/B test subject lines A vs D. Urgency approach: D (Consequence of inaction). All links: vintage-muscle.com/products/win-test. SMS sends 3 hours after this email.</p>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /section-campaigns -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SMS CAMPAIGNS                                       -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-grey-band" id="sms">
+    <div class="section">
+      <div class="section-label">SMS Campaigns</div>
+      <h2>Matched SMS Messages</h2>
+      <p>Each campaign's Fear email is paired with one SMS message, sent 3 hours after. SMS is the urgency channel. Different framing than the email, same destination link. All messages include opt-out language.</p>
+
+      <!-- SMS 1 -->
+      <div class="sms-card">
+        <h4>The Summer Countdown Stack</h4>
+        <div class="sms-meta">Send: Thursday April 3, 1:00 PM ET &middot; ~138 characters</div>
+        <div class="sms-body">Vintage Muscle: 12 weeks to summer. The Anabolic Shred Stack is B2G2 right now. Build and cut at the same time: {url} Reply STOP to opt out</div>
+        <div class="strategy-note" style="margin-top:16px;">
+          <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create SMS Campaign. Same segment as Campaign 1 Fear email (Previous Buyers). Schedule: Thursday April 3 at 1:00 PM ET (3 hours after Fear email). Link: vintage-muscle.com/products/anabolic-shred-stack. Use Klaviyo's URL shortener for {url}.</p>
+        </div>
+      </div>
+
+      <!-- SMS 2 -->
+      <div class="sms-card">
+        <h4>What 17,000 Reviews Sound Like</h4>
+        <div class="sms-meta">Send: Thursday April 10, 1:00 PM ET &middot; ~128 characters</div>
+        <div class="sms-body">Vintage Muscle: 270,000+ bottles sold for a reason. Alpha Test Stack is B2G2, 30-day guarantee. See why: {url} Reply STOP to opt out</div>
+        <div class="strategy-note" style="margin-top:16px;">
+          <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create SMS Campaign. Same segment as Campaign 2 Fear email (Engaged Non-Buyers). Schedule: Thursday April 10 at 1:00 PM ET (3 hours after Fear email). Link: vintage-muscle.com/products/alpha-test-stack. Use Klaviyo's URL shortener for {url}.</p>
+        </div>
+      </div>
+
+      <!-- SMS 3 -->
+      <div class="sms-card">
+        <h4>The Taste Test</h4>
+        <div class="sms-meta">Send: Thursday April 17, 1:00 PM ET &middot; ~148 characters</div>
+        <div class="sms-body">Vintage Muscle: Still taking pills? 60-70% gets destroyed before it works. Our compounds go straight to the blood. B2G2 live: {url} Reply STOP to opt out</div>
+        <div class="strategy-note" style="margin-top:16px;">
+          <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create SMS Campaign. Same segment as Campaign 3 Fear email (All Active Subscribers). Schedule: Thursday April 17 at 1:00 PM ET (3 hours after Fear email). Link: vintage-muscle.com/collections/shop-now. Use Klaviyo's URL shortener for {url}.</p>
+        </div>
+      </div>
+
+      <!-- SMS 4 -->
+      <div class="sms-card">
+        <h4>Your Wife Will Notice Before You Do</h4>
+        <div class="sms-meta">Send: Thursday April 24, 1:00 PM ET &middot; ~145 characters</div>
+        <div class="sms-body">Vintage Muscle: Your drive didn't break. It got muted. Win-Test goes straight to the blood. B2G2 live, 30-day guarantee: {url} Reply STOP to opt out</div>
+        <div class="strategy-note" style="margin-top:16px;">
+          <p><strong>Klaviyo Setup:</strong> Campaigns &rarr; Create SMS Campaign. Same segment as Campaign 4 Fear email (Engaged Subscribers). Schedule: Thursday April 24 at 1:00 PM ET (3 hours after Fear email). Link: vintage-muscle.com/products/win-test. Use Klaviyo's URL shortener for {url}.</p>
+        </div>
+      </div>
+    </div>
+  </div><!-- /section-grey-band sms -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- EMAIL AUTOMATIONS                                    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section-automations" id="automations">
+    <div class="section-intro">
+      <div class="section-label">Email Automations</div>
+      <h2>Lifecycle Flows</h2>
+      <p>These flows run automatically based on subscriber behavior. Unlike campaigns, they fire 24/7 without manual scheduling. Jared already has Social Scouts flows running in Klaviyo. These are trust-architecture replacements designed to fix the click rate problem and map to Vintage Muscle's critical email moments.</p>
+    </div>
+
+  <!-- ============================== -->
+  <!-- FLOW 1: WELCOME FLOW           -->
+  <!-- ============================== -->
+  <div class="flow-group">
+    <div class="flow-label">FLOW 1 OF 3</div>
+    <div class="flow-title">Welcome Flow</div>
+    <p class="flow-desc">The most critical flow in the entire system. The first 72 hours after signup determines whether a new subscriber becomes a customer or a ghost. Five emails over 10 days that handle taste normalization, the doubt window, social proof at the one-week mark, and bridge to product education. Every email maps to a specific psychological moment in the new subscriber cycle.</p>
+
+    <div class="strategy-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="strategy-card"><h4>Trigger</h4><p>New subscriber (45% off popup, Lantern Quiz completion, or checkout)</p></div>
+      <div class="strategy-card"><h4>Goal</h4><p>Convert new subscribers into first-time buyers within 10 days</p></div>
+      <div class="strategy-card"><h4>Emails</h4><p>5 emails over 10 days</p></div>
+      <div class="strategy-card"><h4>Key Moment</h4><p>First 72 hours: taste normalization and doubt prevention are make-or-break</p></div>
+    </div>
+
+    <div class="flow-table-wrap">
+      <table class="flow-table">
+        <thead><tr><th>Step</th><th>Email</th><th>Timing</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>01</td><td>welcome to the compound</td><td>Immediate</td><td>Welcome + B2G2 offer + set expectations</td></tr>
+          <tr><td>02</td><td>about the taste</td><td>Day 1 (24 hours)</td><td>Taste normalization (prevents returns)</td></tr>
+          <tr><td>03</td><td>is it working yet?</td><td>Day 4</td><td>Address the doubt window</td></tr>
+          <tr><td>04</td><td>what guys are saying after one week</td><td>Day 7</td><td>Social proof at critical one-week mark</td></tr>
+          <tr><td>05</td><td>your first cycle is just the beginning</td><td>Day 10</td><td>Bridge to product education + cross-sell</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EMAIL 13 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 13 / WELCOME FLOW</div>
+      <div class="email-title">welcome to the compound</div>
+      <div class="email-tags">
+        <span class="tag">Welcome</span>
+        <span class="tag">Immediate</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> welcome to the compound</li>
+            <li><span>B.</span> you're one of us now</li>
+            <li><span>C.</span> here's what happens next</li>
+            <li><span>D.</span> {{ first_name|default:'Brother' }}, you made the right call</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> here's what to expect</li>
+            <li><span>Send</span> Immediate (on signup trigger)</li>
+            <li><span>Audience</span> New subscribers (45% off popup, Lantern Quiz, or checkout)</li>
+            <li><span>Goal</span> Welcome + set expectations + B2G2</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>You're in.</p>
+          <p>Welcome to Vintage Muscle. You're one of us now.</p>
+          <p><a href="#">See what makes us different &rarr;</a></p>
+          <p>This isn't a supplement company. We don't sell pills stuffed with rice flour and fairy dust. We sell real compounds. Liquid. Under your tongue. Straight to the blood.</p>
+          <p>You're going to hear from me, Jared. Not a marketing team. Not a bot. Me.</p>
+          <p><a href="#">Check out the Alpha Test Stack (our best seller) &rarr;</a></p>
+          <p>Stick around. Open these emails. I'll show you what 270,000+ bottles and 17,000 reviews look like from the inside.</p>
+          <p><a href="#">Browse the full lineup &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live right now. Buy 2, get 2 free. Less than $6/day for a full 8-week cycle. <a href="#">Grab it here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Flows &rarr; Create Flow &rarr; Trigger: "Subscribed to List" (select main list). Three entry points feed this: 45% off popup, Lantern Quiz completion, and checkout signups. First email fires immediately (no delay). A/B test subject lines A vs B. All links point to: vintage-muscle.com/collections/shop-now. Merge tag: {{ first_name|default:'Brother' }}. Add flow filter: has not received this flow before. Consider adding a conditional split after trigger: if "Completed Lantern Quiz = true" personalize product recommendations based on quiz results.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 14 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 14 / WELCOME FLOW</div>
+      <div class="email-title">about the taste</div>
+      <div class="email-tags">
+        <span class="tag">Welcome</span>
+        <span class="tag">Day 1</span>
+        <span class="tag">Taste Normalization</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> about the taste</li>
+            <li><span>B.</span> yeah, it tastes like that on purpose</li>
+            <li><span>C.</span> if you almost spit it out, good</li>
+            <li><span>D.</span> the taste means it's working</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> that means it's real</li>
+            <li><span>Send</span> 24 hours after Email 13</li>
+            <li><span>Audience</span> Same flow (new subscribers)</li>
+            <li><span>Goal</span> Taste normalization to prevent returns</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>You probably already noticed.</p>
+          <p>It tastes like gasoline mixed with chalk.</p>
+          <p><a href="#">Here's why that's a good thing &rarr;</a></p>
+          <p>That's how you know it's real. No sugar coating. No filler. No flavoring to hide behind.</p>
+          <p>The taste IS the proof that you're getting raw, concentrated compound straight to the blood.</p>
+          <p>Here's how to take it. Under your tongue. Hold 60 seconds. That's it.</p>
+          <p><a href="#">See the full "how to take it" guide &rarr;</a></p>
+          <p>It gets easier after the first few days. But the taste never fully goes away.</p>
+          <p>That's the point.</p>
+          <p><a href="#">Check out what guys say about the taste &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live. Buy 2, get 2 free. The taste is rough but the results are worth every second of it. <a href="#">Stack up here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Welcome flow. Time delay: 24 hours after Email 13. A/B test subject lines A vs D. This is the most critical email for preventing returns. Links point to: vintage-muscle.com/pages/how-to-use (or equivalent). Add conditional split: if "has placed order = true" send this version, otherwise skip (they haven't bought yet so taste prep isn't relevant).</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 15 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 15 / WELCOME FLOW</div>
+      <div class="email-title">is it working yet?</div>
+      <div class="email-tags">
+        <span class="tag">Welcome</span>
+        <span class="tag">Day 4</span>
+        <span class="tag">Doubt Window</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> is it working yet?</li>
+            <li><span>B.</span> don't bail on day 4</li>
+            <li><span>C.</span> here's what's happening inside you right now</li>
+            <li><span>D.</span> the guys who quit here miss everything</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> your body is waking up</li>
+            <li><span>Send</span> Day 4 (3 days after Email 14)</li>
+            <li><span>Audience</span> Same flow (new subscribers)</li>
+            <li><span>Goal</span> Address the doubt window, keep them on the cycle</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>You're probably wondering if this is doing anything.</p>
+          <p>It is.</p>
+          <p><a href="#">Here's what's happening inside you right now &rarr;</a></p>
+          <p>Your body doesn't flip a switch. The compounds are building up in your system. Most guys feel the first real shift between day 5 and day 10.</p>
+          <p>Energy first. Then recovery. Then the mirror starts to change.</p>
+          <p><a href="#">See what other guys felt at this stage &rarr;</a></p>
+          <p>The guys who bail at day 4 miss everything. The guys who push to day 10 become customers for life.</p>
+          <p>Here's what's happening. The compound is sending anabolic signals your body stopped sending on its own. It takes a few days for those signals to get loud enough to feel.</p>
+          <p>Stay the course.</p>
+          <p><a href="#">Read the reviews from guys who pushed through &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live. If you're feeling the early signals and want to stack your cycle, now's the time. Buy 2, get 2 free. <a href="#">Stack up here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Welcome flow. Time delay: 3 days after Email 14 (Day 4 total). A/B test subject lines A vs D. Links point to: vintage-muscle.com/pages/reviews (or customer results page). This email addresses the critical doubt window. Consider adding a conditional split: if "placed order = 0" swap to a first-purchase CTA instead of the "stay the course" angle.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 16 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 16 / WELCOME FLOW</div>
+      <div class="email-title">what guys are saying after one week</div>
+      <div class="email-tags">
+        <span class="tag">Welcome</span>
+        <span class="tag">Day 7</span>
+        <span class="tag">Social Proof</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> what guys are saying after one week</li>
+            <li><span>B.</span> one week in. here's what they felt.</li>
+            <li><span>C.</span> "I feel like myself again"</li>
+            <li><span>D.</span> day 7 check-in</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> these are real customers</li>
+            <li><span>Send</span> Day 7 (3 days after Email 15)</li>
+            <li><span>Audience</span> Same flow (new subscribers)</li>
+            <li><span>Goal</span> Social proof at the critical one-week mark</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>I'm not going to tell you what to expect. They will.</p>
+          <p><a href="#">Read what real customers said after week one &rarr;</a></p>
+          <p>Mike, 52: "Four months in. Bench went from 245 to 315. Energy is back. Feel like myself again."</p>
+          <p>Dan, 47: "Tried every test booster on Amazon. Nothing. Two weeks on Alpha Test and my wife noticed before I did."</p>
+          <p>Rick, 61: "I'm 61 and I have more energy than guys in their 30s at my gym. Customer for life."</p>
+          <p>James, 44: "First week was subtle. Second week I stopped hitting snooze. Third week my lifts went up 20%."</p>
+          <p><a href="#">See all 17,148 reviews &rarr;</a></p>
+          <p>That's them. Not me.</p>
+          <p>You're one week in. Give it another week and tell me what YOU notice.</p>
+          <p><a href="#">Browse the full product lineup &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live right now. If you're feeling the early results and want to double down, buy 2 get 2 free. <a href="#">Grab it here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Welcome flow. Time delay: 3 days after Email 15 (Day 7 total). A/B test subject lines A vs C. Customer quotes pulled from actual VM reviews. Links point to: vintage-muscle.com/pages/reviews. This is the social proof email at the one-week mark, designed to validate their experience and keep them on the cycle.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 17 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 17 / WELCOME FLOW</div>
+      <div class="email-title">your first cycle is just the beginning</div>
+      <div class="email-tags">
+        <span class="tag">Welcome</span>
+        <span class="tag">Day 10</span>
+        <span class="tag">Product Education</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> your first cycle is just the beginning</li>
+            <li><span>B.</span> what comes after Alpha Test</li>
+            <li><span>C.</span> the stack that changes everything</li>
+            <li><span>D.</span> now that you know it works</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> here's where it gets good</li>
+            <li><span>Send</span> Day 10 (3 days after Email 16)</li>
+            <li><span>Audience</span> Same flow (new subscribers)</li>
+            <li><span>Goal</span> Bridge to product education + cross-sell introduction</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>If you're feeling it, good. That's your body waking up.</p>
+          <p><a href="#">Here's where it gets good &rarr;</a></p>
+          <p>Alpha Test is the foundation. It's where every guy starts. But the real transformation happens when you stack compounds.</p>
+          <p>Want size? Rad-Mass sends the signal to build. Pair it with Alpha Test and your recovery doubles.</p>
+          <p>Want to recomp? The Anabolic Shred Stack pairs Win-Test with Hydroxygenin. Build and cut at the same time.</p>
+          <p><a href="#">See the full stack lineup &rarr;</a></p>
+          <p>Want drive back? Win-Test is the compound guys are using instead of TRT. No needles. No prescription. No dependency.</p>
+          <p>When your body's ready for more, you'll feel it.</p>
+          <p><a href="#">Browse all compounds &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live on everything. Buy 2, get 2 free. If you're stacking, that's two full cycles for the price of one. <a href="#">See what's available &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Welcome flow. Time delay: 3 days after Email 16 (Day 10 total). A/B test subject lines A vs D. This is the bridge email that introduces stacking and cross-sell. Links point to: vintage-muscle.com/collections/shop-now. Consider adding a conditional split after this email: if "placed order = 0" route into a separate conversion mini-sequence.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- FLOW 2: ABANDONED CHECKOUT     -->
+  <!-- ============================== -->
+  <div class="flow-group">
+    <div class="flow-label">FLOW 2 OF 3</div>
+    <div class="flow-title">Abandoned Checkout</div>
+    <p class="flow-desc">Direct revenue recovery. When someone starts checkout and doesn't finish, these three emails bring them back. No discount in email 1 (just a reminder), mechanism education in email 2, and a final respectful push in email 3. The 30-day money-back guarantee is the real closer here, not a coupon code.</p>
+
+    <div class="strategy-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="strategy-card"><h4>Trigger</h4><p>Started checkout, didn't complete purchase</p></div>
+      <div class="strategy-card"><h4>Goal</h4><p>Recover abandoned revenue within 72 hours</p></div>
+      <div class="strategy-card"><h4>Emails</h4><p>3 emails over 72 hours</p></div>
+      <div class="strategy-card"><h4>Key Moment</h4><p>First hour: simple reminder converts the most. No discount needed.</p></div>
+    </div>
+
+    <div class="flow-table-wrap">
+      <table class="flow-table">
+        <thead><tr><th>Step</th><th>Email</th><th>Timing</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>01</td><td>you left something behind</td><td>1 hour after abandon</td><td>Simple reminder, no pressure</td></tr>
+          <tr><td>02</td><td>here's what you're missing</td><td>24 hours after abandon</td><td>Mechanism education + guarantee</td></tr>
+          <tr><td>03</td><td>last call on your cart</td><td>72 hours after abandon</td><td>Final push with respectful urgency</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EMAIL 18 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 18 / ABANDONED CHECKOUT</div>
+      <div class="email-title">you left something behind</div>
+      <div class="email-tags">
+        <span class="tag">Abandoned Checkout</span>
+        <span class="tag">1 Hour</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> you left something behind</li>
+            <li><span>B.</span> still thinking about it?</li>
+            <li><span>C.</span> your cart's still here</li>
+            <li><span>D.</span> forgot something?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> your cart is waiting</li>
+            <li><span>Send</span> 1 hour after checkout abandon</li>
+            <li><span>Audience</span> Started checkout, didn't complete</li>
+            <li><span>Goal</span> Simple reminder, no pressure</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>You were close.</p>
+          <p><a href="#">Your cart's still saved &rarr;</a></p>
+          <p>Nothing's gone. Same compound. Same price. Same B2G2.</p>
+          <p><a href="#">Finish your order &rarr;</a></p>
+          <p>If something stopped you, hit reply and tell me. I read every one.</p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is still live. Buy 2, get 2 free. 30-day money-back guarantee if you change your mind. <a href="#">Complete your order &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Flows &rarr; Create Flow &rarr; Trigger: "Started Checkout" with flow filter "Placed Order zero times since starting this flow." Time delay: 1 hour. A/B test subject lines A vs B. Use Klaviyo's dynamic cart URL for all checkout links. Add flow filter: exclude anyone who completed purchase after starting flow.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 19 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 19 / ABANDONED CHECKOUT</div>
+      <div class="email-title">here's what you're missing</div>
+      <div class="email-tags">
+        <span class="tag">Abandoned Checkout</span>
+        <span class="tag">24 Hours</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> here's what you're missing</li>
+            <li><span>B.</span> the cart's still there. so is the problem.</li>
+            <li><span>C.</span> 60-70% destroyed before it works (not ours)</li>
+            <li><span>D.</span> your cart is waiting</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> most guys come back</li>
+            <li><span>Send</span> 24 hours after checkout abandon</li>
+            <li><span>Audience</span> Same flow (still hasn't purchased)</li>
+            <li><span>Goal</span> Mechanism education + guarantee to remove hesitation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>Most guys hesitate the first time. Then they come back.</p>
+          <p><a href="#">Your cart is still here &rarr;</a></p>
+          <p>Here's what you almost grabbed. A compound that goes under your tongue, straight to the blood. No first-pass destruction. No stomach acid. No liver filtration eating 60-70% of the dose before it works.</p>
+          <p>That's why it works when the GNC stuff didn't.</p>
+          <p><a href="#">See how the delivery system works &rarr;</a></p>
+          <p>30-day money-back guarantee. Zero risk. If you don't feel the difference, you get your money back. No questions.</p>
+          <p>270,000+ bottles sold. Over 3,000 five-star reviews. You were about to join them.</p>
+          <p><a href="#">Complete your order &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is still live on your cart. Buy 2, get 2 free. Full 8-week cycle for less than $6/day. <a href="#">Finish checkout &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Abandoned Checkout flow. Time delay: 23 hours after Email 18 (24 hours total from abandon). A/B test subject lines A vs C. Flow filter: "Placed Order zero times since starting this flow." Use Klaviyo's dynamic cart URL. All other links: vintage-muscle.com/collections/shop-now.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 20 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 20 / ABANDONED CHECKOUT</div>
+      <div class="email-title">last call on your cart</div>
+      <div class="email-tags">
+        <span class="tag">Abandoned Checkout</span>
+        <span class="tag">72 Hours</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> last call on your cart</li>
+            <li><span>B.</span> your cart expires soon</li>
+            <li><span>C.</span> we held it for 3 days</li>
+            <li><span>D.</span> this is the last one about your cart</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> after this, it's gone</li>
+            <li><span>Send</span> 72 hours after checkout abandon</li>
+            <li><span>Audience</span> Same flow (still hasn't purchased)</li>
+            <li><span>Goal</span> Final push with respectful urgency</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>This is the last email about your cart. After this, I'll leave you alone.</p>
+          <p><a href="#">Your cart is still saved &rarr;</a></p>
+          <p>Real compounds. Under your tongue. Straight to the blood. 30-day money-back guarantee.</p>
+          <p>B2G2 is live. Buy 2, get 2 free.</p>
+          <p><a href="#">Complete your order &rarr;</a></p>
+          <p>If not now, no hard feelings. But the mirror doesn't change by itself.</p>
+          <p><a href="#">Last chance to finish checkout &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. 270,000+ bottles sold. 3,000+ five-star reviews. 30-day guarantee. The only thing left is you saying yes. <a href="#">Grab it here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Abandoned Checkout flow. Time delay: 48 hours after Email 19 (72 hours total from abandon). A/B test subject lines A vs D. Flow filter: "Placed Order zero times since starting this flow." Use Klaviyo's dynamic cart URL. This is the final email in the series. After this, the flow ends.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- FLOW 3: POST-PURCHASE          -->
+  <!-- ============================== -->
+  <div class="flow-group">
+    <div class="flow-label">FLOW 3 OF 3</div>
+    <div class="flow-title">Post-Purchase</div>
+    <p class="flow-desc">Maps to the critical email moments after a first purchase. Order confirmation with taste prep, a day-5 check-in during the doubt window, week-3 results validation with the first reorder mention, and a week-6 reorder push before their cycle runs out. This flow turns a one-time buyer into a repeat customer.</p>
+
+    <div class="strategy-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="strategy-card"><h4>Trigger</h4><p>First purchase completed</p></div>
+      <div class="strategy-card"><h4>Goal</h4><p>Prevent returns, build trust, drive reorder by end of cycle</p></div>
+      <div class="strategy-card"><h4>Emails</h4><p>4 emails over 8-week cycle</p></div>
+      <div class="strategy-card"><h4>Key Moment</h4><p>Week 6-7: reorder window. If they don't reorder here, they churn.</p></div>
+    </div>
+
+    <div class="flow-table-wrap">
+      <table class="flow-table">
+        <thead><tr><th>Step</th><th>Email</th><th>Timing</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>01</td><td>your order's in</td><td>Immediate</td><td>Confirmation + taste prep + expectations</td></tr>
+          <tr><td>02</td><td>check in: how's it going?</td><td>Day 5 after delivery</td><td>Doubt window + keep them on cycle</td></tr>
+          <tr><td>03</td><td>by now, you should be seeing it</td><td>Week 3</td><td>Results validation + first reorder mention</td></tr>
+          <tr><td>04</td><td>your cycle's almost done. here's what's next.</td><td>Week 6-7</td><td>Reorder + stack upgrade</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EMAIL 21 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 21 / POST-PURCHASE</div>
+      <div class="email-title">your order's in</div>
+      <div class="email-tags">
+        <span class="tag">Post-Purchase</span>
+        <span class="tag">Immediate</span>
+        <span class="tag">Order Confirmation</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> your order's in</li>
+            <li><span>B.</span> it's on the way</li>
+            <li><span>C.</span> here's what to expect</li>
+            <li><span>D.</span> you made the right call</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> read this before it arrives</li>
+            <li><span>Send</span> Immediate (on purchase trigger)</li>
+            <li><span>Audience</span> First-time buyers</li>
+            <li><span>Goal</span> Confirmation + taste prep + set timeline expectations</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>Good call. Your order is in. It ships same day.</p>
+          <p><a href="#">Track your shipment &rarr;</a></p>
+          <p>When it arrives, you're going to open it, put it under your tongue, and your first thought is going to be "what the hell."</p>
+          <p>That's normal. That means it's real.</p>
+          <p>No sugar coating. No filler. No flavoring to mask what's inside. Just raw, concentrated compound.</p>
+          <p><a href="#">Read the "how to use" guide before it arrives &rarr;</a></p>
+          <p>Most guys feel the first shift between day 5 and day 10. Energy and recovery come first. Then the mirror starts to change.</p>
+          <p>Stay consistent. I'll check in on you.</p>
+          <p><a href="#">Browse the full compound lineup &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live on everything. If you want to stack your cycle, buy 2 get 2 free. Less than $6/day. <a href="#">See all stacks &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Flows &rarr; Create Flow &rarr; Trigger: "Placed Order" with flow filter "Placed Order equals 1 (first purchase only)." Fires immediately. A/B test subject lines A vs D. Track shipment link: use Klaviyo's dynamic order URL. Other links: vintage-muscle.com/pages/how-to-use and vintage-muscle.com/collections/shop-now. Add profile property: "first_purchase_date" for downstream timing.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 22 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 22 / POST-PURCHASE</div>
+      <div class="email-title">check in: how's it going?</div>
+      <div class="email-tags">
+        <span class="tag">Post-Purchase</span>
+        <span class="tag">Day 5</span>
+        <span class="tag">Doubt Window</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> check in: how's it going?</li>
+            <li><span>B.</span> day 5. here's what's happening.</li>
+            <li><span>C.</span> don't bail now</li>
+            <li><span>D.</span> your body is waking up</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> most guys feel it around now</li>
+            <li><span>Send</span> 5 days after delivery (use Klaviyo fulfilled event)</li>
+            <li><span>Audience</span> Same flow (first-time buyers)</li>
+            <li><span>Goal</span> Address doubt window, keep them on the cycle</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>You're about 5 days in. Here's what should be happening.</p>
+          <p><a href="#">See what other guys felt at day 5 &rarr;</a></p>
+          <p>The compounds are building in your system. Energy and recovery are usually the first things to shift. Some guys feel it by now. Some take until day 10. Both are normal.</p>
+          <p>The signals are getting louder.</p>
+          <p>Don't bail.</p>
+          <p><a href="#">Read reviews from guys who pushed through &rarr;</a></p>
+          <p>The guys who quit at day 5 are the same guys who write "this stuff is garbage" on Reddit. The guys who push to week 3 become customers for life.</p>
+          <p>Stay the course. The mirror is coming.</p>
+          <p><a href="#">Check out what's happening inside your body right now &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live. If you're already feeling the early signals and want to stack, buy 2 get 2 free on everything. <a href="#">Stack up here &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Post-Purchase flow. Time delay: 5 days after "Fulfilled Order" event (if available) or 6 days after "Placed Order" as fallback (ships same day, so delivery is typically 2-4 days). A/B test subject lines A vs C. Links: vintage-muscle.com/pages/reviews. Flow filter: "Placed Order zero times since starting this flow" is NOT needed here (they already bought). But add: exclude if refund/return initiated.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 23 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 23 / POST-PURCHASE</div>
+      <div class="email-title">by now, you should be seeing it</div>
+      <div class="email-tags">
+        <span class="tag">Post-Purchase</span>
+        <span class="tag">Week 3</span>
+        <span class="tag">Results</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> by now, you should be seeing it</li>
+            <li><span>B.</span> the mirror is starting to change</li>
+            <li><span>C.</span> what most guys notice at week 3</li>
+            <li><span>D.</span> told you</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> the mirror doesn't lie</li>
+            <li><span>Send</span> Week 3 (16 days after Email 22)</li>
+            <li><span>Audience</span> Same flow (first-time buyers)</li>
+            <li><span>Goal</span> Validate results + first soft reorder mention</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>If you've been consistent, the mirror should be telling you something different than it was 3 weeks ago.</p>
+          <p><a href="#">See what other guys noticed at week 3 &rarr;</a></p>
+          <p>Energy. Recovery. Drive. Body composition. Something's shifted.</p>
+          <p>Some guys see it in the gym first. Some see it in the bedroom first. Both are the same signal. Your body remembered what it's supposed to do.</p>
+          <p><a href="#">Browse the full product lineup &rarr;</a></p>
+          <p>Your first cycle is halfway done. The guys who see the best results run at least two cycles back to back.</p>
+          <p><a href="#">Reorder your cycle &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live. Buy 2, get 2 free. Two back-to-back cycles is where the real transformation happens. <a href="#">Grab it before your current cycle runs out &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Post-Purchase flow. Time delay: 16 days after Email 22 (approximately week 3 from delivery). A/B test subject lines A vs D. Links: vintage-muscle.com/collections/shop-now for reorder. This is the first soft mention of reordering. Don't push too hard. Exclude if refund/return initiated.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL 24 -->
+    <div class="email-block">
+      <div class="email-num">EMAIL 24 / POST-PURCHASE</div>
+      <div class="email-title">your cycle's almost done. here's what's next.</div>
+      <div class="email-tags">
+        <span class="tag">Post-Purchase</span>
+        <span class="tag">Week 6</span>
+        <span class="tag">Reorder</span>
+      </div>
+      <div class="email-meta">
+        <div>
+          <div class="email-meta-label">Subject Lines</div>
+          <ul class="sl-list">
+            <li><span>A.</span> your cycle's almost done. here's what's next.</li>
+            <li><span>B.</span> don't let the momentum die</li>
+            <li><span>C.</span> week 6. decision time.</li>
+            <li><span>D.</span> the guys who stop here regret it</li>
+          </ul>
+        </div>
+        <div>
+          <div class="email-meta-label">Details</div>
+          <ul class="detail-list">
+            <li><span>Preview</span> this is where most guys level up</li>
+            <li><span>Send</span> Week 6-7 (21 days after Email 23)</li>
+            <li><span>Audience</span> Same flow (first-time buyers)</li>
+            <li><span>Goal</span> Reorder conversion + stack upgrade</li>
+          </ul>
+        </div>
+      </div>
+      <div class="email-body-wrapper">
+        <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+        <div class="email-body">
+          <p>{{ first_name|default:'Brother' }},</p>
+          <p>You've got about 2 weeks left on your current cycle.</p>
+          <p>Here's the truth.</p>
+          <p><a href="#">Read this before your cycle ends &rarr;</a></p>
+          <p>The guys who stop after one cycle lose most of what they gained within 6-8 weeks. The guys who run a second cycle keep it.</p>
+          <p>Two paths from here.</p>
+          <p>Path 1: Reorder the same stack. Run another cycle. Lock in the gains you've built.</p>
+          <p><a href="#">Reorder your current stack &rarr;</a></p>
+          <p>Path 2: Level up. If you started with Alpha Test, try Rad-Mass for size or the Anabolic Shred Stack for recomp. If you've been running a specialty compound, add Alpha Test as the foundation.</p>
+          <p><a href="#">See the full stack lineup &rarr;</a></p>
+          <p>Either way, don't let the momentum die. You did the hard part. You pushed through the taste. You pushed through the doubt window. You saw the mirror change.</p>
+          <p>Don't give that back.</p>
+          <p><a href="#">Grab your next cycle (B2G2 live) &rarr;</a></p>
+          <p class="sig">- Jared</p>
+          <p class="ps">P.S. B2G2 is live on everything. Buy 2, get 2 free. That's two full cycles for the price of one. If you ran a suppressive compound, pick up Arimidione or TITAN for PCT to keep your gains locked in. <a href="#">See all options &rarr;</a></p>
+        </div>
+      </div>
+      <div class="strategy-note">
+        <p><strong>Klaviyo Setup:</strong> Same Post-Purchase flow. Time delay: 21 days after Email 23 (approximately week 6-7 from delivery). A/B test subject lines A vs D. Reorder link: vintage-muscle.com/collections/shop-now. Stack lineup link: vintage-muscle.com/collections/shop-now. Consider adding a conditional split: if "product purchased = Alpha Test" show Rad-Mass/Anabolic Shred upsell. If "product purchased = other" show Alpha Test as foundation suggestion. Exclude if already reordered (Placed Order 2+ times).</p>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /section-automations -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SPLIT TESTS                                         -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="tests">
+    <div class="section-label">A/B Testing</div>
+    <h2>Tests to Run This Month</h2>
+    <div class="test-grid">
+      <div class="test-card">
+        <h4>Multi-CTA vs Single CTA</h4>
+        <div class="test-type">CONTENT</div>
+        <p>Pick one campaign, send version A with the multi-CTA trust ladder (4-6 links throughout) and version B with a single CTA at the bottom. Measure click rate difference. This is the most important test this month.</p>
+      </div>
+      <div class="test-card">
+        <h4>Subject Line: Lowercase vs Sentence Case</h4>
+        <div class="test-type">SUBJECT LINE</div>
+        <p>Jared's current style is all lowercase. Test against sentence case on Campaign 2 to see if it affects open rates.</p>
+      </div>
+      <div class="test-card">
+        <h4>Email Length: Full Logic vs Trimmed</h4>
+        <div class="test-type">CONTENT</div>
+        <p>On Campaign 3 Logic email, test the full 170-word version against a trimmed 100-word version. Measure click rate and revenue per email.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- NEXT MONTH                                          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="section" id="next-month">
+    <div class="section-label">Coming in May</div>
+    <h2>Next Month Preview</h2>
+
+    <div class="next-month-box">
+      <h4>ADDITIONAL LIFECYCLE FLOWS (MAY SCOPE)</h4>
+      <ul>
+        <li>Browse Abandonment Flow (2 emails over 48 hours, targets product page viewers who didn't add to cart)</li>
+        <li>Winback Flow (3 emails over 14 days, targets 60-day no-purchase customers)</li>
+        <li>Review Request Flow (2 emails, triggers 14 days post-delivery to capture five-star reviews)</li>
+      </ul>
+    </div>
+
+    <div class="next-month-box">
+      <h4>SMS AUTOMATIONS (MAY SCOPE)</h4>
+      <ul>
+        <li>Welcome Flow SMS (triggers on new subscriber, 3 messages over 7 days)</li>
+        <li>Abandoned Cart SMS (triggers on cart abandon, 2 messages over 24 hours)</li>
+        <li>Post-Purchase SMS (triggers on order, 2 messages: shipping + check-in)</li>
+        <li>Winback SMS (triggers on 60-day no-purchase, 2 messages)</li>
+      </ul>
+    </div>
+
+    <div class="next-month-box">
+      <h4>INFRASTRUCTURE (MAY SCOPE)</h4>
+      <ul>
+        <li>Dedicated IP evaluation (at ~50k daily sends, time to assess moving off shared IPs)</li>
+        <li>Advanced segmentation (RFM-based segments for targeted campaigns)</li>
+        <li>A/B test results review from April flows (optimize subject lines and timing)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- FOOTER                                              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-brand">The Email Blueprint</div>
+    <p class="footer-note">Built by Dave Miz using the Email Trust Architecture. April 2026.</p>
+  </footer>
+</div>
+
+<script>
+function copyEmail(btn) {
+  const wrapper = btn.closest('.email-body-wrapper');
+  const body = wrapper.querySelector('.email-body');
+  const text = body.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

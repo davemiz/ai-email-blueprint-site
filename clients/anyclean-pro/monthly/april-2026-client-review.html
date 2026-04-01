@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anyclean — April 2026 Plan Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-subtle: #F8F9FB;
+    --bg-muted: #F3F4F6;
+    --text-primary: #171717;
+    --text-body: #374151;
+    --text-secondary: #6B7280;
+    --text-caption: #9CA3AF;
+    --border: #E5E7EB;
+    --border-subtle: #F3F4F6;
+    --green: #16A34A;
+    --green-dim: rgba(22,163,74,0.08);
+    --blue: #2563EB;
+    --blue-dim: rgba(37,99,235,0.06);
+    --amber: #D97706;
+    --amber-dim: rgba(217,119,6,0.08);
+    --purple: #7C3AED;
+    --purple-dim: rgba(124,58,237,0.06);
+    --teal: #0D9488;
+    --teal-dim: rgba(13,148,136,0.06);
+    --font-heading: 'Geist', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%);
+    background-attachment: fixed;
+    color: var(--text-body);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    background: #fff;
+  }
+  .hero h1 {
+    font-family: var(--font-heading);
+    font-size: 40px;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.12;
+    letter-spacing: -0.8px;
+    margin-bottom: 12px;
+    text-wrap: balance;
+  }
+  .hero-desc {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.65;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    background: #fff;
+  }
+  .section h2 {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text-primary);
+    letter-spacing: -0.4px;
+    margin-bottom: 8px;
+    text-wrap: balance;
+  }
+  .section-desc {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin-bottom: 24px;
+    max-width: 600px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02);
+  }
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.35;
+  }
+  .card p {
+    color: var(--text-body);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .card .meta {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-green { background: var(--green-dim); color: var(--green); }
+  .badge-blue { background: var(--blue-dim); color: var(--blue); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); }
+  .badge-purple { background: var(--purple-dim); color: var(--purple); }
+  .badge-teal { background: var(--teal-dim); color: var(--teal); }
+
+  /* ── SCHEDULE TABLE ── */
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .schedule-table th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-caption);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .schedule-table td {
+    padding: 12px 16px;
+    color: var(--text-body);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+  .schedule-table tr:last-child td { border-bottom: none; }
+  .schedule-table .email-name {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 14px;
+    color: var(--text-body);
+    line-height: 1.5;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .checklist .context {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  /* ── GREY BAND ── */
+  .grey-band {
+    background: var(--bg-subtle);
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 40px 0;
+  }
+  .grey-band .container { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 32px 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-caption);
+  }
+  .footer a { color: var(--text-secondary); text-decoration: none; }
+
+  /* ── STATUS ROW ── */
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 640px) {
+    .status-grid { grid-template-columns: 1fr; }
+    .card-header { flex-direction: column; gap: 8px; }
+  }
+  .status-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .status-card h4 {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .status-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 6px;
+    position: relative;
+    top: -1px;
+  }
+  .dot-green { background: var(--green); }
+  .dot-amber { background: var(--amber); }
+
+  /* ── CAMPAIGN GROUP ── */
+  .campaign-group {
+    margin-bottom: 28px;
+  }
+  .campaign-group:last-child { margin-bottom: 0; }
+  .campaign-group-label {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero">
+    <div class="hero-pill">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      The Email Blueprint
+    </div>
+    <h1>April 2026 Plan Review</h1>
+    <p class="hero-desc">Everything happening this month for Anyclean's email programme — campaigns, automations, and what we need from you to keep things moving.</p>
+  </div>
+
+  <!-- ═══ SCHEDULE AT A GLANCE ═══ -->
+  <div class="section">
+    <div class="section-label">Schedule</div>
+    <h2>April at a Glance</h2>
+    <p class="section-desc">Five campaign emails across three themes, sent Tuesday and Thursday at 9:00 AM. All emails go to your full warmed list.</p>
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Email</th>
+            <th>Campaign</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tue 15 Apr</td>
+            <td class="email-name">The Real Cost of Cleaning Yourself</td>
+            <td><span class="badge badge-blue">Regular Cleaning</span></td>
+          </tr>
+          <tr>
+            <td>Thu 17 Apr</td>
+            <td class="email-name">Same Cleaner, Every Time</td>
+            <td><span class="badge badge-blue">Regular Cleaning</span></td>
+          </tr>
+          <tr>
+            <td>Tue 22 Apr</td>
+            <td class="email-name">What's Living in Your Carpet</td>
+            <td><span class="badge badge-purple">Carpet &amp; Upholstery</span></td>
+          </tr>
+          <tr>
+            <td>Thu 24 Apr</td>
+            <td class="email-name">Before &amp; After: Real London Carpets</td>
+            <td><span class="badge badge-purple">Carpet &amp; Upholstery</span></td>
+          </tr>
+          <tr>
+            <td>Tue 29 Apr</td>
+            <td class="email-name">Bank Holiday Guests? We'll Sort the House</td>
+            <td><span class="badge badge-teal">Bank Holiday Prep</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ CAMPAIGN DETAILS ═══ -->
+  <div class="section">
+    <div class="section-label">Campaigns</div>
+    <h2>What Each Email Does</h2>
+    <p class="section-desc">Here's what each email covers and the subject line options we're considering for each one.</p>
+
+    <!-- Campaign 4: Regular Cleaning -->
+    <div class="campaign-group">
+      <div class="campaign-group-label">Regular Cleaning — Convert One-Offs to Recurring</div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>"The Real Cost of Cleaning Yourself"</h3>
+          <span class="badge badge-blue">Tue 15 Apr</span>
+        </div>
+        <p>A gentle maths-based argument for why professional cleaning is actually cheaper than doing it yourself when you factor in time, products, and mental load. Ends with a soft quote CTA.</p>
+        <p class="meta"><strong>Subject lines:</strong> "What's your Saturday morning actually worth?" · "The real cost of cleaning your own home" · "You're spending more than you think on housework"</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>"Same Cleaner, Every Time"</h3>
+          <span class="badge badge-blue">Thu 17 Apr</span>
+        </div>
+        <p>Trust-building email focused on the consistency of having the same cleaner who gets to know your home, your preferences, and your routine. Not a hard sell — just makes people feel comfortable.</p>
+        <p class="meta"><strong>Subject lines:</strong> "You'll always get the same cleaner" · "Someone who actually knows your home" · "No strangers. Same face, every time."</p>
+      </div>
+    </div>
+
+    <!-- Campaign 5: Carpet & Upholstery -->
+    <div class="campaign-group">
+      <div class="campaign-group-label">Carpet &amp; Upholstery — Drive Carpet Bookings</div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>"What's Living in Your Carpet"</h3>
+          <span class="badge badge-purple">Tue 22 Apr</span>
+        </div>
+        <p>Pattern-interrupt opener about what actually accumulates in carpets over winter — dust mites, pollen, bacteria. Positions professional carpet cleaning as the proper spring reset. Mentions the hot water extraction method.</p>
+        <p class="meta"><strong>Subject lines:</strong> "What's actually living in your carpet right now" · "Your carpet has been through a long winter" · "The thing about carpets most people don't think about"</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>"Before &amp; After: Real London Carpets"</h3>
+          <span class="badge badge-purple">Thu 24 Apr</span>
+        </div>
+        <p>Visual proof email — real before/after carpet photos from your team's work, paired with client testimonials. If photos aren't ready in time, we have a text-only fallback that leans on the reviews instead.</p>
+        <p class="meta"><strong>Subject lines:</strong> "Before and after: real carpets, real results" · "We let the photos do the talking" · "This is what a professional carpet clean actually does"</p>
+      </div>
+    </div>
+
+    <!-- Campaign 6: Bank Holiday -->
+    <div class="campaign-group">
+      <div class="campaign-group-label">Bank Holiday Prep — May Long Weekend</div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>"Bank Holiday Guests?"</h3>
+          <span class="badge badge-teal">Tue 29 Apr</span>
+        </div>
+        <p>Seasonal urgency email ahead of the Monday 5 May bank holiday. Lists every relevant service (regular clean, deep clean, carpet, end of tenancy) so readers can quickly find what applies. The angle is availability and timing, not discounts.</p>
+        <p class="meta"><strong>Subject lines:</strong> "Having people over for the bank holiday?" · "Bank holiday weekend. House sorted?" · "Slots are going before the long weekend"</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end container -->
+
+<!-- ═══ AUTOMATIONS (Grey Band) ═══ -->
+<div class="grey-band">
+  <div class="container">
+    <div class="section" style="border-bottom: none; padding: 0;">
+      <div class="section-label">Automations</div>
+      <h2>New Systems Being Built This Month</h2>
+      <p class="section-desc">These are automated email sequences that run in the background once activated. They trigger based on customer behaviour, so they work even when no one is manually sending emails.</p>
+
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-header">
+          <h3>Win-Back Sequence</h3>
+          <span class="badge badge-amber">Build Week: Apr 14</span>
+        </div>
+        <p>Reaches out to customers who haven't booked in a while with a friendly nudge to come back. Two emails, spaced a week apart, with a soft re-engagement angle.</p>
+        <p class="meta">2 emails · Automated · Triggers when a customer goes inactive</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Cross-Sell Sequence</h3>
+          <span class="badge badge-amber">Build Week: Apr 21</span>
+        </div>
+        <p>After someone books one service, this sequence introduces them to related services they might not know about. Four different paths depending on which service they originally booked (regular cleaning, carpet, deep clean, end of tenancy).</p>
+        <p class="meta">8 emails (2 per service path) · Automated · Triggers after a completed job</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Lapsed Customer Recovery</h3>
+          <span class="badge badge-amber">Build Week: Apr 28</span>
+        </div>
+        <p>Two separate sequences for residential and commercial customers who haven't booked in 90+ days. Different messaging for each — homeowners get a personal touch, commercial clients get a reliability and compliance angle.</p>
+        <p class="meta">6 emails (3 residential + 3 commercial) · Automated · Triggers at 90 days inactive</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══ ALREADY LIVE ═══ -->
+  <div class="section">
+    <div class="section-label">Already Running</div>
+    <h2>Systems Live from March</h2>
+    <p class="section-desc">These are already active in MailerLite and working in the background.</p>
+
+    <div class="status-grid">
+      <div class="status-card">
+        <h4><span class="status-dot dot-green"></span>Welcome Sequence</h4>
+        <p>3 emails for new subscribers</p>
+      </div>
+      <div class="status-card">
+        <h4><span class="status-dot dot-green"></span>Quote Follow-Up</h4>
+        <p>4 emails over 16 days after a quote request</p>
+      </div>
+      <div class="status-card">
+        <h4><span class="status-dot dot-green"></span>Post-Service System</h4>
+        <p>7 emails: feedback, review request, referral, rebook, winback (90-day sequence)</p>
+      </div>
+      <div class="status-card">
+        <h4><span class="status-dot dot-amber"></span>Google Review Acceleration</h4>
+        <p>Review URL updated. QR cards still pending — need to order.</p>
+      </div>
+      <div class="status-card">
+        <h4><span class="status-dot dot-amber"></span>Estate Agent Outreach Playbook</h4>
+        <p>3 email templates provided. You send these from your own email — ready to go once partner pricing is confirmed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ITEMS NEEDING INPUT ═══ -->
+  <div class="section">
+    <div class="section-label">Action Required</div>
+    <h2>Things We Need From You</h2>
+    <p class="section-desc">These items are blocking upcoming sends or automation builds. The sooner we can tick these off, the smoother April runs.</p>
+
+    <div class="card">
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          <div>
+            <strong>Confirm hourly rate for regular cleaning</strong>
+            <div class="context">Email 09 mentions £16–£18/hr. Is that range accurate, or would you prefer we don't mention pricing?</div>
+          </div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div>
+            <strong>Confirm carpet cleaning method</strong>
+            <div class="context">Email 11 says "hot water extraction" — is that the correct term for what your team uses?</div>
+          </div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div>
+            <strong>Confirm carpet drying time</strong>
+            <div class="context">We've written "dry within a few hours." Is that accurate, or should we say something different?</div>
+          </div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div>
+            <strong>Send 2–3 before/after carpet photos</strong>
+            <div class="context">For Email 12 (Thu 24 Apr). Real photos from your team's work. If not available by then, we have a text-only backup ready.</div>
+          </div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div>
+            <strong>Any bank holiday promotions planned?</strong>
+            <div class="context">Email 13 (Tue 29 Apr) is a booking push ahead of the May bank holiday. Currently no discount — just an availability angle. Let us know if you'd like to add a specific offer.</div>
+          </div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div>
+            <strong>Confirm partner rate for estate agents</strong>
+            <div class="context">We have the outreach templates ready, but need to know the volume discount (5–10%) before we start approaching agents.</div>
+          </div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div>
+            <strong>Confirm referral incentive (10% / 10%)</strong>
+            <div class="context">The post-service sequence offers 10% off for the referrer and 10% for the person they refer. Is that approved?</div>
+          </div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div>
+            <strong>Order QR review cards</strong>
+            <div class="context">Google review URL is set. Cards can be ordered from Vistaprint (~£30–50 for 500). Cleaners leave one after each job.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <p>Prepared by The Email Blueprint · April 2026</p>
+    <p style="margin-top: 4px;">Questions? Just reply to this message or bring them to our next call.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

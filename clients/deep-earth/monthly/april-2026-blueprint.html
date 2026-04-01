@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Email Blueprint -- Deep Earth Marketing · April 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     DESIGN SYSTEM -- Email Blueprint (Peec-style)
+     ═══════════════════════════════════════════════════════════ */
+
+  :root {
+    /* ── Surfaces ── */
+    --black: #FFFFFF;
+    --surface-hover: #FAFAFA;
+    --surface-subtle: #F8F9FB;
+    --dark: #F7F8FA;
+    --surface-pill: #F4F4F5;
+    --card: #F3F4F6;
+
+    /* ── Borders ── */
+    --border: #EBEBEB;
+    --border-subtle: #F4F4F5;
+
+    /* ── Text (dark → light) ── */
+    --white: #000000;
+    --text-strong: #18181b;
+    --light: #111827;
+    --accent: #111827;
+    --body: #1F2937;
+    --muted: #4B5563;
+    --text-secondary: #52525b;
+    --text-tertiary: #71717a;
+    --text-caption: #a1a1aa;
+
+    /* ── Semantic ── */
+    --accent-dim: rgba(17,24,39,0.04);
+    --accent-border: rgba(17,24,39,0.12);
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.05);
+    --red-border: rgba(220,38,38,0.20);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%); background-attachment: fixed; color: var(--body); font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* Header */
+  .header { padding: 80px 0 64px; border-bottom: none; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .brand-label { display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); padding: 5px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: #fff; }
+  .powered-by { display: none; }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--muted); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: 'Geist', sans-serif; font-size: 56px; font-weight: 600; color: var(--white); line-height: 1.06; letter-spacing: -0.02em; text-transform: none; margin-bottom: 16px; text-wrap: balance; }
+  .header h1 span { color: var(--text-secondary); display: block; font-weight: 600; font-size: inherit; letter-spacing: inherit; }
+  .header-sub { font-size: 17px; color: var(--text-secondary); max-width: 620px; margin-bottom: 40px; font-weight: 400; letter-spacing: 0; line-height: 1.65; }
+
+  /* Sections */
+  .section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary); margin-bottom: 12px; display: inline-block; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .section-month-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .section h2 { font-family: 'Geist', sans-serif; font-size: 52px; font-weight: 600; color: var(--white); letter-spacing: -1.2px; text-transform: none; line-height: 1.05; margin-bottom: 24px; text-wrap: balance; }
+  .section .section-intro { font-size: 17px; color: var(--muted); max-width: 600px; margin-bottom: 0; line-height: 1.7; font-weight: 400; }
+  .section p { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 16px; line-height: 1.75; }
+  .section p strong { color: var(--white); font-weight: 600; }
+
+  /* Trust Strategy Snapshot */
+  .snapshot-box { background: var(--surface-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 48px; margin-top: 40px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .snapshot-box p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 100%; }
+  .snapshot-box p strong { color: var(--text-strong); }
+  .snapshot-box p span { color: var(--red); font-weight: 500; }
+  .snapshot-box .trust-snapshot-stats { border-top-color: var(--border); }
+  .snapshot-box .mini-stat { color: var(--text-tertiary); }
+  .snapshot-box .mini-stat-num { color: var(--text-strong); }
+
+  /* Strategy Grid */
+  .strategy-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 40px; background: var(--surface-subtle); border-radius: 20px; padding: 20px; }
+  .strategy-card { background: #FFFFFF; padding: 28px 32px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .strategy-card h4 { font-family: 'Geist', sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--white); margin-bottom: 10px; }
+  .strategy-card p { font-size: 14px; color: var(--body); max-width: 100%; margin-bottom: 0; line-height: 1.75; }
+  .campaign-group .strategy-grid { grid-template-columns: 1fr 1fr; }
+  .next-month-box .strategy-grid { grid-template-columns: 1fr 1fr; }
+  .next-month-box .strategy-card { background: var(--black); border-color: var(--border); }
+
+  /* Numbered Steps */
+  .numbered-steps { margin-top: 36px; }
+  .numbered-step { display: flex; gap: 28px; padding: 36px 0; border-top: 1px solid var(--border); }
+  .numbered-step:last-child { border-bottom: none; }
+  .step-number { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-caption); background: var(--card); border-radius: 12px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 600; color: var(--white); margin: 0 0 8px 0; letter-spacing: -0.3px; }
+  .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+
+  /* Section Intro Box */
+  .section-intro { border-top: none; border-bottom: 1px solid var(--border); padding: 24px 0; margin-bottom: 0; }
+  .section-intro .section-label { margin-bottom: 8px; }
+  .section-intro h2 { font-size: 52px; letter-spacing: -1.2px; margin-bottom: 12px; }
+  .section-intro p { margin-bottom: 0; }
+
+  /* Campaign Calendar */
+  .cal-table { width: 100%; border-collapse: collapse; }
+  .cal-table-wrap { background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin-top: 36px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); color: #333; }
+  .cal-table-wrap *, .cal-table-wrap strong, .cal-table-wrap b { color: inherit; }
+  .cal-table-wrap strong, .cal-table-wrap b { color: var(--text-strong) !important; }
+  .cal-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .cal-table tbody tr:hover { background: var(--surface-hover); }
+  .cal-table tbody td { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: top; line-height: 1.5; }
+  .cal-table tbody td:first-child { color: var(--text-strong); font-weight: 500; }
+  .cal-table tbody td:nth-child(2) { color: var(--text-secondary); }
+  .cal-table tbody td:nth-child(3) { color: var(--text-secondary); }
+  .cal-table .tag { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; padding: 0; border: none; color: var(--text-caption); display: inline-block; border-radius: 0; }
+  .cal-table .tag-accent { border: none; color: var(--text-strong); background: none; font-weight: 500; }
+
+  /* Email Copy Sections */
+  .email-block { margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .email-block:first-child { margin-top: 24px; padding-top: 0; border-top: none; }
+  .email-num { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .email-title { font-family: 'Geist', sans-serif; font-size: 26px; font-weight: 600; color: var(--white); text-transform: none; letter-spacing: -0.4px; margin-bottom: 12px; }
+  .email-tags { margin-bottom: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { display: inline-block; padding: 3px 10px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-caption); background: #FFFFFF; }
+  .email-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .email-meta > div { padding: 20px 24px; }
+  .email-meta > div:first-child { border-right: 1px solid rgba(0,0,0,0.06); }
+  .email-meta-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); margin-bottom: 10px; }
+  .email-meta-value { font-size: 14px; color: var(--body); line-height: 1.8; }
+  .email-meta-value strong { color: var(--white); font-weight: 500; }
+  .sl-list { list-style: none; padding: 0; margin: 0; }
+  .sl-list li { font-size: 14px; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-subtle); }
+  .sl-list li:last-child { border-bottom: none; }
+  .sl-list li span { color: var(--text-caption); margin-right: 8px; font-weight: 500; }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li { font-size: 14px; color: var(--text-secondary); padding: 10px 0; border-bottom: 1px solid var(--border-subtle); line-height: 1.5; }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-list li span { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption); width: 80px; margin-right: 4px; vertical-align: baseline; }
+  .flow-group .email-meta { background: #FFFFFF; border-color: rgba(0,0,0,0.06); }
+  .flow-group .email-meta > div:first-child { border-right-color: rgba(0,0,0,0.06); }
+  .flow-group .sl-list li { border-bottom-color: var(--border-subtle); }
+  .flow-group .detail-list li { border-bottom-color: var(--border-subtle); }
+
+  /* Email Body (white boxes) */
+  .email-body-wrapper { position: relative; margin-top: 20px; background: #FFFFFF; border-radius: 16px; padding: 48px 0; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .email-body { color: #333333; padding: 0 40px; font-size: 15px; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+  .email-body p { color: #333333; font-size: 15px; line-height: 1.8; margin-bottom: 16px; max-width: 100%; }
+  .email-body p:last-child { margin-bottom: 0; }
+  .email-body a { color: #2563EB; text-decoration: underline; }
+  .email-body .sig { margin-top: 24px; color: #666; font-size: 14px; }
+  .email-body .ps { margin-top: 20px; font-size: 14px; color: #555; font-style: italic; }
+  .email-body ul, .email-body ol { margin: 12px 0; padding-left: 20px; color: #333; }
+  .email-body li { margin-bottom: 8px; font-size: 15px; line-height: 1.7; }
+  .email-body strong, .email-body b, .email-body p strong, .email-body p b { color: #222 !important; font-weight: 600; }
+
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); color: #666; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; border-radius: 6px; }
+  .copy-btn:hover { background: rgba(0,0,0,0.1); color: #333; }
+  .copy-btn.copied { background: var(--dark); border-color: var(--border); color: var(--body); }
+  .copy-btn svg { width: 16px; height: 16px; }
+
+  /* Strategy Note */
+  .strategy-note { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 28px 32px; margin-top: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .strategy-note p { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+  .strategy-note p strong { color: var(--accent); font-weight: 600; }
+  .strategy-note p + p { margin-top: 8px; }
+
+  /* Grey Band Sections (full viewport width) */
+  .section-grey-band { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 56px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-grey-band .section { padding-top: 0; border-bottom: none; }
+  .section-grey-band .section + .section { padding-top: 48px; border-top: 1px solid var(--border); }
+  .section-grey-band .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-grey-band .cal-table-wrap { background: var(--black); }
+  .section-grey-band .signal-card { background: var(--black); }
+
+  /* Automations Section (grey wrapper) */
+  .section-automations { background: var(--surface-subtle); width: 100vw; margin-left: calc(-50vw + 50%); padding: 56px calc(50vw - 50% + 40px); margin-top: -1px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-automations .flow-group { background: transparent; margin: 0 -40px; padding: 56px 40px; border-top: 1px solid var(--border); }
+  .section-automations .flow-group:first-of-type { border-top: none; }
+  .section-automations .section-intro { border-bottom: none; margin-bottom: 0; }
+  .section-automations .strategy-note { background: var(--black); border-color: var(--border); }
+  .section-automations + .section { padding-top: 56px; }
+
+  /* Sticky Nav */
+  .sticky-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); margin: 0 -40px; padding: 0 40px; }
+  .sticky-nav-inner { display: flex; justify-content: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 10px 0; }
+  .sticky-nav-inner::-webkit-scrollbar { display: none; }
+  .sticky-nav a { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-tertiary); text-decoration: none; padding: 6px 10px; border-radius: 6px; white-space: nowrap; transition: all 0.15s ease; letter-spacing: -0.01em; }
+  .sticky-nav a:hover { color: var(--text-strong); background: var(--surface-pill); }
+
+  .section-campaigns { border-bottom: none; }
+  .section-campaigns .campaign-group:last-child { border-bottom: none; }
+
+  /* Flow Diagrams */
+  .flow-group { padding: 56px 40px; border-bottom: none; background: var(--surface-subtle); margin: 0 -40px; border-top: 1px solid var(--border); }
+  .flow-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 8px; }
+  .flow-title { font-family: 'Geist', sans-serif; font-size: 40px; font-weight: 600; color: var(--white); letter-spacing: -1px; text-transform: none; line-height: 1.1; margin-bottom: 16px; text-wrap: balance; }
+  .flow-desc { font-size: 15px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Flow Table (ShadCN style) */
+  .flow-table-wrap { background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 0; margin: 32px 0; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .flow-table { width: 100%; border-collapse: collapse; }
+  .flow-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .flow-table tbody td { font-size: 14px; color: var(--text-secondary); padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .flow-table tbody tr:last-child td { border-bottom: none; }
+  .flow-table tbody tr:hover { background: var(--surface-hover); }
+  .flow-table tbody td:nth-child(1) { color: var(--text-caption); font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; width: 60px; }
+  .flow-table tbody td:nth-child(2) { color: var(--text-strong); font-weight: 500; }
+  .flow-table tbody td:nth-child(3) { color: var(--text-secondary); }
+  .flow-table .flow-trigger-badge { display: inline-block; padding: 4px 12px; background: var(--surface-pill); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-strong); }
+
+  /* Signal Cards */
+  .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  .signal-card { padding: 36px; }
+  .signal-card h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+  .signal-card ul { list-style: none; margin: 0; padding: 0; }
+  .signal-card li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 28px; position: relative; }
+  .signal-card li:last-child { border-bottom: none; }
+  .signal-card li::before { position: absolute; left: 0; font-weight: 700; font-size: 14px; }
+  .signal-card-green { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .signal-card-green h4 { color: var(--body); }
+  .signal-card-green li::before { content: "\2713"; color: var(--body); }
+  .signal-card-red { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .signal-card-red h4 { color: var(--red); }
+  .signal-card-red li::before { content: "\26A0"; color: var(--red); }
+
+  /* Segment Cards */
+  .seg-group-row td { font-family: 'Inter', sans-serif; font-size: 11px !important; font-weight: 500 !important; letter-spacing: 1px; text-transform: uppercase; color: var(--text-caption) !important; background: var(--surface-hover); padding: 14px 20px !important; border-bottom: 1px solid var(--border) !important; border-top: 1px solid var(--border) !important; }
+  .seg-warn-row { background: #FFFBFB !important; }
+  .seg-warn-row:hover { background: #FFF5F5 !important; }
+  .seg-warn-row td:first-child { color: #991B1B !important; }
+
+  /* Header Meta */
+  .header-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 48px; background: var(--black); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .meta-item { display: flex; flex-direction: column; gap: 8px; padding: 24px 28px; border-right: 1px solid var(--border); background: var(--black); }
+  .meta-item:nth-child(3n) { border-right: none; }
+  .meta-item:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .meta-label { font-family: var(--font-body, 'Inter', sans-serif); font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-caption); }
+  .meta-value { font-family: 'Geist', sans-serif; font-size: 18px; font-weight: 600; color: var(--white); letter-spacing: -0.02em; }
+
+  /* Mini Stats */
+  .trust-snapshot-stats { display: flex; gap: 16px; padding-top: 24px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap; margin-top: 24px; align-items: center; }
+  .mini-stat { font-size: 13px; color: var(--text-caption); font-weight: 400; }
+  .mini-stat + .mini-stat::before { content: "|"; margin-right: 16px; color: var(--border); font-weight: 300; }
+  .mini-stat-num { font-family: 'Geist', sans-serif; font-size: 20px; font-weight: 500; color: var(--white); margin-right: 4px; }
+
+  /* Testing & Optimization */
+  .test-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 32px; }
+  .test-card { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); padding: 28px 32px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .test-card h4 { font-family: 'Geist', sans-serif; font-size: 22px; font-weight: 600; color: var(--white); margin-bottom: 10px; letter-spacing: -0.3px; }
+  .test-card .test-type { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .test-card p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 100%; margin-bottom: 0; }
+
+  /* Next Month Boxes */
+  .next-month-box { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); padding: 36px; margin-top: 32px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04); }
+  .next-month-box h4 { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .next-month-box ul { list-style: none; margin: 0; padding: 0; }
+  .next-month-box li { font-size: 14px; color: var(--body); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.6; padding-left: 32px; position: relative; }
+  .next-month-box li:last-child { border-bottom: none; }
+  .next-month-box li::before { content: "\25A1"; color: var(--muted); position: absolute; left: 4px; font-size: 14px; }
+
+  /* Campaign Group Header */
+  .campaign-group { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .campaign-group h2 { font-family: 'Geist', sans-serif; font-size: 40px; font-weight: 600; color: var(--white); letter-spacing: -1px; text-transform: none; line-height: 1.1; margin-bottom: 20px; text-wrap: balance; }
+  .campaign-desc { font-size: 14px; color: var(--body); max-width: 700px; margin-bottom: 32px; line-height: 1.75; }
+
+  /* Footer */
+  .footer { padding: 56px 0 56px; text-align: left; border-top: 1px solid var(--border); }
+  .footer-brand { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 10px; }
+  .footer-note { font-size: 14px; color: var(--muted); font-style: italic; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #333; }
+    .page { max-width: 100%; padding: 0 20px; }
+    .copy-btn { display: none; }
+    .email-body { border: 1px solid #ddd; }
+    .section, .header { border-color: #eee; }
+    :root { --white: #000; --body: #222; --muted: #666; --dark: #f9f9f9; --card: #f5f5f5; --border: #e0e0e0; --accent: #222; --black: #fff; }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page { padding: 0 20px; }
+    .header h1 { font-size: 40px; }
+    .section h2 { font-size: 28px; }
+    .strategy-grid, .email-meta, .test-grid, .signal-grid, .campaign-group .strategy-grid, .next-month-box .strategy-grid { grid-template-columns: 1fr; }
+    .header-meta-row { gap: 24px; }
+    .signal-card { padding: 24px; }
+    .signal-card li { font-size: 15px; }
+    .cal-table thead th, .cal-table tbody td { padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">The Email Blueprint</div>
+      <div class="header-meta">
+        <p>Prepared by Dave Miz</p>
+        <p>April 2026</p>
+      </div>
+    </div>
+    <h1>Deep Earth Marketing <span>April Email Blueprint</span></h1>
+    <p class="header-sub">April 2026 -- Onboarding Blueprint</p>
+    <div class="header-meta-row">
+      <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value">Deep Earth Marketing</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span class="meta-value">GoHighLevel</span></div>
+      <div class="meta-item"><span class="meta-label">Month</span><span class="meta-value">April 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Campaigns</span><span class="meta-value">12 Emails (4x G/L/F)</span></div>
+      <div class="meta-item"><span class="meta-label">Automations</span><span class="meta-value">3 Flows (11 emails)</span></div>
+      <div class="meta-item"><span class="meta-label">Total</span><span class="meta-value">23 Emails</span></div>
+    </div>
+  </div>
+
+  <!-- STICKY NAV -->
+  <nav class="sticky-nav">
+    <div class="sticky-nav-inner">
+      <a href="#strategy">Strategy</a>
+      <a href="#diagnosis">Diagnosis</a>
+      <a href="#approach">Approach</a>
+      <a href="#segments">Segments</a>
+      <a href="#deliverability">Deliverability</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#automations">Automations</a>
+      <a href="#offers">Offers</a>
+      <a href="#next-month">Next Month</a>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════════
+       STRATEGY
+       ════════════════════════════════════════════════════════ -->
+  <div class="section" id="strategy">
+    <div class="section-label">This Month's Trust Strategy</div>
+    <div class="section-month-label">Month 1:</div>
+    <h2>Wake Up a Cold List</h2>
+    <div class="snapshot-box">
+      <p>Deep Earth has a list of jewelry store owners sourced from Meta ads and an industry database, but <span>they have never received a single email</span>. Month 1 is about making a strong first impression without triggering spam filters. We start with the most engaged segment, deliver real value with case studies and proof, and earn the right to keep showing up. Every email this month is a <strong>trust deposit</strong>. The Gain/Logic/Fear framework moves each recipient one stage forward on the trust ladder, campaign by campaign, until they are ready to book a 12-Point Audit call.</p>
+      <div class="trust-snapshot-stats">
+        <div class="mini-stat"><span class="mini-stat-num">12</span> campaign emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">11</span> automation emails</div>
+        <div class="mini-stat"><span class="mini-stat-num">3</span> flows</div>
+        <div class="mini-stat"><span class="mini-stat-num">23</span> total</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       DIAGNOSIS
+       ════════════════════════════════════════════════════════ -->
+  <div class="section" id="diagnosis">
+    <div class="section-label">Account Diagnosis</div>
+    <h2>Where Things Stand</h2>
+    <div class="numbered-steps">
+      <div class="numbered-step">
+        <div class="step-number">01</div>
+        <div class="step-content">
+          <h4>No Email History</h4>
+          <p>This list has never been mailed. There is zero sending reputation with this audience, which means ISPs have no baseline for whether these recipients want Deep Earth's emails. <strong>We must warm gradually or risk immediate spam folder placement.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">02</div>
+        <div class="step-content">
+          <h4>Cold List, Unknown Quality</h4>
+          <p>Contacts came from Meta ads and an industry database. Some opted in willingly, others were appended. We do not know bounce rates, spam trap density, or how many addresses are still active. <strong>First sends will reveal list health. Expect higher-than-normal bounces on send one.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">03</div>
+        <div class="step-content">
+          <h4>Authentication Unknown</h4>
+          <p>SPF, DKIM, and DMARC records need to be verified in GHL before the first send. If authentication is incomplete, emails will land in spam regardless of content quality. <strong>This is a non-negotiable pre-launch checklist item.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">04</div>
+        <div class="step-content">
+          <h4>No Segments</h4>
+          <p>All contacts are in a single unsegmented list. We need to create source-based segments (Meta ad leads vs. database contacts), engagement-based segments (openers vs. non-openers after first sends), and behavioral segments (audit completers, link clickers). <strong>Segments get built as data comes in over the first two weeks.</strong></p>
+        </div>
+      </div>
+      <div class="numbered-step">
+        <div class="step-number">05</div>
+        <div class="step-content">
+          <h4>GoHighLevel Platform</h4>
+          <p>GHL handles email, automations, and CRM in one place. Merge tag format is <strong>{{contact.first_name}}</strong>. Automation triggers use tags and workflow rules. All campaigns and flows in this blueprint are designed for GHL's native builder.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       APPROACH
+       ════════════════════════════════════════════════════════ -->
+  <div class="section" id="approach">
+    <div class="section-label">Monthly Strategy</div>
+    <h2>The April Approach</h2>
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <h4>Warm Gradually</h4>
+        <p>Send to the smallest, highest-quality segment first (Meta ad opt-ins). Monitor bounces, spam complaints, and open rates before expanding to the full list. If open rates stay above 20% and spam complaints stay below 0.1%, we widen the audience each week.</p>
+      </div>
+      <div class="strategy-card">
+        <h4>Trust Before Asking</h4>
+        <p>Every campaign follows the Gain/Logic/Fear sequence. Email 1 paints a picture of what's possible. Email 2 provides the proof and mechanism. Email 3 introduces the cost of inaction. No one gets a hard sell until they have received at least two value deposits.</p>
+      </div>
+      <div class="strategy-card">
+        <h4>Establish Sender Reputation</h4>
+        <p>ISPs judge new senders harshly. Consistent sends on a Tuesday/Thursday/Friday cadence, clean list hygiene, and high engagement rates in weeks one and two will build the reputation needed to scale volume in month two.</p>
+      </div>
+      <div class="strategy-card">
+        <h4>Build Infrastructure</h4>
+        <p>While campaigns run, we set up three automation flows (Welcome, Post-Audit Follow-Up, Re-engagement) that will continue working between campaigns. These flows handle the contacts who raise their hand, complete an audit, or go quiet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       GREY BAND: SEGMENTS + DELIVERABILITY
+       ════════════════════════════════════════════════════════ -->
+  <div class="section-grey-band">
+
+  <div class="section" id="segments">
+    <div class="section-label">Segments to Create</div>
+    <h2>Your Audience Foundation</h2>
+    <p>Create these smart lists in GHL before sending any campaigns or activating automations. <strong>Go to Contacts &rarr; Smart Lists &rarr; New Smart List</strong> for each one.</p>
+
+    <div class="cal-table-wrap" style="margin-top:24px;">
+      <table class="cal-table">
+        <thead><tr><th>Segment</th><th>Filter Criteria</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr class="seg-group-row"><td colspan="3">Source-Based Segments</td></tr>
+          <tr><td>Meta Ad Opt-Ins</td><td>Source = Facebook/Meta Lead Ad</td><td>Warmup sends, Welcome Sequence trigger</td></tr>
+          <tr><td>Database Contacts</td><td>Source = Industry Database / Manual Import</td><td>Week 2+ sends after warmup</td></tr>
+          <tr class="seg-group-row"><td colspan="3">Engagement-Based (Build After Week 1)</td></tr>
+          <tr><td>Engaged (Opened/Clicked)</td><td>Opened or clicked any email in last 30 days</td><td>Priority audience for all campaigns</td></tr>
+          <tr><td>Openers Only</td><td>Opened but never clicked in last 30 days</td><td>Need stronger CTAs, test different angles</td></tr>
+          <tr class="seg-warn-row"><td>Non-Openers</td><td>Received 3+ emails, opened zero</td><td style="color:#DC2626;">Re-engagement flow trigger, then suppress</td></tr>
+          <tr class="seg-group-row"><td colspan="3">Behavioral Segments</td></tr>
+          <tr><td>Audit Completers</td><td>Tag = "audit-completed"</td><td>Post-Audit Follow-Up flow trigger</td></tr>
+          <tr><td>Link Clickers</td><td>Clicked any CTA link in last 30 days</td><td>Highest-intent segment for direct offers</td></tr>
+          <tr class="seg-group-row"><td colspan="3">Suppression</td></tr>
+          <tr class="seg-warn-row"><td>Hard Bounces</td><td>Email status = bounced</td><td style="color:#DC2626;">Remove immediately, never email again</td></tr>
+          <tr class="seg-warn-row"><td>Spam Complainers</td><td>Marked as spam or complained</td><td style="color:#DC2626;">Suppress from all sends permanently</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="strategy-note" style="margin-top:24px;">
+      <p><strong>GHL Setup Tip:</strong> Smart Lists in GHL update dynamically. Once created, contacts automatically enter and exit based on filter criteria. Build the source-based segments before your first send, then create engagement-based segments after week one when you have open/click data.</p>
+    </div>
+  </div>
+
+  <div class="section" id="deliverability">
+    <div class="section-label">Deliverability</div>
+    <h2>Do This Before Sending</h2>
+    <p>Cold lists are high-risk for deliverability. These items must be completed before the first campaign goes out.</p>
+    <div class="signal-grid">
+      <div class="signal-card signal-card-green">
+        <h4>Confirm Before Launch</h4>
+        <ul>
+          <li>SPF record includes GHL sending IPs</li>
+          <li>DKIM signing enabled on sending domain</li>
+          <li>DMARC policy set (at minimum p=none for monitoring)</li>
+          <li>Custom tracking domain configured in GHL</li>
+          <li>Reply-to address goes to a monitored inbox</li>
+        </ul>
+      </div>
+      <div class="signal-card signal-card-red">
+        <h4>Action Required</h4>
+        <ul>
+          <li>Run the full list through a verification service (NeverBounce, ZeroBounce) before any sends to remove invalid addresses</li>
+          <li>Remove role-based addresses (info@, admin@, sales@) from the marketing list</li>
+          <li>Set up a Google Postmaster Tools account to monitor domain reputation after first sends</li>
+          <li>Create the suppression smart lists (hard bounces, spam complainers) and exclude from all campaigns</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- end grey band -->
+
+  <!-- ════════════════════════════════════════════════════════
+       CALENDAR
+       ════════════════════════════════════════════════════════ -->
+  <div class="section" id="calendar">
+    <div class="section-label">Campaign Calendar</div>
+    <h2>April 2026 Send Schedule</h2>
+    <div class="cal-table-wrap">
+      <table class="cal-table">
+        <thead><tr><th>Date</th><th>Campaign</th><th>Type</th><th>Trust Move</th></tr></thead>
+        <tbody>
+          <tr><td>Apr 7</td><td>Competitive Urgency</td><td><span class="tag tag-accent">Gain</span></td><td><span class="tag">Introduction &rarr; Curiosity</span></td></tr>
+          <tr><td>Apr 9</td><td>Competitive Urgency</td><td><span class="tag tag-accent">Logic</span></td><td><span class="tag">Curiosity &rarr; Credibility</span></td></tr>
+          <tr><td>Apr 11</td><td>Competitive Urgency</td><td><span class="tag tag-accent">Fear</span></td><td><span class="tag">Credibility &rarr; Urgency</span></td></tr>
+          <tr><td>Apr 14</td><td>Outsourced CMO Pitch</td><td><span class="tag tag-accent">Gain</span></td><td><span class="tag">Introduction &rarr; Curiosity</span></td></tr>
+          <tr><td>Apr 16</td><td>Outsourced CMO Pitch</td><td><span class="tag tag-accent">Logic</span></td><td><span class="tag">Curiosity &rarr; Credibility</span></td></tr>
+          <tr><td>Apr 18</td><td>Outsourced CMO Pitch</td><td><span class="tag tag-accent">Fear</span></td><td><span class="tag">Credibility &rarr; Urgency</span></td></tr>
+          <tr><td>Apr 21</td><td>Trust Repair</td><td><span class="tag tag-accent">Gain</span></td><td><span class="tag">Objection &rarr; Curiosity</span></td></tr>
+          <tr><td>Apr 23</td><td>Trust Repair</td><td><span class="tag tag-accent">Logic</span></td><td><span class="tag">Curiosity &rarr; Credibility</span></td></tr>
+          <tr><td>Apr 25</td><td>Trust Repair</td><td><span class="tag tag-accent">Fear</span></td><td><span class="tag">Credibility &rarr; Urgency</span></td></tr>
+          <tr><td>Apr 28</td><td>Bridal Season Prep</td><td><span class="tag tag-accent">Gain</span></td><td><span class="tag">Seasonal &rarr; Curiosity</span></td></tr>
+          <tr><td>Apr 30</td><td>Bridal Season Prep</td><td><span class="tag tag-accent">Logic</span></td><td><span class="tag">Curiosity &rarr; Credibility</span></td></tr>
+          <tr><td>May 2</td><td>Bridal Season Prep</td><td><span class="tag tag-accent">Fear</span></td><td><span class="tag">Credibility &rarr; Urgency</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       CAMPAIGNS
+       ════════════════════════════════════════════════════════ -->
+  <div class="section section-campaigns" id="campaigns">
+    <div class="section-label">Campaign Emails</div>
+    <h2>4 Campaigns, 12 Emails</h2>
+    <p class="section-intro">Each campaign follows the Gain/Logic/Fear framework. Email 1 opens the door with desire. Email 2 backs it up with proof. Email 3 closes with the cost of standing still.</p>
+
+    <!-- ──────────────────────────────────────────────────────
+         CAMPAIGN 1: COMPETITIVE URGENCY
+         ────────────────────────────────────────────────────── -->
+    <div class="campaign-group">
+      <h2>Campaign 1: Competitive Urgency</h2>
+      <p class="campaign-desc">Your competitor is outmarketing you. This campaign introduces Deep Earth by showing jewelry store owners what the dominant players in their market are doing differently, then makes the cost of inaction concrete.</p>
+
+      <div class="strategy-grid">
+        <div class="strategy-card"><h4>Trust Move</h4><p>Introduction &rarr; Curiosity &rarr; Credibility &rarr; Urgency</p></div>
+        <div class="strategy-card"><h4>Type</h4><p>Gain / Logic / Fear sequence</p></div>
+        <div class="strategy-card"><h4>Audience</h4><p>Meta Ad Opt-Ins (warmup segment), then expand to full list if metrics hold</p></div>
+        <div class="strategy-card"><h4>Key Angle</h4><p>Your biggest competitor is already investing in marketing strategy. You can see exactly where you stand.</p></div>
+      </div>
+
+      <!-- C1 E1: GAIN -->
+      <div class="email-block">
+        <div class="email-num">Campaign 1 &middot; Email 1</div>
+        <div class="email-title">What Dominant Jewelers Do Differently</div>
+        <div class="email-tags">
+          <span class="tag">gain</span>
+          <span class="tag">25-35 words</span>
+          <span class="tag">send apr 7</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> your competitor's advantage</li>
+              <li><span>B.</span> what top jewelers know</li>
+              <li><span>C.</span> the marketing gap</li>
+              <li><span>D.</span> one thing separating stores</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> It's not what you think.</li>
+              <li><span>send</span> Tuesday, April 7</li>
+              <li><span>goal</span> Open curiosity loop</li>
+              <li><span>cta</span> See where you stand</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>The independent jewelers growing fastest right now all have one thing in common, and it has nothing to do with inventory or location.</p>
+
+<p>They have a marketing strategy that actually connects their ads, SEO, events, and follow-up into one system.</p>
+
+<p>We work with 40+ independent jewelry stores across 36 markets, and the ones pulling away from their competitors all made this shift.</p>
+
+<p><a href="#">See where your store stands with a free 12-Point Audit.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Pure curiosity play. No stats, no case studies yet. The goal is to get them to open email two. The 12-Point Audit CTA gives clickers an immediate next step, but the real conversion happens in the Logic email.</p>
+        </div>
+      </div>
+
+      <!-- C1 E2: LOGIC -->
+      <div class="email-block">
+        <div class="email-num">Campaign 1 &middot; Email 2</div>
+        <div class="email-title">Atlanta West: $4.5M to $6M in One Year</div>
+        <div class="email-tags">
+          <span class="tag">logic</span>
+          <span class="tag">50-80 words</span>
+          <span class="tag">send apr 9</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> $4.5M to $6M</li>
+              <li><span>B.</span> one store's turnaround</li>
+              <li><span>C.</span> what $1.5M in growth looks like</li>
+              <li><span>D.</span> Atlanta West's year</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Here's how they did it.</li>
+              <li><span>send</span> Thursday, April 9</li>
+              <li><span>goal</span> Prove mechanism with data</li>
+              <li><span>cta</span> Book your free audit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Atlanta West Jewelry was doing $4.5M a year when they came to us. Good store, loyal customers, solid reputation. Their marketing was the weak link.</p>
+
+<p>We consolidated their ads, SEO, and event strategy under one roof. Twelve months later they hit $6M, a 33% increase that added $1.5M in new revenue.</p>
+
+<p>The shift wasn't more spend. It was one team owning the full picture instead of four disconnected vendors each doing their own thing.</p>
+
+<p>We've done this across 40+ stores and $20M in total client revenue growth. <a href="#">You can see exactly where your store stands with a free 12-Point Audit.</a></p>
+
+<p>Takes 15 minutes. No obligation.</p>
+
+<p><a href="#">Book your audit here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Atlanta West is the flagship case study. Stats are woven into the narrative, not isolated. Two CTAs (mid-body and end) give different entry points. The "one team" framing plants the seed for Campaign 2.</p>
+        </div>
+      </div>
+
+      <!-- C1 E3: FEAR -->
+      <div class="email-block">
+        <div class="email-num">Campaign 1 &middot; Email 3</div>
+        <div class="email-title">Every Month Without a Strategy Is Lost Market Share</div>
+        <div class="email-tags">
+          <span class="tag">fear</span>
+          <span class="tag">40-60 words</span>
+          <span class="tag">send apr 11</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> the cost of waiting</li>
+              <li><span>B.</span> your market isn't pausing</li>
+              <li><span>C.</span> while you wait</li>
+              <li><span>D.</span> lost ground compounds</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Competitors don't take months off.</li>
+              <li><span>send</span> Friday, April 11</li>
+              <li><span>goal</span> Create urgency to act now</li>
+              <li><span>cta</span> Free 12-Point Audit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Your market isn't getting smaller, but your share of it might be.</p>
+
+<p>Every month without a coordinated marketing strategy is a month your competitors are building the kind of visibility that compounds. They're ranking higher on Google, running ads you haven't seen, and showing up in the places your customers are already looking.</p>
+
+<p>A <a href="#">free 12-Point Audit</a> will show you exactly where you stand and what you're leaving on the table.</p>
+
+<p>It takes 15 minutes and there's zero obligation. <a href="#">Grab a spot here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Fear email keeps urgency grounded in market reality, not artificial scarcity. The "compounds" framing makes inaction feel increasingly expensive. Two CTAs with different phrasing for the same destination.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────
+         CAMPAIGN 2: OUTSOURCED CMO PITCH
+         ────────────────────────────────────────────────────── -->
+    <div class="campaign-group">
+      <h2>Campaign 2: The Outsourced CMO Pitch</h2>
+      <p class="campaign-desc">One team replaces your four vendors. This campaign targets the operational pain of managing multiple agencies and freelancers who don't communicate with each other, then positions Deep Earth as the single point of accountability.</p>
+
+      <div class="strategy-grid">
+        <div class="strategy-card"><h4>Trust Move</h4><p>Curiosity &rarr; Relief &rarr; Credibility &rarr; Urgency</p></div>
+        <div class="strategy-card"><h4>Type</h4><p>Gain / Logic / Fear sequence</p></div>
+        <div class="strategy-card"><h4>Audience</h4><p>Full list (if week 1 metrics hold) or Engaged segment</p></div>
+        <div class="strategy-card"><h4>Key Angle</h4><p>You're paying for four vendors who don't talk to each other. One team changes everything.</p></div>
+      </div>
+
+      <!-- C2 E1: GAIN -->
+      <div class="email-block">
+        <div class="email-num">Campaign 2 &middot; Email 1</div>
+        <div class="email-title">One Team Handling Everything</div>
+        <div class="email-tags">
+          <span class="tag">gain</span>
+          <span class="tag">25-35 words</span>
+          <span class="tag">send apr 14</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> one team, one number</li>
+              <li><span>B.</span> replace four vendors</li>
+              <li><span>C.</span> your marketing simplified</li>
+              <li><span>D.</span> the single point of contact</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Ads, SEO, events, follow-up.</li>
+              <li><span>send</span> Monday, April 14</li>
+              <li><span>goal</span> Paint the relief picture</li>
+              <li><span>cta</span> See how it works</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Imagine one team handling your ads, SEO, events, and customer follow-up. One phone number to call. One strategy driving all of it.</p>
+
+<p>That's what we build for independent jewelers. <a href="#">See how it works.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Short and vivid. The word "imagine" does the heavy lifting. No proof yet, just the feeling of relief. This sets up the Alexander Fine Jewelers case study in email two.</p>
+        </div>
+      </div>
+
+      <!-- C2 E2: LOGIC -->
+      <div class="email-block">
+        <div class="email-num">Campaign 2 &middot; Email 2</div>
+        <div class="email-title">Alexander Fine Jewelers: $85K Wasted, Then 25% Growth</div>
+        <div class="email-tags">
+          <span class="tag">logic</span>
+          <span class="tag">50-80 words</span>
+          <span class="tag">send apr 16</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> $85K a year, wasted</li>
+              <li><span>B.</span> the vendor problem</li>
+              <li><span>C.</span> four agencies, zero strategy</li>
+              <li><span>D.</span> Alexander's turning point</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Sound familiar?</li>
+              <li><span>send</span> Wednesday, April 16</li>
+              <li><span>goal</span> Prove consolidation works</li>
+              <li><span>cta</span> Get your free audit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Alexander Fine Jewelers was spending $85K a year across four separate marketing vendors. The ad agency didn't talk to the SEO firm, the SEO firm didn't know about the events, and nobody was following up with leads.</p>
+
+<p>We brought everything under one roof. Within a year they saw 25% revenue growth, and their total marketing spend actually went down because we cut the overlap and waste.</p>
+
+<p>If you're juggling multiple vendors right now, a <a href="#">free 12-Point Audit</a> will show you exactly where the gaps and overlap are.</p>
+
+<p><a href="#">Book your audit here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> The $85K figure hits hard because most store owners know they're spending in that range. The "spend went down" detail is the unexpected proof point that makes this credible, not just another pitch for more marketing spend.</p>
+        </div>
+      </div>
+
+      <!-- C2 E3: FEAR -->
+      <div class="email-block">
+        <div class="email-num">Campaign 2 &middot; Email 3</div>
+        <div class="email-title">How Much Are You Spending on Vendors Who Don't Talk?</div>
+        <div class="email-tags">
+          <span class="tag">fear</span>
+          <span class="tag">40-60 words</span>
+          <span class="tag">send apr 18</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> your marketing leak</li>
+              <li><span>B.</span> vendors don't coordinate</li>
+              <li><span>C.</span> the overlap you're paying for</li>
+              <li><span>D.</span> disconnected costs money</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> It adds up faster than you think.</li>
+              <li><span>send</span> Friday, April 18</li>
+              <li><span>goal</span> Make the hidden cost visible</li>
+              <li><span>cta</span> Find out with a free audit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Most jewelry store owners we talk to are paying two or three vendors who overlap on some tasks, miss others entirely, and never compare notes.</p>
+
+<p>The result is wasted spend, missed opportunities, and a marketing presence that feels scattered to your customers.</p>
+
+<p>A <a href="#">free 12-Point Audit</a> takes 15 minutes and shows exactly where your money is going and where it's being wasted. No pitch, just clarity.</p>
+
+<p><a href="#">Book your spot here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> This email makes the invisible visible. Most store owners feel the vendor coordination pain but have never quantified it. The "no pitch, just clarity" framing lowers resistance to booking the audit.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────
+         CAMPAIGN 3: TRUST REPAIR
+         ────────────────────────────────────────────────────── -->
+    <div class="campaign-group">
+      <h2>Campaign 3: Trust Repair</h2>
+      <p class="campaign-desc">You've been burned before. This campaign acknowledges the skepticism jewelry store owners feel after bad agency experiences, then proves Deep Earth is different with results and a risk-free positioning from Tim.</p>
+
+      <div class="strategy-grid">
+        <div class="strategy-card"><h4>Trust Move</h4><p>Objection &rarr; Empathy &rarr; Credibility &rarr; Urgency</p></div>
+        <div class="strategy-card"><h4>Type</h4><p>Gain / Logic / Fear sequence</p></div>
+        <div class="strategy-card"><h4>Audience</h4><p>Engaged segment + Openers Only segment</p></div>
+        <div class="strategy-card"><h4>Key Angle</h4><p>You've been burned before. We get it. The contract can be minute-to-minute if you want.</p></div>
+      </div>
+
+      <!-- C3 E1: GAIN -->
+      <div class="email-block">
+        <div class="email-num">Campaign 3 &middot; Email 1</div>
+        <div class="email-title">What It Looks Like When It Actually Works</div>
+        <div class="email-tags">
+          <span class="tag">gain</span>
+          <span class="tag">25-35 words</span>
+          <span class="tag">send apr 21</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> when marketing actually works</li>
+              <li><span>B.</span> the 68% surprise</li>
+              <li><span>C.</span> Adele Diamond's results</li>
+              <li><span>D.</span> beyond the goal</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Their goal was 25%. They hit 68%.</li>
+              <li><span>send</span> Monday, April 21</li>
+              <li><span>goal</span> Reframe what's possible</li>
+              <li><span>cta</span> See what's possible for you</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Adele Diamond came to us with three locations and a 25% growth goal. They hit 68%.</p>
+
+<p>When every piece of your marketing is actually connected, the results tend to surprise people. <a href="#">See what a coordinated strategy could look like for your store.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Short and punchy. The gap between the 25% goal and 68% result does the selling. This opens the conversation about what's possible before we address skepticism in the Logic email.</p>
+        </div>
+      </div>
+
+      <!-- C3 E2: LOGIC -->
+      <div class="email-block">
+        <div class="email-num">Campaign 3 &middot; Email 2</div>
+        <div class="email-title">Why Tim Says "Make the Contract Minute-to-Minute"</div>
+        <div class="email-tags">
+          <span class="tag">logic</span>
+          <span class="tag">50-80 words</span>
+          <span class="tag">send apr 23</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> no long-term contracts</li>
+              <li><span>B.</span> minute-to-minute</li>
+              <li><span>C.</span> the anti-agency approach</li>
+              <li><span>D.</span> why we don't lock you in</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> We earn your business every month.</li>
+              <li><span>send</span> Wednesday, April 23</li>
+              <li><span>goal</span> Crush the contract objection</li>
+              <li><span>cta</span> Start with a free audit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Most jewelry store owners we talk to have been burned by an agency before. Locked into a long contract, promised the world, left with a spreadsheet of vanity metrics and nothing to show in the register.</p>
+
+<p>Tim Holland, our founder, tells every prospect the same thing: "I don't care if the contract's minute-to-minute. If we're not delivering, you should leave."</p>
+
+<p>We work with 40+ stores across 36 markets because the results keep people around, not the paperwork. Adele Diamond hit 68% growth on a 25% goal. Five Star Jewelers saw 41% growth across eight locations.</p>
+
+<p>If you've been burned before and want to see what a no-risk conversation looks like, <a href="#">start with a free 12-Point Audit</a>.</p>
+
+<p><a href="#">Book your audit here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Directly naming the objection ("burned by an agency before") builds instant trust. Tim's quote is the centerpiece. Two proof points (Adele Diamond, Five Star) show it's not a one-off. The "no-risk conversation" CTA matches the minute-to-minute positioning.</p>
+        </div>
+      </div>
+
+      <!-- C3 E3: FEAR -->
+      <div class="email-block">
+        <div class="email-num">Campaign 3 &middot; Email 3</div>
+        <div class="email-title">The Cost of Cycling Through One More Agency</div>
+        <div class="email-tags">
+          <span class="tag">fear</span>
+          <span class="tag">40-60 words</span>
+          <span class="tag">send apr 25</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> the agency cycle</li>
+              <li><span>B.</span> another year, another vendor</li>
+              <li><span>C.</span> tired of starting over</li>
+              <li><span>D.</span> when do you stop cycling</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> It's not just money. It's time.</li>
+              <li><span>send</span> Friday, April 25</li>
+              <li><span>goal</span> Make switching cost visible</li>
+              <li><span>cta</span> Free 12-Point Audit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Every time you cycle through a new agency or freelancer, you lose three to six months re-explaining your business, rebuilding campaigns from scratch, and waiting to see if this one actually understands jewelry.</p>
+
+<p>We've worked with 40+ independent jewelers and $20M+ in client revenue growth. We already know the seasonal patterns, the bridal windows, and the local SEO playbook for your market.</p>
+
+<p>A <a href="#">free 12-Point Audit</a> is the fastest way to see if we're the right fit without any commitment.</p>
+
+<p><a href="#">Grab a spot here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> The fear here isn't "you'll fail," it's "you'll waste more time starting over." The three-to-six months framing makes the cost tangible. Deep Earth's jewelry-specific expertise is positioned as the antidote to the learning curve.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────
+         CAMPAIGN 4: BRIDAL SEASON PREP
+         ────────────────────────────────────────────────────── -->
+    <div class="campaign-group">
+      <h2>Campaign 4: Bridal Season Prep</h2>
+      <p class="campaign-desc">Your biggest revenue window is weeks away. This campaign uses Blue Heron's Valentine's success as proof that seasonal strategy works, then walks through what a real bridal campaign looks like.</p>
+
+      <div class="strategy-grid">
+        <div class="strategy-card"><h4>Trust Move</h4><p>Seasonal Relevance &rarr; Proof &rarr; Credibility &rarr; Urgency</p></div>
+        <div class="strategy-card"><h4>Type</h4><p>Gain / Logic / Fear sequence</p></div>
+        <div class="strategy-card"><h4>Audience</h4><p>Full engaged list</p></div>
+        <div class="strategy-card"><h4>Key Angle</h4><p>Bridal season is your biggest window. Your competitor is already running ads for it.</p></div>
+      </div>
+
+      <!-- C4 E1: GAIN -->
+      <div class="email-block">
+        <div class="email-num">Campaign 4 &middot; Email 1</div>
+        <div class="email-title">Blue Heron: $14K to $54K in One Season</div>
+        <div class="email-tags">
+          <span class="tag">gain</span>
+          <span class="tag">25-35 words</span>
+          <span class="tag">send apr 28</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> $14K to $54K</li>
+              <li><span>B.</span> one season changed everything</li>
+              <li><span>C.</span> the Valentine's turnaround</li>
+              <li><span>D.</span> 285% in one window</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> One seasonal campaign did this.</li>
+              <li><span>send</span> Monday, April 28</li>
+              <li><span>goal</span> Show seasonal upside</li>
+              <li><span>cta</span> Get ready for bridal season</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Blue Heron Jewelry did $14K during their Valentine's season the year before they worked with us. We built a coordinated campaign across ads, SEO, email, and in-store events, and they hit $54K the following year.</p>
+
+<p>Bridal season is the next big window. <a href="#">Let's make sure you're ready for it.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> The $14K to $54K jump is visceral. Connecting it directly to bridal season creates immediate relevance and a ticking clock. Short email, one clear CTA.</p>
+        </div>
+      </div>
+
+      <!-- C4 E2: LOGIC -->
+      <div class="email-block">
+        <div class="email-num">Campaign 4 &middot; Email 2</div>
+        <div class="email-title">What a Real Bridal Campaign Looks Like</div>
+        <div class="email-tags">
+          <span class="tag">logic</span>
+          <span class="tag">50-80 words</span>
+          <span class="tag">send apr 30</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> bridal season playbook</li>
+              <li><span>B.</span> the full bridal plan</li>
+              <li><span>C.</span> ads, SEO, events, follow-up</li>
+              <li><span>D.</span> ready for bridal season</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> It's more than running ads.</li>
+              <li><span>send</span> Wednesday, April 30</li>
+              <li><span>goal</span> Show the mechanism</li>
+              <li><span>cta</span> Get your bridal audit</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>A bridal season campaign that actually works is more than boosting a Facebook post. Here's what we build for our jewelry store clients:</p>
+
+<p>Targeted ads reaching engaged couples in your area, local SEO so you show up when someone searches "engagement rings near me," an in-store bridal event with a promotion that gives people a reason to walk in, and a follow-up sequence that keeps you top of mind with everyone who clicked but didn't buy yet.</p>
+
+<p>All of it runs as one connected system. When the ad drives traffic to your site, the SEO keeps you visible, and the follow-up closes the loop.</p>
+
+<p>We've done this across 40+ stores. <a href="#">A free 12-Point Audit</a> will show you what your bridal strategy is missing.</p>
+
+<p><a href="#">Book your audit here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> This email shows the mechanism without giving away the playbook. Each component (ads, SEO, events, follow-up) maps to what Deep Earth actually delivers. The "connected system" language reinforces the Campaign 2 message.</p>
+        </div>
+      </div>
+
+      <!-- C4 E3: FEAR -->
+      <div class="email-block">
+        <div class="email-num">Campaign 4 &middot; Email 3</div>
+        <div class="email-title">Your Competitor Is Already Running Bridal Ads</div>
+        <div class="email-tags">
+          <span class="tag">fear</span>
+          <span class="tag">40-60 words</span>
+          <span class="tag">send may 2</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> they started already</li>
+              <li><span>B.</span> bridal ads are running</li>
+              <li><span>C.</span> your window is closing</li>
+              <li><span>D.</span> May brides shop in April</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> The clock is ticking on this one.</li>
+              <li><span>send</span> Friday, May 2</li>
+              <li><span>goal</span> Create seasonal urgency</li>
+              <li><span>cta</span> Get your strategy in place</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>While you're reading this, at least one of your competitors is already running bridal season ads, optimizing their Google listing for engagement ring searches, and planning an in-store event for couples.</p>
+
+<p>The stores that win bridal season are the ones that start weeks before everyone else does.</p>
+
+<p>A <a href="#">free 12-Point Audit</a> takes 15 minutes and will show you exactly where your bridal strategy stands. <a href="#">Grab a spot before the window closes.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>Strategy:</strong> Real urgency, not manufactured urgency. Bridal season genuinely has a preparation window. Naming the specific actions competitors are taking (ads, Google, events) makes this concrete. The "before the window closes" CTA ties the urgency to a real deadline.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end section-campaigns -->
+
+  <!-- ════════════════════════════════════════════════════════
+       AUTOMATIONS
+       ════════════════════════════════════════════════════════ -->
+  <div class="section-automations" id="automations">
+
+    <div class="section-intro">
+      <div class="section-label">Automation Flows</div>
+      <h2>3 Flows, 11 Emails</h2>
+      <p class="section-intro" style="border-bottom:none;">These run in the background while campaigns go out. They handle three key moments: when someone opts in, when someone completes an audit, and when someone goes quiet.</p>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────
+         FLOW 1: WELCOME SEQUENCE
+         ────────────────────────────────────────────────────── -->
+    <div class="flow-group">
+      <div class="flow-label">Flow 1 of 3</div>
+      <div class="flow-title">Welcome Sequence</div>
+      <p class="flow-desc">Trigger: New Meta ad opt-in. Delivers the lead magnet, introduces Deep Earth, builds credibility across five emails over 10 days, and ends with a clear CTA to book the 12-Point Audit.</p>
+
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>#</th><th>Email</th><th>Timing</th><th>Goal</th></tr></thead>
+          <tbody>
+            <tr><td>E1</td><td>Deliver Lead Magnet + Introduce Deep Earth</td><td>Immediate</td><td>Deliver value, set expectations</td></tr>
+            <tr><td>E2</td><td>Biggest Mistake Jewelers Make</td><td>+2 days</td><td>Build authority with insight</td></tr>
+            <tr><td>E3</td><td>Atlanta West Case Study</td><td>+4 days</td><td>Proof of results</td></tr>
+            <tr><td>E4</td><td>The Everest Framework</td><td>+7 days</td><td>Show the methodology</td></tr>
+            <tr><td>E5</td><td>Book Your Free 12-Point Audit</td><td>+10 days</td><td>Convert to call</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FLOW 1 E1 -->
+      <div class="email-block">
+        <div class="email-num">Welcome &middot; Email 1</div>
+        <div class="email-title">Your Guide Is Here</div>
+        <div class="email-tags">
+          <span class="tag">welcome</span>
+          <span class="tag">immediate</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> your guide is inside</li>
+              <li><span>B.</span> here's what you asked for</li>
+              <li><span>C.</span> download your guide</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Plus a quick intro.</li>
+              <li><span>trigger</span> New Meta ad opt-in</li>
+              <li><span>goal</span> Deliver + set tone</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Here's the guide you requested: <a href="#">[Download Your Guide]</a></p>
+
+<p>Quick intro. I'm Tim Holland, founder of Deep Earth Marketing. We work exclusively with independent jewelry stores, and we've helped 40+ stores across 36 markets generate over $20M in revenue growth.</p>
+
+<p>Over the next few days I'll send you a couple of insights that most jewelers find useful. If you want to skip ahead and see exactly where your store's marketing stands, you can <a href="#">book a free 12-Point Audit here</a>.</p>
+
+<p>Talk soon.</p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW 1 E2 -->
+      <div class="email-block">
+        <div class="email-num">Welcome &middot; Email 2</div>
+        <div class="email-title">The Biggest Mistake Jewelers Make With Marketing</div>
+        <div class="email-tags">
+          <span class="tag">welcome</span>
+          <span class="tag">+2 days</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> the expensive mistake</li>
+              <li><span>B.</span> most jewelers get this wrong</li>
+              <li><span>C.</span> the marketing blind spot</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> It's not what you'd expect.</li>
+              <li><span>delay</span> +2 days after E1</li>
+              <li><span>goal</span> Build authority</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>The biggest marketing mistake we see independent jewelers make is treating each channel like a separate project. One vendor runs your ads, another handles SEO, someone else does your events, and nobody connects the dots.</p>
+
+<p>The result is wasted spend, inconsistent messaging, and leads that fall through the cracks because nobody owns the follow-up.</p>
+
+<p>The stores growing fastest right now are the ones that brought everything under one coordinated strategy. Alexander Fine Jewelers cut their vendor spend and grew 25% in the first year after consolidating.</p>
+
+<p>Tomorrow I'll share a case study that shows exactly how this plays out in real numbers.</p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW 1 E3 -->
+      <div class="email-block">
+        <div class="email-num">Welcome &middot; Email 3</div>
+        <div class="email-title">How Atlanta West Went From $4.5M to $6M</div>
+        <div class="email-tags">
+          <span class="tag">welcome</span>
+          <span class="tag">+4 days</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> the Atlanta West story</li>
+              <li><span>B.</span> $4.5M to $6M in a year</li>
+              <li><span>C.</span> one store's transformation</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Real numbers from a real store.</li>
+              <li><span>delay</span> +4 days after E1</li>
+              <li><span>goal</span> Proof of results</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Atlanta West Jewelry was doing $4.5M annually with a patchwork of marketing vendors. Good store, strong reputation, but their marketing wasn't pulling its weight.</p>
+
+<p>We consolidated everything: ads, SEO, events, and follow-up under one strategy. Twelve months later they hit $6M, adding $1.5M in new revenue with a 33% increase.</p>
+
+<p>The shift wasn't about spending more. It was about making every dollar work together instead of in isolation.</p>
+
+<p>If you're curious what that kind of coordination could look like for your store, <a href="#">a free 12-Point Audit</a> is the fastest way to find out.</p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW 1 E4 -->
+      <div class="email-block">
+        <div class="email-num">Welcome &middot; Email 4</div>
+        <div class="email-title">The Everest Framework</div>
+        <div class="email-tags">
+          <span class="tag">welcome</span>
+          <span class="tag">+7 days</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> our framework</li>
+              <li><span>B.</span> how we actually do it</li>
+              <li><span>C.</span> the Everest approach</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> The system behind the results.</li>
+              <li><span>delay</span> +7 days after E1</li>
+              <li><span>goal</span> Show methodology</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>We call our approach the Everest Framework because getting to the top of your market requires a plan, not just effort.</p>
+
+<p>It starts with a deep audit of where you stand today: your ads, your SEO, your reviews, your follow-up, your competitive landscape. Then we build a coordinated strategy that connects all of those pieces into one system that compounds over time.</p>
+
+<p>This is how we've helped 40+ stores generate over $20M in revenue growth. It's not about doing more marketing. It's about making every piece of your marketing work together.</p>
+
+<p>If you want to see how the Everest Framework would apply to your store, <a href="#">book a free 12-Point Audit</a>. Takes 15 minutes and you'll walk away with a clear picture of where you stand.</p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW 1 E5 -->
+      <div class="email-block">
+        <div class="email-num">Welcome &middot; Email 5</div>
+        <div class="email-title">Ready for Your Free Audit?</div>
+        <div class="email-tags">
+          <span class="tag">welcome</span>
+          <span class="tag">+10 days</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> your free audit</li>
+              <li><span>B.</span> one more thing</li>
+              <li><span>C.</span> 15 minutes, zero obligation</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> See where your store stands.</li>
+              <li><span>delay</span> +10 days after E1</li>
+              <li><span>goal</span> Convert to audit call</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Over the last week I've shared how the top independent jewelers are growing, why consolidating your marketing matters, and the framework we use to get results like $4.5M to $6M for Atlanta West and 68% growth for Adele Diamond.</p>
+
+<p>If any of that resonated, the next step is a free 12-Point Audit. We'll look at your ads, SEO, reviews, follow-up, and competitive positioning and show you exactly where the opportunities are.</p>
+
+<p>Takes 15 minutes, no obligation.</p>
+
+<p><a href="#">Book your audit here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────
+         FLOW 2: POST-AUDIT FOLLOW-UP
+         ────────────────────────────────────────────────────── -->
+    <div class="flow-group">
+      <div class="flow-label">Flow 2 of 3</div>
+      <div class="flow-title">Post-Audit Follow-Up</div>
+      <p class="flow-desc">Trigger: Contact receives "audit-completed" tag in GHL. Reinforces the audit findings, quantifies the cost of inaction, and drives them toward the strategy call.</p>
+
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>#</th><th>Email</th><th>Timing</th><th>Goal</th></tr></thead>
+          <tbody>
+            <tr><td>E1</td><td>Audit Recap + Biggest Finding</td><td>+1 day</td><td>Reinforce urgency from audit</td></tr>
+            <tr><td>E2</td><td>What You're Leaving on the Table</td><td>+3 days</td><td>Quantify cost of inaction</td></tr>
+            <tr><td>E3</td><td>Book Your Strategy Call</td><td>+5 days</td><td>Convert to strategy call</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FLOW 2 E1 -->
+      <div class="email-block">
+        <div class="email-num">Post-Audit &middot; Email 1</div>
+        <div class="email-title">Your Audit Recap</div>
+        <div class="email-tags">
+          <span class="tag">post-audit</span>
+          <span class="tag">+1 day</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> your audit results</li>
+              <li><span>B.</span> what we found</li>
+              <li><span>C.</span> your biggest opportunity</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> One finding stood out.</li>
+              <li><span>trigger</span> Tag: audit-completed +1 day</li>
+              <li><span>goal</span> Reinforce audit findings</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Thanks for going through the 12-Point Audit. We found several areas where your store has room to grow, but one stood out above the rest.</p>
+
+<p>[PERSONALIZE: Insert the biggest finding from their specific audit here.]</p>
+
+<p>This is the kind of gap that compounds over time. Every month it stays unaddressed, you're leaving revenue on the table that your competitors are happy to pick up.</p>
+
+<p>If you'd like to talk through what fixing this would look like, <a href="#">book a strategy call here</a>.</p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> Use a custom field or internal note from the audit to personalize the finding. If personalization isn't possible in the first iteration, use a general statement about the most common finding (typically: disconnected marketing channels).</p>
+        </div>
+      </div>
+
+      <!-- FLOW 2 E2 -->
+      <div class="email-block">
+        <div class="email-num">Post-Audit &middot; Email 2</div>
+        <div class="email-title">What You're Leaving on the Table</div>
+        <div class="email-tags">
+          <span class="tag">post-audit</span>
+          <span class="tag">+3 days</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> the revenue gap</li>
+              <li><span>B.</span> what inaction costs</li>
+              <li><span>C.</span> your missing revenue</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> It adds up faster than you think.</li>
+              <li><span>delay</span> +3 days after E1</li>
+              <li><span>goal</span> Quantify cost of inaction</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>After your audit, I wanted to put the opportunity in perspective.</p>
+
+<p>The average jewelry store we work with sees 25-40% revenue growth in the first year after consolidating their marketing. For a store doing $2M, that's $500K to $800K in new revenue that was sitting there the whole time.</p>
+
+<p>The longer those gaps stay open, the more that revenue goes to the competitor down the road who already has their marketing dialed in.</p>
+
+<p>A <a href="#">strategy call</a> is the next step. We'll map out exactly what a coordinated plan would look like for your store. <a href="#">Book your call here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW 2 E3 -->
+      <div class="email-block">
+        <div class="email-num">Post-Audit &middot; Email 3</div>
+        <div class="email-title">Let's Map Out Your Strategy</div>
+        <div class="email-tags">
+          <span class="tag">post-audit</span>
+          <span class="tag">+5 days</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> your next step</li>
+              <li><span>B.</span> ready when you are</li>
+              <li><span>C.</span> let's talk strategy</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> No obligation, just a plan.</li>
+              <li><span>delay</span> +5 days after E1</li>
+              <li><span>goal</span> Convert to strategy call</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>You've seen where the gaps are. The question is whether you want to keep leaving that revenue on the table or do something about it.</p>
+
+<p>A strategy call takes 30 minutes. We'll walk through your audit findings, show you what a coordinated marketing plan would look like for your store, and give you a clear roadmap whether you work with us or not.</p>
+
+<p>No pressure, no pitch, just a plan you can act on.</p>
+
+<p><a href="#">Book your strategy call here.</a></p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────────────────
+         FLOW 3: RE-ENGAGEMENT
+         ────────────────────────────────────────────────────── -->
+    <div class="flow-group">
+      <div class="flow-label">Flow 3 of 3</div>
+      <div class="flow-title">Re-engagement</div>
+      <p class="flow-desc">Trigger: No email opens in 60+ days. A three-email sequence that pattern-interrupts with honesty, delivers the strongest case study, and ends with a respectful goodbye that gives them one last reason to stay.</p>
+
+      <div class="flow-table-wrap">
+        <table class="flow-table">
+          <thead><tr><th>#</th><th>Email</th><th>Timing</th><th>Goal</th></tr></thead>
+          <tbody>
+            <tr><td>E1</td><td>Should I Keep Sending?</td><td>Day 1</td><td>Pattern interrupt, honest check-in</td></tr>
+            <tr><td>E2</td><td>Blue Heron: 285% Growth</td><td>+4 days</td><td>Best case study, re-engage</td></tr>
+            <tr><td>E3</td><td>Soft Goodbye</td><td>+7 days</td><td>Last chance, clean the list</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FLOW 3 E1 -->
+      <div class="email-block">
+        <div class="email-num">Re-engagement &middot; Email 1</div>
+        <div class="email-title">Should I Keep Sending?</div>
+        <div class="email-tags">
+          <span class="tag">re-engagement</span>
+          <span class="tag">day 1</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> quick question</li>
+              <li><span>B.</span> should I stop?</li>
+              <li><span>C.</span> still interested?</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Honest question for you.</li>
+              <li><span>trigger</span> No opens in 60+ days</li>
+              <li><span>goal</span> Pattern interrupt</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>I noticed you haven't opened an email from us in a while, and I wanted to ask a straight question: should I keep sending?</p>
+
+<p>If you're still interested in growing your jewelry store's revenue, I'll keep sharing case studies and insights that might be useful. If not, no hard feelings at all.</p>
+
+<p>Just <a href="#">click here to stay on the list</a>, or do nothing and I'll remove you in a few days.</p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW 3 E2 -->
+      <div class="email-block">
+        <div class="email-num">Re-engagement &middot; Email 2</div>
+        <div class="email-title">$14K to $54K in One Season</div>
+        <div class="email-tags">
+          <span class="tag">re-engagement</span>
+          <span class="tag">+4 days</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> in case you missed this</li>
+              <li><span>B.</span> 285% seasonal growth</li>
+              <li><span>C.</span> one store's best season</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Our best case study yet.</li>
+              <li><span>delay</span> +4 days after E1</li>
+              <li><span>goal</span> Re-engage with best proof</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>Before I potentially remove you from the list, I wanted to share this one result in case it's relevant to your store.</p>
+
+<p>Blue Heron Jewelry went from $14K to $54K during their Valentine's season after we built a coordinated campaign across ads, SEO, and in-store events. That's a 285% increase in one seasonal window.</p>
+
+<p>If you have a seasonal window coming up and want to see what's possible, <a href="#">a free 12-Point Audit</a> is a good place to start.</p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW 3 E3 -->
+      <div class="email-block">
+        <div class="email-num">Re-engagement &middot; Email 3</div>
+        <div class="email-title">Removing You From the List</div>
+        <div class="email-tags">
+          <span class="tag">re-engagement</span>
+          <span class="tag">+7 days</span>
+        </div>
+        <div class="email-meta">
+          <div>
+            <div class="email-meta-label">Subject Lines</div>
+            <ul class="sl-list">
+              <li><span>A.</span> removing you tomorrow</li>
+              <li><span>B.</span> last email from me</li>
+              <li><span>C.</span> goodbye (unless)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="email-meta-label">Details</div>
+            <ul class="detail-list">
+              <li><span>preview</span> Last chance to stay.</li>
+              <li><span>delay</span> +7 days after E1</li>
+              <li><span>goal</span> Final re-engage or clean list</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-body-wrapper">
+          <button class="copy-btn" onclick="copyEmail(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg> Copy</button>
+          <div class="email-body">
+<p>{{contact.first_name}},</p>
+
+<p>This is my last email. I'll be removing you from the list tomorrow to keep things clean on both sides.</p>
+
+<p>If you'd like to stay and keep getting insights on growing your jewelry store, just <a href="#">click here</a> and you'll stay on.</p>
+
+<p>Either way, I appreciate you giving us a look. If you ever want to talk strategy down the road, <a href="#">the 12-Point Audit is always free</a>.</p>
+
+<p class="sig">Tim Holland<br>Deep Earth Marketing</p>
+          </div>
+        </div>
+        <div class="strategy-note">
+          <p><strong>GHL Setup:</strong> After this email, wait 48 hours. If they don't click, apply a "suppressed-re-engagement" tag and remove them from the active campaign audience. This improves deliverability for everyone who remains on the list.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end section-automations -->
+
+  <!-- ════════════════════════════════════════════════════════
+       OFFERS
+       ════════════════════════════════════════════════════════ -->
+  <div class="section" id="offers">
+    <div class="section-label">Offers and Risk Reversal</div>
+    <h2>What We're Putting on the Table</h2>
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <h4>Free 12-Point Audit</h4>
+        <p>The primary CTA across all campaigns and automations. A 15-minute audit that reviews ads, SEO, reviews, follow-up, competitive positioning, and more. No obligation, no pitch. This is Deep Earth's top-of-funnel conversion event.</p>
+      </div>
+      <div class="strategy-card">
+        <h4>Minute-to-Minute Positioning</h4>
+        <p>Tim's "I don't care if the contract's minute-to-minute" positioning removes the biggest objection (long-term lock-in). This should be reinforced on the strategy call and in Campaign 3. It's a trust accelerator.</p>
+      </div>
+      <div class="strategy-card">
+        <h4>Bridal Season Strategy Session</h4>
+        <p>A seasonal variant of the audit specifically for stores preparing for bridal season. Use in Campaign 4 and as a follow-up offer for engaged contacts who didn't convert on the general audit.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       NEXT MONTH
+       ════════════════════════════════════════════════════════ -->
+  <div class="section" id="next-month">
+    <div class="section-label">Looking Ahead</div>
+    <h2>May 2026 Preview</h2>
+
+    <div class="next-month-box">
+      <h4>Before May Campaigns Launch</h4>
+      <ul>
+        <li>Review April open rates, click rates, and bounce rates by campaign</li>
+        <li>Identify which subject line variants won each A/B test</li>
+        <li>Expand sending audience based on April engagement data</li>
+        <li>Remove hard bounces and spam complainers from all lists</li>
+        <li>Build engagement-based segments from April data (if not already created)</li>
+        <li>Review audit bookings and strategy call conversions from April campaigns</li>
+      </ul>
+    </div>
+
+    <div class="next-month-box">
+      <h4>May Implementation Roadmap</h4>
+      <div class="strategy-grid" style="margin-top:16px;">
+        <div class="strategy-card">
+          <h4>Month 2 Campaigns</h4>
+          <p>Build on April's trust deposits with deeper case studies (Five Star 41% across 8 locations, Jewelers Trade Shop 140% growth), industry-specific insights, and stronger conversion CTAs for contacts who are now warm.</p>
+        </div>
+        <div class="strategy-card">
+          <h4>Expand Audience</h4>
+          <p>If April metrics hold (20%+ open rate, under 0.1% spam complaints), expand to the full database segment. Introduce re-engagement results into the main sending list if contacts re-opted in.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">The Email Blueprint</div>
+    <p class="footer-note">Deep Earth Marketing -- April 2026 -- Prepared by Dave Miz</p>
+  </div>
+
+</div><!-- end .page -->
+
+<script>
+function copyEmail(btn) {
+  const wrapper = btn.closest('.email-body-wrapper');
+  const body = wrapper.querySelector('.email-body');
+  const text = body.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
