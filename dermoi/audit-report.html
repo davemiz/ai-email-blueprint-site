@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FFFFFF">
+<title>Email Trust Architecture Audit — Dermoi | Email Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #FFFFFF;
+    --bg-subtle: #F8F9FB;
+    --bg-muted: #F3F4F6;
+    --text-heading: #171717;
+    --text-body: #374151;
+    --text-secondary: #6B7280;
+    --text-caption: #9CA3AF;
+    --border: #E5E7EB;
+    --border-subtle: #F3F4F6;
+    --red: #DC2626;
+    --red-dim: rgba(220,38,38,0.06);
+    --amber: #D97706;
+    --amber-dim: rgba(217,119,6,0.06);
+    --green: #16A34A;
+    --green-dim: rgba(22,163,74,0.06);
+    --accent: #171717;
+    --font-heading: 'Geist', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 50%, #F5F6F8 100%); background-attachment: fixed; color: var(--text-body); font-family: var(--font-body); font-weight: 400; font-size: 15px; -webkit-font-smoothing: antialiased; line-height: 1.65; min-height: 100vh; overflow-x: hidden; touch-action: manipulation; }
+  .page { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  .sticky-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 960px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: center; gap: 0; height: 56px; overflow-x: auto; scrollbar-width: none; }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-brand { font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: var(--text-heading); white-space: nowrap; margin-right: 16px; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 2px; list-style: none; }
+  .nav-links a { display: block; padding: 16px 12px; font-size: 11px; font-weight: 500; color: var(--text-caption); text-decoration: none; white-space: nowrap; transition: all 0.15s; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .nav-links a:hover { color: var(--text-heading); }
+  .nav-links a.active { color: var(--text-heading); border-bottom-color: var(--text-heading); }
+
+  .header { padding: 56px 0 40px; border-bottom: 1px solid var(--border); }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .brand-label { display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; color: var(--text-secondary); padding: 6px 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); background: #fff; }
+  .header-meta { text-align: right; }
+  .header-meta p { font-size: 13px; color: var(--text-secondary); margin-bottom: 1px; font-weight: 400; }
+  .header h1 { font-family: var(--font-heading); font-size: 60px; font-weight: 600; color: var(--text-heading); line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 12px; text-wrap: balance; }
+  .header .header-subtitle { font-family: var(--font-heading); color: var(--text-secondary); font-size: 28px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 14px; }
+  .header-sub { font-size: 17px; color: var(--text-secondary); max-width: 620px; line-height: 1.65; }
+
+  .section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 20px; display: inline-block; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); white-space: nowrap; }
+  .section h2 { font-family: var(--font-heading); font-size: 52px; font-weight: 600; color: var(--text-heading); letter-spacing: -1.2px; line-height: 1.05; margin-bottom: 16px; text-wrap: balance; }
+  .section p { font-size: 15px; color: var(--text-body); max-width: 100%; margin-bottom: 14px; line-height: 1.7; }
+  .section p strong { color: var(--text-heading); font-weight: 600; }
+
+  .score-section { padding: 0 0 48px; }
+  .score-card { background: var(--bg-page); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 40px; display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .score-gauge { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .gauge-ring { position: relative; width: 180px; height: 180px; }
+  .gauge-ring svg { transform: rotate(-90deg); width: 180px; height: 180px; }
+  .gauge-ring .track { fill: none; stroke: var(--bg-muted); stroke-width: 12; }
+  .gauge-ring .fill { fill: none; stroke-width: 12; stroke-linecap: round; stroke-dasharray: 502; stroke-dashoffset: 502; transition: stroke-dashoffset 1.5s ease-out, stroke 0.3s; }
+  .gauge-ring .fill.green { stroke: var(--green); }
+  .gauge-ring .fill.amber { stroke: var(--amber); }
+  .gauge-ring .fill.red { stroke: var(--red); }
+  .gauge-number { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-heading); font-size: 52px; font-weight: 400; line-height: 1; }
+  .gauge-number small { font-size: 20px; font-weight: 400; color: var(--text-caption); }
+  .score-label-text { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-caption); }
+  .score-breakdown { display: flex; flex-direction: column; gap: 16px; }
+  .score-breakdown h3 { font-family: var(--font-heading); font-size: 20px; font-weight: 500; color: var(--text-heading); margin-bottom: 4px; }
+  .breakdown-row { display: flex; align-items: center; gap: 12px; }
+  .breakdown-label { font-size: 14px; color: var(--text-secondary); width: 170px; flex-shrink: 0; }
+  .breakdown-bar-track { flex: 1; height: 8px; background: var(--bg-muted); border-radius: 4px; overflow: hidden; }
+  .breakdown-bar-fill { height: 100%; border-radius: 4px; transition: width 1.2s ease-out; }
+  .breakdown-bar-fill.green { background: var(--green); }
+  .breakdown-bar-fill.amber { background: var(--amber); }
+  .breakdown-bar-fill.red { background: var(--red); }
+  .breakdown-score { font-size: 14px; font-weight: 600; width: 32px; text-align: right; flex-shrink: 0; color: var(--text-heading); }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border-radius: 16px; overflow: hidden; margin: 20px 0 28px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .stat-cell { background: var(--bg-page); padding: 20px 16px; text-align: center; border-right: 1px solid var(--border); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell .num { font-family: var(--font-heading); font-size: 32px; font-weight: 600; line-height: 1; margin-bottom: 6px; letter-spacing: -0.5px; }
+  .stat-cell .num.critical { color: var(--red); }
+  .stat-cell .num.warning { color: var(--amber); }
+  .stat-cell .num.good { color: var(--green); }
+  .stat-cell .num.neutral { color: var(--text-heading); }
+  .stat-cell .label { font-family: var(--font-heading); font-size: 13px; font-weight: 500; color: var(--text-heading); text-transform: none; letter-spacing: 0; line-height: 1.35; }
+  .stat-cell .detail { font-size: 12px; color: var(--text-caption); margin-top: 4px; line-height: 1.35; font-weight: 400; }
+
+  .check-grid { margin: 18px 0 24px; background: var(--bg-page); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .check-row { display: flex; align-items: center; gap: 14px; padding: 18px 24px; border-bottom: 1px solid var(--border-subtle); background: transparent; }
+  .check-row:last-child { border-bottom: none; }
+  .check-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .check-icon.icon-x { background: var(--red-dim); color: var(--red); }
+  .check-icon.icon-warn { background: var(--amber-dim); color: var(--amber); }
+  .check-icon.icon-ok { background: var(--green-dim); color: var(--green); }
+  .check-label { font-size: 14px; color: var(--text-body); flex: 1; line-height: 1.5; }
+  .check-label strong { color: var(--text-heading); font-weight: 600; }
+  .check-value { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-caption); text-align: right; min-width: 100px; }
+
+  .table-wrap { background: var(--bg-page); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; margin: 18px 0 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table thead th { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-caption); text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); background: transparent; }
+  .data-table thead th.right { text-align: right; }
+  .data-table tbody td { padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); font-size: 14px; color: var(--text-secondary); }
+  .data-table tbody td:first-child { color: var(--text-heading); font-weight: 500; }
+  .data-table tbody td.right { text-align: right; }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover { background: #FAFAFA; }
+
+  .badge { display: inline-block; font-family: var(--font-body); font-size: 11px; font-weight: 500; padding: 3px 11px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .badge-red { background: rgba(220,38,38,0.08); color: var(--red); }
+  .badge-amber { background: rgba(217,119,6,0.08); color: var(--amber); }
+  .badge-green { background: rgba(22,163,74,0.08); color: var(--green); }
+
+  .callout { background: #FFFFFF; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 28px 32px; margin: 24px 0 32px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .callout-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; color: var(--text-caption); }
+  .callout p { font-size: 14px; color: var(--text-body); line-height: 1.75; margin: 0; max-width: 100%; }
+  .callout p strong { color: var(--text-heading); }
+
+  .mini-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 16px; overflow: hidden; margin: 20px 0 20px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .mini-stat { background: var(--bg-page); padding: 20px 14px; text-align: center; border-right: 1px solid rgba(0,0,0,0.06); }
+  .mini-stat:last-child { border-right: none; }
+  .mini-stat .num { font-family: var(--font-heading); font-size: 24px; font-weight: 400; line-height: 1; margin-bottom: 4px; }
+  .mini-stat .num.critical { color: var(--red); }
+  .mini-stat .num.warning { color: var(--amber); }
+  .mini-stat .num.good { color: var(--green); }
+  .mini-stat .num.neutral { color: var(--text-heading); }
+  .mini-stat .label { font-size: 11px; color: var(--text-caption); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .sub-section { padding-top: 32px; margin-top: 32px; border-top: 1px solid var(--border); }
+  .sub-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption); margin-bottom: 4px; }
+  .sub-title { font-family: var(--font-heading); font-size: 22px; font-weight: 500; color: var(--text-heading); margin-bottom: 12px; letter-spacing: -0.01em; }
+  .sub-note { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.7; }
+
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .section-title-group { flex: 1; }
+  .section-title-group .section-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0; margin-bottom: 10px; display: inline-block; text-transform: none; padding: 5px 14px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .section-title-group h2 { font-family: var(--font-heading); font-size: 52px; font-weight: 600; color: var(--text-heading); text-transform: none; letter-spacing: -1.2px; margin-bottom: 0; line-height: 1.05; text-wrap: balance; }
+
+  .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 11px; border-radius: 8px; font-size: 11px; font-weight: 500; flex-shrink: 0; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .status-badge.s-green { background: rgba(22,163,74,0.08); color: var(--green); }
+  .status-badge.s-amber { background: rgba(217,119,6,0.08); color: var(--amber); }
+  .status-badge.s-red { background: rgba(220,38,38,0.08); color: var(--red); }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .status-dot.d-green { background: var(--green); }
+  .status-dot.d-amber { background: var(--amber); }
+  .status-dot.d-red { background: var(--red); }
+
+  .trust-ratio-bar { display: flex; height: 32px; border-radius: 6px; overflow: hidden; margin: 24px 0 12px; font-size: 12px; font-weight: 600; }
+  .trust-ratio-bar .deposits { background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .trust-ratio-bar .withdrawals { background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .trust-ratio-legend { display: flex; gap: 24px; font-size: 13px; color: var(--text-caption); margin-bottom: 28px; }
+  .trust-ratio-legend .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+  .trust-ratio-legend .legend-dot.deposit { background: var(--green); }
+  .trust-ratio-legend .legend-dot.withdrawal { background: var(--red); }
+
+  .flow-grid { margin: 24px 0 32px; }
+  .flow-item { display: flex; align-items: center; gap: 14px; padding: 16px 24px; background: var(--bg-page); border: 1px solid rgba(0,0,0,0.06); border-bottom: none; }
+  .flow-item:first-child { border-radius: 16px 16px 0 0; }
+  .flow-item:last-child { border-bottom: 1px solid rgba(0,0,0,0.06); border-radius: 0 0 16px 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .flow-status { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .flow-status.active { background: var(--green-dim); color: var(--green); }
+  .flow-status.missing { background: var(--red-dim); color: var(--red); }
+  .flow-status.partial { background: var(--amber-dim); color: var(--amber); }
+  .flow-name { font-size: 14px; font-weight: 600; color: var(--text-heading); }
+  .flow-meta { font-size: 13px; color: var(--text-caption); margin-top: 2px; }
+
+  .opp-block { background: var(--bg-subtle); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 44px 40px; margin: 40px 0 0; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .opp-block h3 { font-family: var(--font-heading); font-size: 24px; font-weight: 500; color: var(--text-heading); margin-bottom: 12px; }
+  .opp-block > p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 28px; max-width: 100%; }
+  .opp-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .opp-stat { background: var(--bg-page); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 24px 16px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .opp-stat .num { font-family: var(--font-heading); font-size: 30px; font-weight: 400; color: var(--text-heading); line-height: 1; margin-bottom: 4px; }
+  .opp-stat .label { font-size: 11px; color: var(--text-caption); text-transform: uppercase; letter-spacing: 1px; }
+
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 28px; }
+  .step-card { background: var(--bg-page); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+  .step-num { font-family: var(--font-heading); font-size: 24px; font-weight: 400; color: var(--text-caption); margin-bottom: 16px; line-height: 1; }
+  .step-title { font-family: var(--font-heading); font-size: 18px; font-weight: 500; color: var(--text-heading); margin-bottom: 10px; }
+  .step-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 16px; flex: 1; }
+  .step-time { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: var(--green); letter-spacing: 0.5px; text-transform: uppercase; margin-top: auto; }
+
+  .cta-card { background: var(--accent); border-radius: 16px; padding: 72px 64px; text-align: center; margin: 80px 0 0; overflow: hidden; position: relative; }
+  .cta-card::after { content: ''; position: absolute; top: 0; right: 0; width: 55%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%); pointer-events: none; }
+  .cta-content { position: relative; z-index: 1; }
+  .cta-content h2 { font-family: var(--font-heading); font-size: 52px; font-weight: 500; color: #FFFFFF; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 24px; text-wrap: balance; }
+  .cta-content h2 span { color: rgba(255,255,255,0.5); }
+  .cta-buttons { display: flex; gap: 12px; align-items: center; justify-content: center; }
+  .cta-btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; background: #FFFFFF; color: var(--accent); font-family: var(--font-body); font-size: 16px; font-weight: 500; border-radius: 8px; text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); white-space: nowrap; width: fit-content; }
+  .cta-btn-primary svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .cta-btn-primary:hover { background: #F3F4F6; }
+  .cta-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 28px; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .cta-note { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 16px; }
+
+  .footer { text-align: center; padding: 48px 0 72px; }
+  .footer p { font-size: 12px; color: var(--text-caption); margin-bottom: 2px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+  .footer h4 { font-family: var(--font-heading); font-size: 16px; font-weight: 500; color: var(--text-heading); margin-top: 4px; }
+  .footer .date { font-size: 13px; color: var(--text-caption); margin-top: 4px; font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+  .grey-band { background: #FAFAFA; width: 100vw; margin-left: calc(-50vw + 50%); padding: 48px calc(50vw - 480px + 40px); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+  .grey-band .section { border-bottom: none; padding: 0; }
+  .grey-band .check-grid { background: var(--bg-page); }
+  .grey-band .table-wrap { background: var(--bg-page); }
+  .grey-band .stat-grid { border-color: var(--border); }
+  .grey-band .stat-cell { background: var(--bg-page); }
+  .grey-band .mini-stat-row { border-color: var(--border); }
+  .grey-band .mini-stat { background: var(--bg-page); }
+  .grey-band .flow-item { background: var(--bg-page); }
+  .grey-band .opp-block { background: var(--bg-page); }
+  .grey-band .opp-stat { background: var(--bg-subtle); }
+  .grey-band .opp-item { background: var(--bg-page); }
+  .grey-band .step-card { background: var(--bg-page); }
+
+  [id] { scroll-margin-top: 72px; }
+
+  .nav-links a:focus-visible, .cta-btn-primary:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    .gauge-ring .fill { transition: none; }
+    .breakdown-bar-fill { transition: none; }
+  }
+
+  @media (max-width: 960px) {
+    .header h1 { font-size: 48px; }
+    .section h2 { font-size: 40px; }
+    .section-title-group h2 { font-size: 40px; }
+    .cta-content h2 { font-size: 40px; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 40px; }
+    .header .header-subtitle { font-size: 22px; }
+    .section h2 { font-size: 36px; }
+    .section-title-group h2 { font-size: 36px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .mini-stat-row { grid-template-columns: 1fr 1fr; }
+    .opp-stats { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .score-card { grid-template-columns: 1fr; text-align: center; }
+    .check-row { flex-wrap: wrap; gap: 8px; }
+    .check-value { min-width: auto; text-align: left; }
+    .table-wrap { overflow-x: auto; }
+    .data-table { min-width: 420px; }
+    .page { padding: 0 20px; }
+    .header { padding: 60px 0 40px; }
+    .grey-band { padding-left: 20px; padding-right: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .header h1 { font-size: 34px; }
+    .section h2 { font-size: 30px; }
+    .section-title-group h2 { font-size: 30px; }
+    .cta-content h2 { font-size: 30px; }
+    .page { padding: 0 16px; }
+    .grey-band { padding-left: 16px; padding-right: 16px; }
+  }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: #FFFFFF !important; }
+    .page { padding: 20px 28px !important; max-width: 100% !important; }
+    .sticky-nav { display: none !important; }
+    .grey-band { width: 100% !important; margin-left: 0 !important; padding-left: 28px !important; padding-right: 28px !important; }
+    .section { padding: 40px 0 !important; }
+  }
+  @page { size: letter; margin: 0.5in; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <div class="nav-brand">Email Blueprint</div>
+    <ul class="nav-links">
+      <li><a href="#trust-score">Trust Score</a></li>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#domain">Domain</a></li>
+      <li><a href="#list-health">List</a></li>
+      <li><a href="#trust-architecture">Trust</a></li>
+      <li><a href="#flows">Flows</a></li>
+      <li><a href="#campaigns">Campaigns</a></li>
+      <li><a href="#copy">Copy</a></li>
+      <li><a href="#revenue-gap">Revenue Gap</a></li>
+      <li><a href="#deliverability">Deliverability</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#next-steps">Next Steps</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-label">Email Trust Architecture Audit</div>
+      <div class="header-meta">
+        <p>Dave Mizrahi</p>
+        <p>April 2026</p>
+      </div>
+    </div>
+    <h1>Dermoi</h1>
+    <p class="header-subtitle">Email Program Audit</p>
+    <p class="header-sub">A complete diagnostic of your email program through the Email Trust Architecture framework. Platform: Klaviyo. Data period: January&ndash;April 2026.</p>
+  </div>
+
+  <!-- TRUST SCORE -->
+  <section id="trust-score" class="score-section" style="padding-top:48px;">
+    <div class="score-card">
+      <div class="score-gauge">
+        <div class="gauge-ring">
+          <svg viewBox="0 0 180 180" aria-hidden="true">
+            <circle class="track" cx="90" cy="90" r="80"/>
+            <circle class="fill" id="gaugeCircle" cx="90" cy="90" r="80"/>
+          </svg>
+          <div class="gauge-number" id="gaugeNumber">0<small>/100</small></div>
+        </div>
+        <div class="score-label-text">Email Trust Score</div>
+      </div>
+      <div class="score-breakdown">
+        <h3>Score Breakdown</h3>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Domain Health</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill green" data-score="74" style="width:0%"></div></div>
+          <span class="breakdown-score">74</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">List Health</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="38" style="width:0%"></div></div>
+          <span class="breakdown-score">38</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Trust Architecture</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="18" style="width:0%"></div></div>
+          <span class="breakdown-score">18</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Flow Architecture</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="32" style="width:0%"></div></div>
+          <span class="breakdown-score">32</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Campaign Revenue</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="20" style="width:0%"></div></div>
+          <span class="breakdown-score">20</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Conversion Rate</span>
+          <div class="breakdown-bar-track"><div class="breakdown-bar-fill red" data-score="22" style="width:0%"></div></div>
+          <span class="breakdown-score">22</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01: EXECUTIVE SUMMARY -->
+  <section id="summary" class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">01 - Summary</span>
+        <h2>The Paradox</h2>
+      </div>
+    </div>
+
+    <p>Dermoi has one of the strongest engagement signals we see in DTC email: <strong>66% average open rate</strong>, 22,157 subscribers active in the last 60 days, 0.01% spam complaints. Your list is healthy, your domain is clean, and your subscribers are opening. None of those are the problem.</p>
+
+    <p>The problem is what happens after the open. <strong>0.07% place order rate. &pound;0.08 revenue per recipient.</strong> That gap between opening an email and buying something is where roughly &pound;200,000 per year is disappearing.</p>
+
+    <p>The data is showing a <strong>trust stage misalignment</strong> running across every layer of the program: flows, campaigns, and copy strategy. Subject lines, design, and list size are not the issue.</p>
+
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num good">66%</div><div class="label">Avg Open Rate</div><div class="detail">Strong. Not the issue.</div></div>
+      <div class="stat-cell"><div class="num warning">0.93%</div><div class="label">Avg Click Rate</div><div class="detail">Below potential for these opens</div></div>
+      <div class="stat-cell"><div class="num critical">0.07%</div><div class="label">Place Order Rate</div><div class="detail">Clicks not converting to purchases</div></div>
+      <div class="stat-cell"><div class="num critical">&pound;0.08</div><div class="label">Revenue Per Recipient</div><div class="detail">Benchmark: &pound;0.30&ndash;&pound;0.80</div></div>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row">
+        <div class="check-icon icon-ok" aria-hidden="true">&#10003;</div>
+        <div class="check-label"><strong>Engagement is real and healthy.</strong> 66% opens, 22k active subscribers, near-zero spam complaints. Your audience is paying attention. This is a strong foundation.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>The Engaged to Buyer transition is broken.</strong> People are opening and clicking but not purchasing. In trust architecture terms, your emails are moving people from Unaware to Interested, then asking them to jump straight to Buyer. That skips a stage, and skipping stages is what kills conversion.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>44% of your list is suppressed.</strong> 41,955 contacts out of 95,399 will never receive another email from Dermoi. Each one got there through a spam complaint, a hard bounce, or years of non-engagement. The suppression list is the permanent record of trust that was spent and not earned back.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-warn" aria-hidden="true">!</div>
+        <div class="check-label"><strong>30+ active flows, most generating near-zero revenue.</strong> The Post Purchase flow reaches 20,000+ contacts per quarter and earns &pound;0.14 per recipient. The "Because You Opened" flow runs at 75%+ opens and earns &pound;0.03. At that volume, these gaps compound into hundreds of thousands in annual revenue left on the table.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02: DOMAIN HEALTH -->
+  <section id="domain" class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">02 - Domain Health</span>
+        <h2>Domain Health</h2>
+      </div>
+      <div class="status-badge s-green">
+        <span class="status-dot d-green"></span>
+        Healthy
+      </div>
+    </div>
+
+    <p>Dermoi's domain health is a genuine strength. Sending from a branded domain, low complaint rates, low bounce rates. These metrics are harder to maintain than most people realize, and Dermoi has done it well.</p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Metric</th><th class="right">Your Value</th><th class="right">Safe Zone</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sending Domain</strong></td><td class="right">dermoi.com</td><td class="right">Branded domain</td><td><span class="badge badge-green">Good</span></td></tr>
+          <tr><td><strong>Spam Complaint Rate</strong></td><td class="right">0.01%</td><td class="right">&lt; 0.08%</td><td><span class="badge badge-green">Good</span></td></tr>
+          <tr><td><strong>Unsubscribe Rate</strong></td><td class="right">0.22%</td><td class="right">&lt; 0.5%</td><td><span class="badge badge-green">Good</span></td></tr>
+          <tr><td><strong>Bounce Rate</strong></td><td class="right">0.18%</td><td class="right">&lt; 2%</td><td><span class="badge badge-green">Good</span></td></tr>
+          <tr><td><strong>Google Postmaster Tools</strong></td><td class="right">Not configured</td><td class="right">Configured</td><td><span class="badge badge-amber">Warn</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">One Gap to Address</div>
+      <p>Google Postmaster Tools gives you visibility into how Gmail specifically classifies your emails, your domain reputation score, and your IP reputation over time. Given that a large portion of your list is likely on Gmail, this is worth setting up. It takes 30 minutes and gives you an early warning system before deliverability issues become visible in open rate data.</p>
+    </div>
+  </section>
+
+  <!-- 03: LIST HEALTH -->
+  <section id="list-health" class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">03 - List Health</span>
+        <h2>List Health</h2>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Needs Attention
+      </div>
+    </div>
+
+    <p>The raw list size looks impressive at 95,399. The reality is more complicated. <strong>44% of those contacts are suppressed</strong>, meaning they will never receive another email from Dermoi. The 53,406 active profiles are what you actually have to work with, and of those, only 22,157 have opened or clicked in the last 60 days.</p>
+
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num neutral">95,399</div><div class="label">Total Contacts</div><div class="detail">On the platform</div></div>
+      <div class="stat-cell"><div class="num warning">53,406</div><div class="label">Active Profiles</div><div class="detail">56% of total</div></div>
+      <div class="stat-cell"><div class="num critical">41,955</div><div class="label">Suppressed</div><div class="detail">44%.permanently unreachable</div></div>
+      <div class="stat-cell"><div class="num warning">22,157</div><div class="label">Engaged (60d)</div><div class="detail">41% of active profiles</div></div>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>44% suppression rate is a historical trust record.</strong> Suppressed contacts didn't get here by accident. Each one represents a spam complaint, a hard bounce, or a subscriber who disengaged so completely that Klaviyo removed them. This is the cumulative cost of trust that was withdrawn faster than it was earned. It cannot be reversed, but it tells you exactly what to protect going forward.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-warn" aria-hidden="true">!</div>
+        <div class="check-label"><strong>List is growing through paid ads and social.</strong> Cold acquisition traffic subscribes with lower trust than organic, referral, or content-based traffic. These subscribers need more trust-building before any purchase request, and they are more likely to disengage quickly if they receive promotional content before they are ready for it.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-ok" aria-hidden="true">&#10003;</div>
+        <div class="check-label"><strong>22,157 engaged subscribers is a real asset.</strong> These are people actively opening and clicking. At the right RPR, this segment alone should be generating &pound;6,000&ndash;&pound;11,000 per month. At &pound;0.08 RPR, it is generating a fraction of what that audience should produce.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<!-- 04: TRUST ARCHITECTURE — grey band -->
+<div class="grey-band">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">04 - Trust Architecture</span>
+        <h2 id="trust-architecture">Where Trust Breaks Down</h2>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Critical
+      </div>
+    </div>
+
+    <p>The Email Trust Architecture framework maps every email against a seven-stage trust progression: Unaware, Interested, Engaged, Buyer, Repeat Buyer, Advocate, Influencer. The core rule is the Rule of Adjacency: <strong>an email may only ask the reader to move one stage forward</strong> Any CTA that skips stages is a trust violation, and trust violations are why clicks don't convert to purchases.</p>
+
+    <p>Dermoi's data shows two overlapping diagnostic patterns from the trust framework:</p>
+
+    <div class="check-grid">
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>Pattern 1: High opens, low clicks.</strong> Subject lines create curiosity, but the email body does not create alignment. The reader opens, senses a mismatch between what the subject promised and what the email delivers, and leaves. This signals a gap between what your audience is interested in and what your emails are actually offering them.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>Pattern 2: Clicks present, purchases absent.</strong> The clearest trust friction signal. People are curious enough to click but not confident enough to buy. The Engaged-to-Buyer transition requires certainty, not just curiosity. Common causes: offer clarity gap, objections not resolved before the ask, perceived risk too high, identity mismatch.</div>
+      </div>
+    </div>
+
+    <p style="margin-top:24px;">These two patterns point to the same root cause: <strong>urgency is being used before certainty is built</strong> The framework diagnosis is that all four core trust problems are present in Dermoi's program:</p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Trust Problem</th><th>Evidence in Dermoi's Data</th><th>Where It Shows Up</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Escalation Too Fast</strong></td><td>Welcome series asking for purchase before subscriber is Engaged</td><td>Welcome series &pound;0.69 RPR vs &pound;2&ndash;4 benchmark</td></tr>
+          <tr><td><strong>Emotional Intensity Too High</strong></td><td>96% of subject lines use emoji; 34% lead with urgency or discount</td><td>&pound;0.08 campaign RPR despite 63% opens</td></tr>
+          <tr><td><strong>Objections Ignored</strong></td><td>"Because You Opened" flow sends purchase CTAs to subscribers who only opened once</td><td>&pound;0.03 RPR, 0% place order rate on high-open flow</td></tr>
+          <tr><td><strong>Identity Misalignment</strong></td><td>Post Purchase flow makes next purchase ask before first order value is confirmed</td><td>Post Purchase &pound;0.14 RPR on 20,000+ sends</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The trust ratio across the campaign program reflects this imbalance. Roughly <strong>35% of sends are trust deposits</strong> (educational content, product stories, ingredient education) and <strong>65% are trust withdrawals</strong> (discount announcements, urgency-driven promotions, sale pushes). A healthy program runs the opposite ratio, or close to it.</p>
+
+    <div class="trust-ratio-bar">
+      <div class="deposits" style="width:35%">35% Deposits</div>
+      <div class="withdrawals" style="width:65%">65% Withdrawals</div>
+    </div>
+    <div class="trust-ratio-legend">
+      <span><span class="legend-dot deposit"></span>Trust deposits: educational content, product stories, social proof</span>
+      <span><span class="legend-dot withdrawal"></span>Trust withdrawals: discount pushes, urgency-led promotions, sale announcements</span>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">The Core Diagnostic Finding</div>
+      <p>Dermoi's email program is failing because the <strong>trust cost of the asks exceeds the trust that has been earned</strong> at the point of asking. Rebuilding sequence logic so every email earns the right to make its ask before making it is the actual fix. That requires a systems rebuild, not a subject line rewrite.</p>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- 05: FLOW ARCHITECTURE -->
+  <section id="flows" class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">05 - Flow Architecture</span>
+        <h2>Flow Diagnostics</h2>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Critical
+      </div>
+    </div>
+
+    <p>Dermoi has 30+ active flows in Klaviyo. The abandoned cart and checkout flows are working well because their trust architecture is inherently aligned: the subscriber showed purchase intent, and the flow responds to that intent directly. Every other major flow has a structural trust problem.</p>
+
+    <div class="flow-grid">
+      <div class="flow-item">
+        <div class="flow-status active" aria-hidden="true">&#10003;</div>
+        <div>
+          <div class="flow-name">Abandoned Cart &amp; Checkout</div>
+          <div class="flow-meta">Working. &pound;2.11&ndash;&pound;3.14 RPR. These flows earn their CTAs because intent was already demonstrated. The psychological arc from intent to purchase is aligned.</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status partial" aria-hidden="true">!</div>
+        <div>
+          <div class="flow-name">Welcome Series</div>
+          <div class="flow-meta">Underperforming. &pound;0.69 RPR average per email vs &pound;2&ndash;4 benchmark. New subscribers arrive at trust Stage 2 (Interested). The series needs to move them to Stage 3 (Engaged) before any purchase ask. Current structure skips that stage.</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status missing" aria-hidden="true">&#10005;</div>
+        <div>
+          <div class="flow-name">Post Purchase Flow</div>
+          <div class="flow-meta">Critical gap. &pound;0.14 RPR on 20,000+ sends per quarter. A buyer who just spent money is at trust Stage 4, in a post-purchase validation state. They need reinforcement of their decision before any next ask. Instead, this flow makes a new purchase request before the first purchase value is confirmed.</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status missing" aria-hidden="true">&#10005;</div>
+        <div>
+          <div class="flow-name">"Because You Opened" Flow</div>
+          <div class="flow-meta">Structurally broken. &pound;0.03 RPR despite 75%+ open rates. A subscriber who opened one email is at trust Stage 2 (Interested). This flow sends purchase CTAs to that subscriber, which is a two-stage trust leap. Opening an email is not a purchase signal.</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status partial" aria-hidden="true">!</div>
+        <div>
+          <div class="flow-name">Customer Winback</div>
+          <div class="flow-meta">Low performance. &pound;0.23 RPR. Re-engagement sequences require a specific trust recovery arc: reduce pressure first, reaffirm identity, offer low-effort re-entry before any purchase ask. Discount-led re-engagement ("We miss you! Here's 20% off") registers as desperation and typically accelerates churn.</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status partial" aria-hidden="true">!</div>
+        <div>
+          <div class="flow-name">Browse Abandonment</div>
+          <div class="flow-meta">Underperforming. &pound;0.72 RPR. Browse signals interest, not intent. This flow is likely making purchase asks at a Stage 2 trust level. The correct approach is curiosity and relevance before the CTA, not urgency.</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-status missing" aria-hidden="true">&#10005;</div>
+        <div>
+          <div class="flow-name">15+ Additional Flows</div>
+          <div class="flow-meta">Near-zero or zero revenue. These flows are live, sending, and consuming list engagement capacity without returning revenue. Some may be redundant, some may be misaligned. Each needs individual diagnostic before a rebuild or sunset decision.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">The Structural Pattern</div>
+      <p>The two flows that work (Abandoned Cart and Checkout) share one thing: <strong>the trust stage of the subscriber matches the ask in the email</strong> Abandoned cart subscribers have already demonstrated purchase intent, so a purchase CTA is adjacent. Every other flow has a mismatch between where the subscriber is and what the email is asking for. That mismatch, multiplied across 30+ flows and millions of sends, is the program's core revenue leak.</p>
+    </div>
+  </section>
+
+  <!-- 06: CAMPAIGNS -->
+  <section id="campaigns" class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">06 - Campaign Analysis</span>
+        <h2>Campaign Diagnostics</h2>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Underperforming
+      </div>
+    </div>
+
+    <p>91 campaigns sent in the January&ndash;April 2026 period. &pound;95,336 total revenue from 1,161,321 sends. That is &pound;0.08 revenue per recipient. For a DTC skincare brand with Dermoi's list quality, the benchmark is &pound;0.30&ndash;&pound;0.80 per send.</p>
+
+    <div class="mini-stat-row">
+      <div class="mini-stat"><div class="num neutral">91</div><div class="label">Campaigns Sent</div></div>
+      <div class="mini-stat"><div class="num good">63.4%</div><div class="label">Avg Open Rate</div></div>
+      <div class="mini-stat"><div class="num critical">&pound;0.08</div><div class="label">Revenue Per Recipient</div></div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-label">Subject Line Analysis</div>
+      <div class="sub-title">96% emoji usage. 34% urgency or discount language.</div>
+      <p class="sub-note">The subject line framework calls for specificity, not decoration. A strong subject line contains one concrete element: a number, a product name, a specific result, or a time reference. It passes the "text to a friend" test, meaning it reads like something a real person would send, not a broadcast announcement.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Subject Line</th><th>Pattern</th><th>Issue</th></tr></thead>
+        <tbody>
+          <tr><td>More than 20% off&hellip; there's a gift &#127873;</td><td>Discount + vague teaser</td><td>No specificity. "More than 20% off" is less compelling than "25% off Medik8." Discount-led subjects train the list to wait for sales.</td></tr>
+          <tr><td>Don't miss this: 20% Off Medik8 CSA ends tonight</td><td>Urgency + discount</td><td>Urgency before certainty. Subscribers who are not yet at Buyer trust stage will ignore this regardless of the offer.</td></tr>
+          <tr><td>&#10024; Softer, smoother, more defined lips.in weeks</td><td>Benefit claim (long)</td><td>Seven words after the emoji. Gets truncated on mobile. The em dash is an AI copy tell. Benefit is sound but delivery is soft.</td></tr>
+          <tr><td>&#128140; A final invitation: March offers</td><td>Urgency + vague</td><td>"March offers" is not specific enough to open for. A final invitation to what? The curiosity gap is too large to bridge.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row">
+        <div class="check-icon icon-warn" aria-hidden="true">!</div>
+        <div class="check-label"><strong>Campaign strategy is discount-dependent.</strong> The highest-performing campaign by RPR was "Almost Gone: Up to 30% Off" at &pound;0.56. The second-highest was a free gift offer. When the best-performing campaigns are discount or scarcity plays, it signals that the list has been conditioned to wait for deals rather than purchase on value. This pattern is self-reinforcing and erodes margin over time.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>No Gain/Logic/Fear campaign structure visible.</strong> The correct campaign structure runs a three-email trust progression: an outcome-focused first send, a proof-and-mechanism second, and an urgency-anchored close. This moves subscribers toward purchase over three sends rather than making one high-friction ask in isolation. None of the 91 campaigns show this pattern.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>Single CTA buried at the end.</strong> Effective emails use a multi-CTA trust ladder: a low-commitment CTA early for readers who are ready now, a proof-anchored CTA mid-email, and a direct CTA at the close. Single CTAs at the bottom only capture the reader who consumes the entire email. Everyone else sees the email, gets no clear next step, and leaves.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<div class="page">
+
+  <!-- 07: COPY & CREATIVE -->
+  <section id="copy" class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">07 - Subject lines, body copy, CTAs, and design patterns</span>
+        <h2>Email Copy &amp; Creative</h2>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        Needs Restructuring
+      </div>
+    </div>
+
+    <p>91 campaigns analyzed. 63.4% average open rate. 0.93% click rate. 0.07% place order rate. The copy is getting the audience in — the structure is not holding them. Subject lines create the open, but the email body doesn't create alignment, and there is no CTA architecture to meet readers at different levels of readiness.</p>
+
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num critical">96%</div><div class="label">Emoji Subject Lines</div><div class="detail">Out of 91 campaigns</div></div>
+      <div class="stat-cell"><div class="num critical">34%</div><div class="label">Urgency or Discount Language</div><div class="detail">In subject line patterns</div></div>
+      <div class="stat-cell"><div class="num critical">0.93%</div><div class="label">Avg Click Rate</div><div class="detail">DTC benchmark: 2&ndash;3%+</div></div>
+      <div class="stat-cell"><div class="num critical">0</div><div class="label">Multi-CTA Emails</div><div class="detail">None found across 91 campaigns</div></div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-label">Subject Lines</div>
+      <div class="sub-title" style="font-family:var(--font-heading); font-size:20px; font-weight:600; color:var(--text-heading); margin-bottom:10px; letter-spacing:-0.3px;">96% emoji usage. 34% urgency or discount language. No dual-hook structure.</div>
+      <p>Subject lines run at 96% emoji usage across all 91 campaigns. The intent — inbox differentiation — is reasonable, but 96% emoji rate means it provides no differentiation. It is the baseline. Second: 34% of subjects lead with urgency or discount, which conditions the list to treat non-urgent emails as low priority and discount emails as the only reason to act.</p>
+      <p>Subject line architecture that consistently drives clicks pairs a short, specific hook with preview text that completes the curiosity gap — not adds generic urgency to it. That structure is absent from all 91 campaigns. Every subject leads with emoji decoration, urgency pressure, or a generic benefit claim. None show the specificity pattern that drives consistent click-through across trust stages.</p>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-label">Body Copy</div>
+      <div class="sub-title" style="font-family:var(--font-heading); font-size:20px; font-weight:600; color:var(--text-heading); margin-bottom:10px; letter-spacing:-0.3px;">63.4% opens collapsing to 0.93% clicks is a body alignment failure.</div>
+      <p>No direct body copy access was provided, but the click pattern tells the structural story. A 63.4% open rate collapsing to 0.93% clicks means the subject line created an expectation the email body did not fulfil. The reader opened, scanned, found no clear next step calibrated to their trust level, and left. This pattern is consistent across all 91 campaigns. The fix is structural, not cosmetic — it requires realigning what the body delivers against what the subject line promised, at the trust level of the reader receiving it.</p>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-label">Calls to Action</div>
+      <div class="sub-title" style="font-family:var(--font-heading); font-size:20px; font-weight:600; color:var(--text-heading); margin-bottom:10px; letter-spacing:-0.3px;">Single CTA. Buried at the bottom. Zero trust ladder architecture.</div>
+      <p>Every campaign in the analyzed set uses a single CTA. None show a multi-CTA trust ladder. The result is binary: a subscriber either scrolls to the bottom and acts, or they don't. Readers ready to buy at word three never get an early action path. Readers almost ready who need one more proof point never get a mid-email nudge. A single buried CTA only captures the minority who read to the end.</p>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>No dual-hook subject line structure.</strong> 96% emoji rate means emoji creates no differentiation — it is ambient. A subject line architecture built on specificity rather than decoration is absent from all 91 campaigns. Specificity converts. Decoration habituates.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>Urgency conditioning without a trust foundation.</strong> 34% of subjects lead with urgency or discount at first impression. Urgency works after trust is established — not as the entry point for a subscriber who has not yet purchased. Repeated urgency before trust is earned trains the list to wait for deals, not act on value.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>No multi-CTA trust ladder in any campaign.</strong> Every email uses a single CTA at the bottom. Readers ready to act at the hook never get a low-commitment CTA. Readers mid-trust never get a proof-anchored CTA. Only readers who scroll to the end see any action path at all.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-warn" aria-hidden="true">!</div>
+        <div class="check-label"><strong>Opens are an asset the copy architecture is wasting.</strong> 63.4% opens with 0.93% clicks is a 66:1 attention-to-action ratio. Every subscriber who opens and doesn't click is a trust deposit that never converted to a withdrawal. The opens prove the audience is there. The copy structure is why they leave without acting.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<!-- 08: REVENUE GAP — grey band -->
+<div class="grey-band">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">08 - Revenue Gap</span>
+        <h2 id="revenue-gap">The Revenue Gap</h2>
+      </div>
+    </div>
+
+    <p>This is not a hypothetical. These numbers come directly from Dermoi's send volume and the benchmark RPR range for DTC skincare on Klaviyo. The gap between current performance and benchmark is purely a function of trust architecture.</p>
+
+    <div class="opp-block">
+      <h3>Current vs. Benchmark</h3>
+      <p>At 1,161,321 campaign sends per quarter, here is what different RPR levels produce. Dermoi is currently at &pound;0.08. The benchmark for a well-structured DTC program on a clean list is &pound;0.30&ndash;&pound;0.50.</p>
+      <div class="opp-stats">
+        <div class="opp-stat">
+          <div class="num">&pound;0.08</div>
+          <div class="label">Current RPR</div>
+        </div>
+        <div class="opp-stat">
+          <div class="num">&pound;0.30</div>
+          <div class="label">Conservative Benchmark</div>
+        </div>
+        <div class="opp-stat">
+          <div class="num">&pound;0.50</div>
+          <div class="label">Strong DTC Benchmark</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:24px;">
+      <table class="data-table">
+        <thead><tr><th>Scenario</th><th class="right">RPR Target</th><th class="right">Annual Revenue (est.)</th><th class="right">vs. Current</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Current State</strong></td><td class="right">&pound;0.08</td><td class="right">&pound;381,000</td><td class="right">&mdash;</td></tr>
+          <tr><td><strong>Conservative Rebuild</strong></td><td class="right">&pound;0.25</td><td class="right">&pound;1,161,000</td><td class="right"><span class="badge badge-green">+&pound;780,000</span></td></tr>
+          <tr><td><strong>Benchmark Performance</strong></td><td class="right">&pound;0.40</td><td class="right">&pound;1,858,000</td><td class="right"><span class="badge badge-green">+&pound;1,477,000</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:8px; font-size:13px; color:var(--text-caption);">Based on 1,161,321 sends per quarter (Q1 2026 actual), annualised. RPR benchmarks derived from Klaviyo DTC skincare programs with comparable list size and engagement.</p>
+
+    <div class="callout" style="margin-top:28px;">
+      <div class="callout-label">Where the Gap Lives</div>
+      <p>The revenue gap is not spread evenly. It concentrates in three places: the <strong>Post Purchase flow</strong> (20,000+ sends at &pound;0.14 RPR, should be &pound;2+), the <strong>Welcome Series</strong> (highest send volume, lowest trust-to-ask ratio), and the <strong>campaign program</strong> (discount-conditioned list, no Gain/Logic/Fear structure, single-CTA architecture). These three areas alone account for the majority of the gap between current performance and benchmark.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 09: DELIVERABILITY GUARDRAILS — grey band -->
+<div class="grey-band">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">09 - Safe, Warning, and Stop thresholds for key metrics</span>
+        <h2 id="deliverability">Deliverability Guardrails</h2>
+      </div>
+      <div class="status-badge s-red">
+        <span class="status-dot d-red"></span>
+        At Risk
+      </div>
+    </div>
+
+    <p>Every email metric has a Safe, Warning, and Stop zone. When a metric enters Warning or Stop, it requires intervention before further volume damages sender reputation. Here is where Dermoi's measurable metrics currently sit.</p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Metric</th><th class="right">Dermoi</th><th class="right">Safe</th><th class="right">Warning</th><th class="right">Stop</th><th>Zone</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Open Rate (avg)</strong></td><td class="right">63.4%</td><td class="right">&gt; 25%</td><td class="right">15&ndash;25%</td><td class="right">&lt; 15%</td><td><span class="badge badge-green">Safe</span></td></tr>
+          <tr><td><strong>Click Rate (avg)</strong></td><td class="right">0.93%</td><td class="right">&gt; 2%</td><td class="right">1&ndash;2%</td><td class="right">&lt; 1%</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>Place Order Rate</strong></td><td class="right">0.07%</td><td class="right">&gt; 0.5%</td><td class="right">0.2&ndash;0.5%</td><td class="right">&lt; 0.2%</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>Revenue Per Recipient</strong></td><td class="right">&pound;0.08</td><td class="right">&gt; &pound;0.30</td><td class="right">&pound;0.15&ndash;0.30</td><td class="right">&lt; &pound;0.15</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>Suppression Rate</strong></td><td class="right">~44%</td><td class="right">&lt; 15%</td><td class="right">15&ndash;30%</td><td class="right">&gt; 30%</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>G/L/F Campaign Structure</strong></td><td class="right">Not present</td><td class="right">All campaigns</td><td class="right">Some</td><td class="right">None</td><td><span class="badge badge-red">Stop</span></td></tr>
+          <tr><td><strong>Zero-Revenue Flows Live</strong></td><td class="right">15+</td><td class="right">0</td><td class="right">1&ndash;3</td><td class="right">4+</td><td><span class="badge badge-red">Stop</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-row">
+        <div class="check-icon icon-ok" aria-hidden="true">&#10003;</div>
+        <div class="check-label"><strong>Open rate is a genuine asset.</strong> 63.4% average across 91 campaigns confirms Klaviyo's engagement scoring has not penalised Dermoi's sender reputation. This is the one metric that proves the list trust is real. It is the baseline the rest of the architecture has failed to leverage.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>Click rate is below the Stop threshold.</strong> 0.93% is below the 1% floor. At this level, continued high-volume sending to disengaged segments risks triggering inbox provider filtering. Click rate is one of the primary signals inbox providers use to assess sender quality. Sustained sub-1% clicks on high-open sends creates a deliverability contradiction that damages long-term inbox placement.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-x" aria-hidden="true">&#10005;</div>
+        <div class="check-label"><strong>44% suppression rate is a cumulative trust record.</strong> Each suppressed contact represents a spam complaint, a hard bounce, or a subscriber who disengaged completely. This is not reversible. It signals what happens when send volume outpaces trust. The rate must not grow further — which means fixing the trust architecture before scaling volume.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10: THE 90-DAY ROADMAP — grey band -->
+<div class="grey-band">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">10 - Your 90-day email trust architecture rebuild</span>
+        <h2 id="roadmap">The 90-Day Roadmap</h2>
+      </div>
+    </div>
+
+    <p>Based on the audit findings, here is the phased rebuild for Dermoi's email program. Each phase builds on the previous one. The sequence matters — foundation before architecture, architecture before campaign optimisation.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 28px;">
+      <div style="background: var(--bg-page); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;">
+          <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 500; color: var(--text-disabled); line-height: 1;">1</span>
+          <span style="font-family: var(--font-heading); font-size: 15px; font-weight: 600; color: var(--text-heading);">Foundation</span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 16px;">Map all Klaviyo subscribers to trust stages. Build engagement tier segments (Hot, Warm, Cool, Cold). Suppress cold contacts from all sends immediately.</p>
+        <span style="font-size: 10px; font-weight: 600; color: var(--text-caption); text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto;">Days 1&ndash;14</span>
+      </div>
+      <div style="background: var(--bg-page); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;">
+          <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 500; color: var(--text-disabled); line-height: 1;">2</span>
+          <span style="font-family: var(--font-heading); font-size: 15px; font-weight: 600; color: var(--text-heading);">Flow Architecture</span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 16px;">Rebuild the Welcome Series and Post-Purchase flow. Optimise Abandoned Cart with trust ladder CTAs. Diagnose and rebuild the top 5 zero-revenue flows.</p>
+        <span style="font-size: 10px; font-weight: 600; color: var(--text-caption); text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto;">Days 15&ndash;45</span>
+      </div>
+      <div style="background: var(--bg-page); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;">
+          <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 500; color: var(--text-disabled); line-height: 1;">3</span>
+          <span style="font-family: var(--font-heading); font-size: 15px; font-weight: 600; color: var(--text-heading);">Campaign Architecture</span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 16px;">Introduce the 3-email trust progression campaign structure. Rebuild subject line approach around specificity. Add multi-CTA trust ladders to all new sends. Reduce discount dependency.</p>
+        <span style="font-size: 10px; font-weight: 600; color: var(--text-caption); text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto;">Days 30&ndash;60</span>
+      </div>
+      <div style="background: var(--bg-page); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;">
+          <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 500; color: var(--text-disabled); line-height: 1;">4</span>
+          <span style="font-family: var(--font-heading); font-size: 15px; font-weight: 600; color: var(--text-heading);">Optimisation</span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 16px;">Rebuild remaining zero-revenue flows (browse abandon, winback, loyalty, VIP). Add advocate and referral sequences. Monthly RPR benchmarking against safe/warning/stop zones.</p>
+        <span style="font-size: 10px; font-weight: 600; color: var(--text-caption); text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto;">Days 60&ndash;90</span>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px;">
+      <div class="callout-label">Where This Ends Up</div>
+      <p>These four phases transform Dermoi's email program from a discount-dependent broadcast channel into a trust-compounding revenue architecture. The list quality is already there. The open rates prove it. The 90-day plan converts that existing trust into consistent, stage-appropriate revenue — with every flow, campaign, and CTA earning the ask before it makes it.</p>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- 11: WHAT THIS REQUIRES -->
+  <section id="next-steps" class="section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-label">11 - What This Requires</span>
+        <h2>What This Requires</h2>
+      </div>
+    </div>
+
+    <p>The diagnosis is clear. The fix is not a subject line rewrite or a template refresh. What Dermoi's program needs is a <strong>trust architecture rebuild</strong>, which means rethinking the logic of every major flow, restructuring the campaign strategy from discount-dependent to value-led, and rebuilding the CTA architecture across the entire program.</p>
+
+    <p>This is systems work, not copy work. It requires understanding where each subscriber sits in the trust progression, what emotional state they are in at each trigger point, and what the correct ask is at that moment, not the most profitable ask in isolation.</p>
+
+    <div class="process-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">Trust Stage Mapping</div>
+        <div class="step-desc">Map every active flow and campaign segment to a trust stage. Identify every place where the ask exceeds the earned trust. Prioritize by volume and revenue impact.</div>
+        <div class="step-time">Foundation</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Flow Reconstruction</div>
+        <div class="step-desc">Rebuild the Welcome Series, Post Purchase flow, and Winback flow with correct trust-stage sequencing. Redesign or sunset the "Because You Opened" flow entirely. Each flow gets a defined trust progression from entry to conversion.</div>
+        <div class="step-time">Highest Impact</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">Campaign Architecture</div>
+        <div class="step-desc">Introduce the Gain/Logic/Fear three-email campaign structure. Shift the deposit-to-withdrawal ratio. Rebuild the CTA ladder within each email. Reduce discount dependency by building value-first sequences that earn the right to promote.</div>
+        <div class="step-time">Revenue Lever</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-title">Ongoing Optimization</div>
+        <div class="step-desc">Monthly performance review against trust-stage benchmarks. A/B testing of CTA structures and emotional positioning. Ongoing adjustment of the trust deposit-to-withdrawal ratio as the list composition evolves.</div>
+        <div class="step-time">Compounding</div>
+      </div>
+    </div>
+
+    <div class="check-grid" style="margin-top:32px;">
+      <div class="check-row">
+        <div class="check-icon icon-warn" aria-hidden="true">!</div>
+        <div class="check-label"><strong>This cannot be fixed with individual email rewrites.</strong> Every email in the program was written in the context of the current architecture. Rewriting subject lines or redesigning templates without fixing the underlying trust sequence logic will produce marginal gains, because the sequence structure is the root problem.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-warn" aria-hidden="true">!</div>
+        <div class="check-label"><strong>The suppressed list is a constraint that has to be managed.</strong> 41,955 suppressed contacts set a ceiling on what the current list can do. List growth strategy needs to shift toward higher-intent acquisition sources, and the trust architecture rebuild needs to protect the engaged segment from following the same path to suppression.</div>
+      </div>
+      <div class="check-row">
+        <div class="check-icon icon-warn" aria-hidden="true">!</div>
+        <div class="check-label"><strong>The engaged segment is the priority asset.</strong> 22,157 actively engaged subscribers is a strong base. At the right RPR, this segment alone should generate &pound;6,000&ndash;&pound;11,000 per month. Building the right trust architecture around this segment before worrying about list growth is the correct order of operations.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-card">
+    <div class="cta-content">
+      <h2>Ready to close the gap? <span>Let's talk about what a rebuild looks like for Dermoi.</span></h2>
+      <p class="cta-desc">This audit identified the structural issues. The next step is a conversation about what a trust architecture rebuild would actually look like for Dermoi's specific flows, campaign cadence, and audience composition.</p>
+      <div class="cta-buttons">
+        <a href="offer-page.html" class="cta-btn-primary">See Your Custom Offer <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Prepared For</p>
+    <h4>Shayne &middot; Dermoi.com</h4>
+    <div class="date">April 2026 &middot; Email Blueprint &middot; Powered by Email Trust Architecture</div>
+  </div>
+
+</div>
+
+<script>
+const SCORE = 34;
+const circumference = 2 * Math.PI * 80;
+
+function getScoreColor(score) {
+  if (score >= 75) return 'green';
+  if (score >= 50) return 'amber';
+  return 'red';
+}
+
+function animateGauge() {
+  const circle = document.getElementById('gaugeCircle');
+  const numberEl = document.getElementById('gaugeNumber');
+  const color = getScoreColor(SCORE);
+  circle.classList.add(color);
+  circle.style.strokeDasharray = circumference;
+  const offset = circumference - (SCORE / 100) * circumference;
+  requestAnimationFrame(() => { circle.style.strokeDashoffset = offset; });
+  let current = 0;
+  const duration = 1500;
+  const start = performance.now();
+  function updateNumber(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    current = Math.round(SCORE * eased);
+    numberEl.innerHTML = current + '<small>/100</small>';
+    numberEl.style.color = `var(--${color})`;
+    if (progress < 1) requestAnimationFrame(updateNumber);
+  }
+  requestAnimationFrame(updateNumber);
+}
+
+function animateBreakdowns() {
+  document.querySelectorAll('.breakdown-bar-fill').forEach(bar => {
+    const score = bar.getAttribute('data-score');
+    setTimeout(() => { bar.style.width = score + '%'; }, 300);
+  });
+}
+
+function initScrollSpy() {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const ids = Array.from(navLinks).map(a => a.getAttribute('href').replace('#', ''));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-100px 0px -60% 0px' });
+  ids.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  animateGauge();
+  animateBreakdowns();
+  initScrollSpy();
+});
+</script>
+</body>
+</html>
